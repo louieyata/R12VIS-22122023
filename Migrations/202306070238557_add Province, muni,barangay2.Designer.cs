@@ -7,13 +7,13 @@ namespace R12VIS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class addtbUserandtbRole : IMigrationMetadata
+    public sealed partial class addProvincemunibarangay2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addtbUserandtbRole));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addProvincemunibarangay2));
         
         string IMigrationMetadata.Id
         {
-            get { return "202306060304164_add tbUser and tbRole"; }
+            get { return "202306070238557_add Province, muni,barangay2"; }
         }
         
         string IMigrationMetadata.Source

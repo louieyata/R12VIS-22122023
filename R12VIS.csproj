@@ -129,16 +129,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306060304164_add tbUser and tbRole.cs" />
-    <Compile Include="Migrations\202306060304164_add tbUser and tbRole.designer.cs">
-      <DependentUpon>202306060304164_add tbUser and tbRole.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306060312281_update tbRole.cs" />
-    <Compile Include="Migrations\202306060312281_update tbRole.designer.cs">
-      <DependentUpon>202306060312281_update tbRole.cs</DependentUpon>
+    <Compile Include="Migrations\202306070238557_add Province, muni,barangay2.cs" />
+    <Compile Include="Migrations\202306070238557_add Province, muni,barangay2.designer.cs">
+      <DependentUpon>202306070238557_add Province, muni,barangay2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Barangay.cs" />
+    <Compile Include="Models\CityMunicipality.cs" />
     <Compile Include="Models\DbContextR12.cs" />
+    <Compile Include="Models\EthnicGroup.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\PriorityGroup.cs" />
+    <Compile Include="Models\Province.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -199,9 +201,11 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -231,11 +235,8 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306060304164_add tbUser and tbRole.resx">
-      <DependentUpon>202306060304164_add tbUser and tbRole.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306060312281_update tbRole.resx">
-      <DependentUpon>202306060312281_update tbRole.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306070238557_add Province, muni,barangay2.resx">
+      <DependentUpon>202306070238557_add Province, muni,barangay2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -16,20 +15,20 @@ namespace R12VIS.Controllers
         private DbContextR12 db = new DbContextR12();
 
         // GET: Users
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             var users = db.Users.Include(u => u.Role);
-            return View(await users.ToListAsync());
+            return View(users.ToList());
         }
 
         // GET: Users/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = await db.Users.FindAsync(id);
+            User user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -49,12 +48,12 @@ namespace R12VIS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Create([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
         {
             if (ModelState.IsValid)
             {
                 db.Users.Add(user);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -63,13 +62,13 @@ namespace R12VIS.Controllers
         }
 
         // GET: Users/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = await db.Users.FindAsync(id);
+            User user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -83,12 +82,12 @@ namespace R12VIS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(user).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
@@ -96,13 +95,13 @@ namespace R12VIS.Controllers
         }
 
         // GET: Users/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = await db.Users.FindAsync(id);
+            User user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -113,12 +112,17 @@ namespace R12VIS.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            User user = await db.Users.FindAsync(id);
+            User user = db.Users.Find(id);
             db.Users.Remove(user);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Login()
+        {
+            return View();
         }
 
         protected override void Dispose(bool disposing)

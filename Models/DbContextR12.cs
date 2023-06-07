@@ -16,6 +16,12 @@ namespace R12VIS.Models
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Province> Provinces { get; set; }
+        public DbSet<CityMunicipality> CityMunicipalities { get; set; }
+        public DbSet<Barangay> Barangays { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<EthnicGroup> EthnicGroups { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
