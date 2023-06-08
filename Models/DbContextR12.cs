@@ -21,6 +21,8 @@ namespace R12VIS.Models
         public DbSet<Barangay> Barangays { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<EthnicGroup> EthnicGroups { get; set; }
+        public DbSet<Vaccine> Vaccines { get; set; }
+
 
 
 
