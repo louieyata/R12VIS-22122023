@@ -7,13 +7,13 @@ namespace R12VIS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class addtbVaccination : IMigrationMetadata
+    public sealed partial class addadditionaltbl : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addtbVaccination));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addadditionaltbl));
         
         string IMigrationMetadata.Id
         {
-            get { return "202306080101320_add tbVaccination"; }
+            get { return "202306080702293_add additional tbl"; }
         }
         
         string IMigrationMetadata.Source

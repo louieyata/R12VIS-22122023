@@ -22,6 +22,11 @@ namespace R12VIS.Models
         public DbSet<Person> Persons { get; set; }
         public DbSet<EthnicGroup> EthnicGroups { get; set; }
         public DbSet<Vaccine> Vaccines { get; set; }
+        public DbSet<Adverse> Adverses { get; set; }
+        public DbSet<Deferral> Deferrals { get; set; }
+        public DbSet<Dose> Dose { get; set; }
+        public DbSet<PriorityGroup> PriorityGroups { get; set; }
+        public DbSet<Vaccination>  Vaccinations { get; set; }
 
 
 

@@ -129,13 +129,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306070238557_add Province, muni,barangay2.cs" />
-    <Compile Include="Migrations\202306070238557_add Province, muni,barangay2.designer.cs">
-      <DependentUpon>202306070238557_add Province, muni,barangay2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306080101320_add tbVaccination.cs" />
-    <Compile Include="Migrations\202306080101320_add tbVaccination.designer.cs">
-      <DependentUpon>202306080101320_add tbVaccination.cs</DependentUpon>
+    <Compile Include="Migrations\202306080702293_add additional tbl.cs" />
+    <Compile Include="Migrations\202306080702293_add additional tbl.designer.cs">
+      <DependentUpon>202306080702293_add additional tbl.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Adverse.cs" />
@@ -248,11 +244,8 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306070238557_add Province, muni,barangay2.resx">
-      <DependentUpon>202306070238557_add Province, muni,barangay2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306080101320_add tbVaccination.resx">
-      <DependentUpon>202306080101320_add tbVaccination.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306080702293_add additional tbl.resx">
+      <DependentUpon>202306080702293_add additional tbl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
