@@ -11,17 +11,29 @@ namespace R12VIS.Models
     public class Person
     {
         public int ID { get; set; }
+        [Display(Name = "Uniqu Person ID")]
         public string UniquePersonID { get; set; }
+
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
+
+        [Display(Name = "Middle Name")]
         public string MiddleName { get; set; }
+
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         public string Suffix { get; set; }
 
         [Display(Name = "Contact Number")]
         public string ContactNumber { get; set; }
+
+        [Display(Name = "Guardian Name")]
         public string GuardianName { get; set; }
+
+        [Display(Name = "Gender")]
         public bool isMale{ get; set; }
 
+        [Display(Name = "Is PWD")]
         public bool isPWD { get; set; }
 
         [ForeignKey("EthnicGroup")]

@@ -133,19 +133,30 @@
     <Compile Include="Migrations\202306070238557_add Province, muni,barangay2.designer.cs">
       <DependentUpon>202306070238557_add Province, muni,barangay2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306080101320_add tbVaccination.cs" />
+    <Compile Include="Migrations\202306080101320_add tbVaccination.designer.cs">
+      <DependentUpon>202306080101320_add tbVaccination.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Adverse.cs" />
     <Compile Include="Models\Barangay.cs" />
     <Compile Include="Models\CityMunicipality.cs" />
     <Compile Include="Models\DbContextR12.cs" />
+    <Compile Include="Models\Deferral.cs" />
+    <Compile Include="Models\Dose.cs" />
     <Compile Include="Models\EthnicGroup.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PriorityGroup.cs" />
     <Compile Include="Models\Province.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Vaccination.cs" />
+    <Compile Include="Models\Vaccine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\bg-1.jpg" />
+    <Content Include="Assets\vaccine.jpg" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -162,6 +173,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\login-style.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -237,6 +249,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202306070238557_add Province, muni,barangay2.resx">
       <DependentUpon>202306070238557_add Province, muni,barangay2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306080101320_add tbVaccination.resx">
+      <DependentUpon>202306080101320_add tbVaccination.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
