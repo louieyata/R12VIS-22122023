@@ -10,135 +10,114 @@ using R12VIS.Models;
 
 namespace R12VIS.Controllers
 {
-    public class UsersController : Controller
+    public class ProvincesController : Controller
     {
         private DbContextR12 db = new DbContextR12();
 
-        // GET: Users
+        // GET: Provinces
         public ActionResult Index()
         {
-            var users = db.Users.Include(u => u.Role);
-            return View(users.ToList());
+            var provinces = db.Provinces.Include(p => p.Region);
+            return View(provinces.ToList());
         }
 
-        // GET: Users/Details/5
+        // GET: Provinces/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Province province = db.Provinces.Find(id);
+            if (province == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(province);
         }
 
-        // GET: Users/Create
+        // GET: Provinces/Create
         public ActionResult Create()
         {
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title");
+            ViewBag.RegionID = new SelectList(db.Regions, "ID", "RegionName");
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Provinces/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Create([Bind(Include = "province_id,province_name,RegionID,province_code,province_code_excel")] Province province)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
+                db.Provinces.Add(province);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            ViewBag.RegionID = new SelectList(db.Regions, "ID", "RegionName", province.RegionID);
+            return View(province);
         }
 
-        // GET: Users/Edit/5
+        // GET: Provinces/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Province province = db.Provinces.Find(id);
+            if (province == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            ViewBag.RegionID = new SelectList(db.Regions, "ID", "RegionName", province.RegionID);
+            return View(province);
         }
 
-        // POST: Users/Edit/5
+        // POST: Provinces/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Edit([Bind(Include = "province_id,province_name,RegionID,province_code,province_code_excel")] Province province)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry(province).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            ViewBag.RegionID = new SelectList(db.Regions, "ID", "RegionName", province.RegionID);
+            return View(province);
         }
 
-        // GET: Users/Delete/5
+        // GET: Provinces/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Province province = db.Provinces.Find(id);
+            if (province == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(province);
         }
 
-        // POST: Users/Delete/5
+        // POST: Provinces/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            Province province = db.Provinces.Find(id);
+            db.Provinces.Remove(province);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Login([Bind(Include = "Email,Password")] User user)
-        {
-            var authenticated = db.Users.Where(x=>x.Email == user.Email && x.Password == user.Password).Any();
-            if (authenticated)
-            {
-                // Redirect to the desired page upon successful login
-                return Json(new { success = true });
-            }
-            else
-            {
-                // Redirect back to the login page with an error message
-                return Json(new { success = false, message = "Invalid Credentials" });
-            }
         }
 
         protected override void Dispose(bool disposing)

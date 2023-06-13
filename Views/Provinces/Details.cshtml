@@ -1,0 +1,50 @@
+﻿@model R12VIS.Models.Province
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Province</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Region.RegionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Region.RegionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.province_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.province_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.province_code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.province_code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.province_code_excel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.province_code_excel)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.province_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

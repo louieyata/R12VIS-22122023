@@ -10,135 +10,109 @@ using R12VIS.Models;
 
 namespace R12VIS.Controllers
 {
-    public class UsersController : Controller
+    public class Regions1Controller : Controller
     {
         private DbContextR12 db = new DbContextR12();
 
-        // GET: Users
+        // GET: Regions1
         public ActionResult Index()
         {
-            var users = db.Users.Include(u => u.Role);
-            return View(users.ToList());
+            return View(db.Regions.ToList());
         }
 
-        // GET: Users/Details/5
+        // GET: Regions1/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Region region = db.Regions.Find(id);
+            if (region == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(region);
         }
 
-        // GET: Users/Create
+        // GET: Regions1/Create
         public ActionResult Create()
         {
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title");
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Regions1/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Create([Bind(Include = "ID,RegionName")] Region region)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
+                db.Regions.Add(region);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            return View(region);
         }
 
-        // GET: Users/Edit/5
+        // GET: Regions1/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Region region = db.Regions.Find(id);
+            if (region == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            return View(region);
         }
 
-        // POST: Users/Edit/5
+        // POST: Regions1/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Edit([Bind(Include = "ID,RegionName")] Region region)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry(region).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            return View(region);
         }
 
-        // GET: Users/Delete/5
+        // GET: Regions1/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Region region = db.Regions.Find(id);
+            if (region == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(region);
         }
 
-        // POST: Users/Delete/5
+        // POST: Regions1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            Region region = db.Regions.Find(id);
+            db.Regions.Remove(region);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Login([Bind(Include = "Email,Password")] User user)
-        {
-            var authenticated = db.Users.Where(x=>x.Email == user.Email && x.Password == user.Password).Any();
-            if (authenticated)
-            {
-                // Redirect to the desired page upon successful login
-                return Json(new { success = true });
-            }
-            else
-            {
-                // Redirect back to the login page with an error message
-                return Json(new { success = false, message = "Invalid Credentials" });
-            }
         }
 
         protected override void Dispose(bool disposing)

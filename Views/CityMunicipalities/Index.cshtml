@@ -1,0 +1,93 @@
+﻿@model IEnumerable<R12VIS.Models.CityMunicipality>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@*@section styles
+{
+    
+}*@
+
+<div class="card">
+    <div class="card-header text-bg-primary">
+
+    </div>
+    <div class="card-body">
+       <div class="row">
+           <div class="col">
+               <table class="table table-bordered" id="myTable">
+                   <thead>
+                       <tr>
+                           <th>
+                               @Html.DisplayNameFor(model => model.Province.province_name)
+                           </th>
+                           <th>
+                               @Html.DisplayNameFor(model => model.CityMunicipalityName)
+                           </th>
+                           @*<th>
+                        @Html.DisplayNameFor(model => model.ProvinceCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CityMunicipalityCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ZipCode)
+                    </th>*@
+                           <th>
+                               @Html.DisplayNameFor(model => model.CityMunicipalityCodeExcel)
+                           </th>
+                           <th></th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       @foreach (var item in Model)
+                       {
+                           <tr>
+                               <td>
+                                   @Html.DisplayFor(modelItem => item.Province.province_name)
+                               </td>
+                               <td>
+                                   @Html.DisplayFor(modelItem => item.CityMunicipalityName)
+                               </td>
+                               @*<td>
+                            @Html.DisplayFor(modelItem => item.ProvinceCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CityMunicipalityCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ZipCode)
+                        </td>*@
+                               <td>
+                                   @Html.DisplayFor(modelItem => item.CityMunicipalityCodeExcel)
+                               </td>
+                               <td>
+                                   @Html.ActionLink("Edit", "Edit", new { id = item.city_municipality_id }) |
+                                   @Html.ActionLink("Details", "Details", new { id = item.city_municipality_id }) |
+                                   @Html.ActionLink("Delete", "Delete", new { id = item.city_municipality_id })
+                               </td>
+                           </tr>
+                       }
+                   </tbody>
+               </table>
+           </div>
+       </div>
+
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@section scripts
+{
+    <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
+    <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+}

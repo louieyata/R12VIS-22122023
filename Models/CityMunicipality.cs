@@ -29,5 +29,7 @@ namespace R12VIS.Models
         [Display(Name = "ZIP Code")]
         public string ZipCode { get; set; }
 
+        public string CityMunicipalityCodeExcel { get; set; }   
+
     }
 }

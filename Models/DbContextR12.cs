@@ -16,6 +16,7 @@ namespace R12VIS.Models
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Region> Regions { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<CityMunicipality> CityMunicipalities { get; set; }
         public DbSet<Barangay> Barangays { get; set; }
@@ -27,6 +28,7 @@ namespace R12VIS.Models
         public DbSet<Dose> Dose { get; set; }
         public DbSet<PriorityGroup> PriorityGroups { get; set; }
         public DbSet<Vaccination>  Vaccinations { get; set; }
+
 
 
 

@@ -1,0 +1,130 @@
+﻿@model R12VIS.Models.Vaccination
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Vaccination</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Adverse.Event)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adverse.Event)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Deferral.Reason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deferral.Reason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dose.VaccineDose)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dose.VaccineDose)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.UniquePersonID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.UniquePersonID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PriorityGroup.Category)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PriorityGroup.Category)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vaccine.VaccineManufacturer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vaccine.VaccineManufacturer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProvinceID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProvinceID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CityMunicipalityID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CityMunicipalityID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BarangayID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BarangayID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VaccinationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VaccinationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BatchNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BatchNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LotNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LotNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BakunaCenterCBCRID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BakunaCenterCBCRID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VaccinatorName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VaccinatorName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

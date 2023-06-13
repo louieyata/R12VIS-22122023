@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - DOH12-VIS</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/DataTable/cdn.datatables.net_1.13.4_css_dataTables.bootstrap5.min.css" rel="stylesheet" />
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-success">
@@ -22,7 +23,7 @@
                     @*<li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>*@
                 </ul>
                 <div class="dropdown">
-                    <a class="  dropdown-toggle link-dark link-underline-opacity-0"  data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="  dropdown-toggle link-dark link-underline-opacity-0" data-bs-toggle="dropdown" aria-expanded="false">
                         Super Admin
                     </a>
                     <ul class="dropdown-menu">
