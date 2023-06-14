@@ -1,0 +1,57 @@
+﻿@model IEnumerable<R12VIS.Models.Barangay>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CityMunicipality.CityMunicipalityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.barangay_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.province_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.city_municipality_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.barangay_code)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CityMunicipality.CityMunicipalityName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.barangay_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.province_code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.city_municipality_code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.barangay_code)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.barangay_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.barangay_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.barangay_id })
+        </td>
+    </tr>
+}
+
+</table>

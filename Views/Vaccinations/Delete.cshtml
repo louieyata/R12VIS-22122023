@@ -1,0 +1,136 @@
+﻿@model R12VIS.Models.Vaccination
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Vaccination</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Adverse.Event)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adverse.Event)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Deferral.Reason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deferral.Reason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dose.VaccineDose)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dose.VaccineDose)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.UniquePersonID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.UniquePersonID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PriorityGroup.Category)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PriorityGroup.Category)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vaccine.VaccineManufacturer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vaccine.VaccineManufacturer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProvinceID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProvinceID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CityMunicipalityID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CityMunicipalityID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BarangayID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BarangayID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VaccinationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VaccinationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BatchNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BatchNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LotNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LotNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BakunaCenterCBCRID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BakunaCenterCBCRID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VaccinatorName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VaccinatorName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

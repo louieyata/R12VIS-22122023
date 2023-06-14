@@ -16,19 +16,19 @@ namespace R12VIS.Models
         public int PriorityGroupID { get; set; }
         public PriorityGroup PriorityGroup { get; set; }
 
-        [ForeignKey("PriorityGroup")]
+        [ForeignKey("Person")]
         public int PersonID { get; set; }
         public Person Person { get; set; }
 
-        [ForeignKey("Province")]
+       
         public int ProvinceID { get; set; }
         public Province Province { get; set; } 
 
-        [ForeignKey("CityMunicipality")]
+        
         public int CityMunicipalityID { get; set; }
         public CityMunicipality CityMunicipality { get; set; }
 
-        [ForeignKey("Barangay")]
+        
         public int BarangayID { get; set; }
         public Barangay Barangay { get; set; }
 

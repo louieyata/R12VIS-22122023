@@ -10,135 +10,109 @@ using R12VIS.Models;
 
 namespace R12VIS.Controllers
 {
-    public class UsersController : Controller
+    public class RolesController : Controller
     {
         private DbContextR12 db = new DbContextR12();
 
-        // GET: Users
+        // GET: Roles
         public ActionResult Index()
         {
-            var users = db.Users.Include(u => u.Role);
-            return View(users.ToList());
+            return View(db.Roles.ToList());
         }
 
-        // GET: Users/Details/5
+        // GET: Roles/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Role role = db.Roles.Find(id);
+            if (role == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(role);
         }
 
-        // GET: Users/Create
+        // GET: Roles/Create
         public ActionResult Create()
         {
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title");
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Roles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Create([Bind(Include = "Id,Title,Access")] Role role)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
+                db.Roles.Add(role);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            return View(role);
         }
 
-        // GET: Users/Edit/5
+        // GET: Roles/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Role role = db.Roles.Find(id);
+            if (role == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            return View(role);
         }
 
-        // POST: Users/Edit/5
+        // POST: Roles/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Edit([Bind(Include = "Id,Title,Access")] Role role)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry(role).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            return View(role);
         }
 
-        // GET: Users/Delete/5
+        // GET: Roles/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Role role = db.Roles.Find(id);
+            if (role == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(role);
         }
 
-        // POST: Users/Delete/5
+        // POST: Roles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            Role role = db.Roles.Find(id);
+            db.Roles.Remove(role);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Login([Bind(Include = "Email,Password")] User user)
-        {
-            var authenticated = db.Users.Where(x=>x.Email == user.Email && x.Password == user.Password).Any();
-            if (authenticated)
-            {
-                // Redirect to the desired page upon successful login
-                return Json(new { success = true });
-            }
-            else
-            {
-                // Redirect back to the login page with an error message
-                return Json(new { success = false, message = "Invalid Credentials" });
-            }
         }
 
         protected override void Dispose(bool disposing)

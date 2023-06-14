@@ -7,14 +7,11 @@ using System.Xml.Linq;
 
 namespace R12VIS.Models
 {
-    public class Vaccine
+    public class Region
     {
         public int ID { get; set; }
 
-        [Display(Name = "Vaccine Manufacturer")]
-        public string VaccineManufacturer { get; set; }
-
-        [Display(Name = "Vaccine Brand")]
-        public string VaccineBrand { get; set;}
+        [Display(Name = "Region Name")]
+        public string RegionName { get; set; }
     }
 }

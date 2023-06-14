@@ -1,0 +1,66 @@
+﻿@model R12VIS.Models.CityMunicipality
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CityMunicipality</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Province.province_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Province.province_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CityMunicipalityName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CityMunicipalityName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProvinceCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProvinceCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CityMunicipalityCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CityMunicipalityCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ZipCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CityMunicipalityCodeExcel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CityMunicipalityCodeExcel)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.city_municipality_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

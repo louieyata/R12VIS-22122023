@@ -124,18 +124,36 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminPanelController.cs" />
+    <Compile Include="Controllers\AdversesController.cs" />
+    <Compile Include="Controllers\BarangaysController.cs" />
+    <Compile Include="Controllers\CityMunicipalitiesController.cs" />
+    <Compile Include="Controllers\DeferralsController.cs" />
+    <Compile Include="Controllers\DosesController.cs" />
+    <Compile Include="Controllers\EthnicGroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PriorityGroupsController.cs" />
+    <Compile Include="Controllers\ProvincesController.cs" />
+    <Compile Include="Controllers\Regions1Controller.cs" />
+    <Compile Include="Controllers\RegionsController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\VaccinationsController.cs" />
+    <Compile Include="Controllers\VaccinesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306070238557_add Province, muni,barangay2.cs" />
-    <Compile Include="Migrations\202306070238557_add Province, muni,barangay2.designer.cs">
-      <DependentUpon>202306070238557_add Province, muni,barangay2.cs</DependentUpon>
+    <Compile Include="Migrations\202306080702293_add additional tbl.cs" />
+    <Compile Include="Migrations\202306080702293_add additional tbl.designer.cs">
+      <DependentUpon>202306080702293_add additional tbl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306080101320_add tbVaccination.cs" />
-    <Compile Include="Migrations\202306080101320_add tbVaccination.designer.cs">
-      <DependentUpon>202306080101320_add tbVaccination.cs</DependentUpon>
+    <Compile Include="Migrations\202306080813574_add vaccine brand to tbl vaccine.cs" />
+    <Compile Include="Migrations\202306080813574_add vaccine brand to tbl vaccine.designer.cs">
+      <DependentUpon>202306080813574_add vaccine brand to tbl vaccine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306090046516_add rbRegion.cs" />
+    <Compile Include="Migrations\202306090046516_add rbRegion.designer.cs">
+      <DependentUpon>202306090046516_add rbRegion.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Adverse.cs" />
@@ -148,6 +166,7 @@
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PriorityGroup.cs" />
     <Compile Include="Models\Province.cs" />
+    <Compile Include="Models\Region.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Vaccination.cs" />
@@ -174,6 +193,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\DataTable\cdn.datatables.net_1.13.4_css_dataTables.bootstrap5.min.css" />
+    <Content Include="Content\DataTable\cdn.datatables.net_1.13.4_js_dataTables.bootstrap5.min.js" />
+    <Content Include="Content\DataTable\cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js" />
     <Content Include="Content\login-style.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -215,6 +237,73 @@
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\PriorityGroups\Create.cshtml" />
+    <Content Include="Views\PriorityGroups\Delete.cshtml" />
+    <Content Include="Views\PriorityGroups\Details.cshtml" />
+    <Content Include="Views\PriorityGroups\Edit.cshtml" />
+    <Content Include="Views\PriorityGroups\Index.cshtml" />
+    <Content Include="Views\EthnicGroups\Create.cshtml" />
+    <Content Include="Views\EthnicGroups\Delete.cshtml" />
+    <Content Include="Views\EthnicGroups\Details.cshtml" />
+    <Content Include="Views\EthnicGroups\Edit.cshtml" />
+    <Content Include="Views\EthnicGroups\Index.cshtml" />
+    <Content Include="Views\Deferrals\Create.cshtml" />
+    <Content Include="Views\Deferrals\Delete.cshtml" />
+    <Content Include="Views\Deferrals\Details.cshtml" />
+    <Content Include="Views\Deferrals\Edit.cshtml" />
+    <Content Include="Views\Deferrals\Index.cshtml" />
+    <Content Include="Views\Doses\Create.cshtml" />
+    <Content Include="Views\Doses\Delete.cshtml" />
+    <Content Include="Views\Doses\Details.cshtml" />
+    <Content Include="Views\Doses\Edit.cshtml" />
+    <Content Include="Views\Doses\Index.cshtml" />
+    <Content Include="Views\Adverses\Create.cshtml" />
+    <Content Include="Views\Adverses\Delete.cshtml" />
+    <Content Include="Views\Adverses\Details.cshtml" />
+    <Content Include="Views\Adverses\Edit.cshtml" />
+    <Content Include="Views\Adverses\Index.cshtml" />
+    <Content Include="Views\Vaccines\Create.cshtml" />
+    <Content Include="Views\Vaccines\Delete.cshtml" />
+    <Content Include="Views\Vaccines\Details.cshtml" />
+    <Content Include="Views\Vaccines\Edit.cshtml" />
+    <Content Include="Views\Vaccines\Index.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Delete.cshtml" />
+    <Content Include="Views\Roles\Details.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Vaccinations\Create.cshtml" />
+    <Content Include="Views\Vaccinations\Delete.cshtml" />
+    <Content Include="Views\Vaccinations\Details.cshtml" />
+    <Content Include="Views\Vaccinations\Edit.cshtml" />
+    <Content Include="Views\Vaccinations\Index.cshtml" />
+    <Content Include="Views\Regions\Create.cshtml" />
+    <Content Include="Views\Regions\Delete.cshtml" />
+    <Content Include="Views\Regions\Details.cshtml" />
+    <Content Include="Views\Regions\Edit.cshtml" />
+    <Content Include="Views\Regions\Index.cshtml" />
+    <Content Include="Views\Provinces\Create.cshtml" />
+    <Content Include="Views\Provinces\Delete.cshtml" />
+    <Content Include="Views\Provinces\Details.cshtml" />
+    <Content Include="Views\Provinces\Edit.cshtml" />
+    <Content Include="Views\Provinces\Index.cshtml" />
+    <Content Include="Views\CityMunicipalities\Create.cshtml" />
+    <Content Include="Views\CityMunicipalities\Delete.cshtml" />
+    <Content Include="Views\CityMunicipalities\Details.cshtml" />
+    <Content Include="Views\CityMunicipalities\Edit.cshtml" />
+    <Content Include="Views\CityMunicipalities\Index.cshtml" />
+    <Content Include="Views\Barangays\Create.cshtml" />
+    <Content Include="Views\Barangays\Delete.cshtml" />
+    <Content Include="Views\Barangays\Details.cshtml" />
+    <Content Include="Views\Barangays\Edit.cshtml" />
+    <Content Include="Views\Barangays\Index.cshtml" />
+    <Content Include="Views\Regions1\Create.cshtml" />
+    <Content Include="Views\Regions1\Delete.cshtml" />
+    <Content Include="Views\Regions1\Details.cshtml" />
+    <Content Include="Views\Regions1\Edit.cshtml" />
+    <Content Include="Views\Regions1\Index.cshtml" />
+    <Content Include="Views\CityMunicipalities\ImportMuniCityCodes.cshtml" />
+    <Content Include="Views\AdminPanel\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -248,11 +337,14 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306070238557_add Province, muni,barangay2.resx">
-      <DependentUpon>202306070238557_add Province, muni,barangay2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306080702293_add additional tbl.resx">
+      <DependentUpon>202306080702293_add additional tbl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306080101320_add tbVaccination.resx">
-      <DependentUpon>202306080101320_add tbVaccination.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306080813574_add vaccine brand to tbl vaccine.resx">
+      <DependentUpon>202306080813574_add vaccine brand to tbl vaccine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306090046516_add rbRegion.resx">
+      <DependentUpon>202306090046516_add rbRegion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

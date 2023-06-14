@@ -7,13 +7,13 @@ namespace R12VIS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class addProvincemunibarangay2 : IMigrationMetadata
+    public sealed partial class addvaccinebrandtotblvaccine : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addProvincemunibarangay2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addvaccinebrandtotblvaccine));
         
         string IMigrationMetadata.Id
         {
-            get { return "202306070238557_add Province, muni,barangay2"; }
+            get { return "202306080813574_add vaccine brand to tbl vaccine"; }
         }
         
         string IMigrationMetadata.Source

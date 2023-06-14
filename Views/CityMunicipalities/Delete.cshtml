@@ -1,0 +1,72 @@
+﻿@model R12VIS.Models.CityMunicipality
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CityMunicipality</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Province.province_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Province.province_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CityMunicipalityName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CityMunicipalityName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProvinceCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProvinceCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CityMunicipalityCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CityMunicipalityCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ZipCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CityMunicipalityCodeExcel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CityMunicipalityCodeExcel)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

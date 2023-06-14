@@ -10,135 +10,114 @@ using R12VIS.Models;
 
 namespace R12VIS.Controllers
 {
-    public class UsersController : Controller
+    public class BarangaysController : Controller
     {
         private DbContextR12 db = new DbContextR12();
 
-        // GET: Users
+        // GET: Barangays
         public ActionResult Index()
         {
-            var users = db.Users.Include(u => u.Role);
-            return View(users.ToList());
+            var barangays = db.Barangays.Include(b => b.CityMunicipality);
+            return View(barangays.ToList());
         }
 
-        // GET: Users/Details/5
+        // GET: Barangays/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Barangay barangay = db.Barangays.Find(id);
+            if (barangay == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(barangay);
         }
 
-        // GET: Users/Create
+        // GET: Barangays/Create
         public ActionResult Create()
         {
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title");
+            ViewBag.city_municipality_id = new SelectList(db.CityMunicipalities, "city_municipality_id", "CityMunicipalityName");
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Barangays/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Create([Bind(Include = "barangay_id,city_municipality_id,barangay_name,province_code,city_municipality_code,barangay_code")] Barangay barangay)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
+                db.Barangays.Add(barangay);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            ViewBag.city_municipality_id = new SelectList(db.CityMunicipalities, "city_municipality_id", "CityMunicipalityName", barangay.city_municipality_id);
+            return View(barangay);
         }
 
-        // GET: Users/Edit/5
+        // GET: Barangays/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Barangay barangay = db.Barangays.Find(id);
+            if (barangay == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            ViewBag.city_municipality_id = new SelectList(db.CityMunicipalities, "city_municipality_id", "CityMunicipalityName", barangay.city_municipality_id);
+            return View(barangay);
         }
 
-        // POST: Users/Edit/5
+        // POST: Barangays/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Edit([Bind(Include = "barangay_id,city_municipality_id,barangay_name,province_code,city_municipality_code,barangay_code")] Barangay barangay)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry(barangay).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
-            return View(user);
+            ViewBag.city_municipality_id = new SelectList(db.CityMunicipalities, "city_municipality_id", "CityMunicipalityName", barangay.city_municipality_id);
+            return View(barangay);
         }
 
-        // GET: Users/Delete/5
+        // GET: Barangays/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Barangay barangay = db.Barangays.Find(id);
+            if (barangay == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(barangay);
         }
 
-        // POST: Users/Delete/5
+        // POST: Barangays/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            Barangay barangay = db.Barangays.Find(id);
+            db.Barangays.Remove(barangay);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Login([Bind(Include = "Email,Password")] User user)
-        {
-            var authenticated = db.Users.Where(x=>x.Email == user.Email && x.Password == user.Password).Any();
-            if (authenticated)
-            {
-                // Redirect to the desired page upon successful login
-                return Json(new { success = true });
-            }
-            else
-            {
-                // Redirect back to the login page with an error message
-                return Json(new { success = false, message = "Invalid Credentials" });
-            }
         }
 
         protected override void Dispose(bool disposing)
