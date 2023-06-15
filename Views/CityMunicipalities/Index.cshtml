@@ -4,82 +4,92 @@
     ViewBag.Title = "Index";
 }
 
-@*@section styles
-{
-    
-}*@
+<main id="main" class="main">
 
-<div class="card">
-    <div class="card-header text-bg-primary">
+    <div class="pagetitle">
+        <h1>Index</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Users</a></li>
+                <li class="breadcrumb-item">Index</li>
+                @*<li class="breadcrumb-item active">Blank</li>*@
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
 
-    </div>
-    <div class="card-body">
-       <div class="row">
-           <div class="col">
-               <table class="table table-bordered" id="myTable">
-                   <thead>
-                       <tr>
-                           <th>
-                               @Html.DisplayNameFor(model => model.Province.province_name)
-                           </th>
-                           <th>
-                               @Html.DisplayNameFor(model => model.CityMunicipalityName)
-                           </th>
-                           @*<th>
-                        @Html.DisplayNameFor(model => model.ProvinceCode)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CityMunicipalityCode)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ZipCode)
-                    </th>*@
-                           <th>
-                               @Html.DisplayNameFor(model => model.CityMunicipalityCodeExcel)
-                           </th>
-                           <th></th>
-                       </tr>
-                   </thead>
-                   <tbody>
-                       @foreach (var item in Model)
-                       {
-                           <tr>
-                               <td>
-                                   @Html.DisplayFor(modelItem => item.Province.province_name)
-                               </td>
-                               <td>
-                                   @Html.DisplayFor(modelItem => item.CityMunicipalityName)
-                               </td>
-                               @*<td>
-                            @Html.DisplayFor(modelItem => item.ProvinceCode)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CityMunicipalityCode)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ZipCode)
-                        </td>*@
-                               <td>
-                                   @Html.DisplayFor(modelItem => item.CityMunicipalityCodeExcel)
-                               </td>
-                               <td>
-                                   @Html.ActionLink("Edit", "Edit", new { id = item.city_municipality_id }) |
-                                   @Html.ActionLink("Details", "Details", new { id = item.city_municipality_id }) |
-                                   @Html.ActionLink("Delete", "Delete", new { id = item.city_municipality_id })
-                               </td>
-                           </tr>
-                       }
-                   </tbody>
-               </table>
-           </div>
-       </div>
+    <section class="section">
 
-    </div>
-</div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Default Card</h5>
+                <table class="table table-bordered" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Province.province_name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CityMunicipalityName)
+                            </th>
+                            @*<th>
+                                @Html.DisplayNameFor(model => model.ProvinceCode)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CityMunicipalityCode)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ZipCode)
+                            </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.CityMunicipalityCodeExcel)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Province.province_name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CityMunicipalityName)
+                                </td>
+                                @*<td>
+                                    @Html.DisplayFor(modelItem => item.ProvinceCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CityMunicipalityCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ZipCode)
+                                </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CityMunicipalityCodeExcel)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.city_municipality_id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.city_municipality_id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.city_municipality_id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <p>
+                    @Html.ActionLink("Create New", "Create")
+                </p>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+
+
+
 
 @section scripts
 {
