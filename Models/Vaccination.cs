@@ -16,6 +16,8 @@ namespace R12VIS.Models
         public int PriorityGroupID { get; set; }
         public PriorityGroup PriorityGroup { get; set; }
 
+        public string Comorbidity { get; set; }
+
         [ForeignKey("Person")]
         public int PersonID { get; set; }
         public Person Person { get; set; }

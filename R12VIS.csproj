@@ -155,6 +155,10 @@
     <Compile Include="Migrations\202306090046516_add rbRegion.designer.cs">
       <DependentUpon>202306090046516_add rbRegion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306160515426_comorbid.cs" />
+    <Compile Include="Migrations\202306160515426_comorbid.designer.cs">
+      <DependentUpon>202306160515426_comorbid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Adverse.cs" />
     <Compile Include="Models\Barangay.cs" />
@@ -345,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306090046516_add rbRegion.resx">
       <DependentUpon>202306090046516_add rbRegion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306160515426_comorbid.resx">
+      <DependentUpon>202306160515426_comorbid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
