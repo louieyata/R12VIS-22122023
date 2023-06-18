@@ -139,6 +139,14 @@ namespace R12VIS.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult PreVaccination(int? id)
+        {
+            ViewBag.PriorityGroupID = new SelectList(db.PriorityGroups, "ID", "Category");
+            var ethnicGroups = db.EthnicGroups.ToList();
+            ethnicGroups.Insert(0, new EthnicGroup { Id = 0, IndigenousMember = "" });
+            ViewBag.EthnicGroupID = new SelectList(ethnicGroups, "Id", "IndigenousMember");
+            ViewBag.province_id = new SelectList(db.Provinces, "province_id", "province_name"); return View();
+        }
 
         protected override void Dispose(bool disposing)
         {
