@@ -1,0 +1,167 @@
+                        // date Validator
+                        //bool isValidDate = System.DateTime.TryParseExact(pb.birthdate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out pb.date);
+
+                        // number validator
+                        //int number;
+                        //bool isNumeric = int.TryParse(pb.contactnumber, out number);
+
+                        //    // Check Null and Error Values
+                        //    if (string.IsNullOrEmpty(pb.firstname) || 
+                        //        string.IsNullOrEmpty(pb.lastname) ||
+                        //        string.IsNullOrEmpty(pb.middlename) ||
+                        //        string.IsNullOrEmpty(pb.uniquepersonid) ||
+                        //        string.IsNullOrEmpty(pb.guardianname) ||
+                        //        string.IsNullOrEmpty(pb.contactnumber) ||
+                        //        string.IsNullOrEmpty(pb.pwd) ||
+                        //        string.IsNullOrEmpty(pb.gender) ||
+                        //        string.IsNullOrEmpty(pb.birthdate) ||
+                        //        string.IsNullOrEmpty(pb.gender) 
+                        //        )
+                        //    {
+                        //        pb.ErrorCounter++;
+                        //        pb.ErrorChecker = true;
+                        //    }
+                        //    else // Means No Errors
+                        //    {
+                        //        pb.ErrorChecker = false;
+
+
+
+                        //        //// Check Duplicates
+                        //        //bool DuplicateScanner = db.Persons.Any(x =>
+                        //        //x.FirstName == pb.firstname &&
+                        //        //x.MiddleName == pb.middlename &&
+                        //        //x.LastName == pb.lastname &&
+                        //        //x.isMale == pb.isMale &&
+                        //        //x.isPWD == pb.isPWD);
+
+                        //        //if (DuplicateScanner == true)
+                        //        //{
+                        //        //    pb.DuplicatesChecker = true;
+                        //        //    pb.DuplicateCounter++;
+                        //        //}
+                        //        //else // means no duplicates
+                        //        //{
+                        //        //    pb.DuplicatesChecker = false;
+                        //        //}
+
+
+                        //        //// Upload/Save Record if no Duplicates and Errors
+                        //        //if (pb.ErrorChecker == false && pb.DuplicatesChecker == false)
+                        //        //{
+
+                        //        //}
+
+                        //        pb.row++;
+                        //    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public ActionResult Checker(HttpPostedFileBase myExcelData)
+        //{
+        //    if (myExcelData != null)
+        //    {
+        //        if (myExcelData.ContentLength > 0) // check if the file uploaded
+        //        {
+        //            pb.CompleteFilePath = pb.filePath + pb.fileName + ".xlsx";
+        //            myExcelData.SaveAs(pb.filePath);
+        //            XLWorkbook xlworkbook = new XLWorkbook(pb.filePath);
+
+        //            // loop excel rows and get data on each cells
+        //            while (xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 1).GetString() != "")
+        //            {
+        //                // Get Excel Column Details
+        //                string category = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 1).GetString();
+        //                string comorbidity = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 2).GetString();
+        //                //string uniquepersonid = xlworkbook.Worksheets.Worksheet(worksheet).Cell(row, 3).GetString();
+        //                string pwd = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 4).GetString();
+        //                //string ethnicgroup = xlworkbook.Worksheets.Worksheet(worksheet).Cell(row, 5).GetString(); // Indigenous Member
+        //                //string lastname = xlworkbook.Worksheets.Worksheet(worksheet).Cell(row, 6).GetString();
+        //                //string firstname = xlworkbook.Worksheets.Worksheet(worksheet).Cell(row, 7).GetString();
+        //                //string middlename = xlworkbook.Worksheets.Worksheet(worksheet).Cell(row, 8).GetString();
+        //                //string suffix = xlworkbook.Worksheets.Worksheet(worksheet).Cell(row, 9).GetString();
+        //                //string contactnumber = xlworkbook.Worksheets.Worksheet(worksheet).Cell(row,10).GetString();
+        //                //string guardianname = xlworkbook.Worksheets.Worksheet(worksheet).Cell(row, 11).GetString();
+        //                string region = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 12).GetString();
+        //                string province = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 13).GetString();
+        //                string citymunicipality = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 14).GetString();
+        //                string barangay = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 15).GetString();
+        //                //string gender = xlworkbook.Worksheets.Worksheet(worksheet).Cell(row, 16).GetString();
+        //                //string birthdate = xlworkbook.Worksheets.Worksheet(worksheet).Cell(row, 17).GetString();
+        //                string deferral = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 18).GetString();
+        //                string reasonfordeferral = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 19).GetString();
+        //                string vaccinationdate = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 20).GetString();
+        //                string vaccinemanufacturername = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 21).GetString();
+        //                string batchnumber = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 22).GetString();
+        //                string lotnumber = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 23).GetString();
+        //                string bakunacentercbcrid = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 24).GetString();
+        //                string vaccinatorname = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 25).GetString();
+        //                string firststdose = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 26).GetString();
+        //                string seconddose = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 27).GetString();
+        //                string additionalboosterdose = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 28).GetString();
+        //                string adverseevent = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 29).GetString();
+        //                string adverseeventcondition = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 30).GetString();
+
+
+        //                // Get Category ID (Priority Group Table)
+        //                var GetCategoryId = db.PriorityGroups.FirstOrDefault(s => s.Category == category);
+
+        //                pb.row++;
+        //            }
+
+
+
+        //            var data = new
+        //            {
+        //                TotalRws = pb.row - 2
+        //            };
+
+        //            return Json(data, JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            // Create an anonymous object or a custom class to hold the data values
+        //            var error = new
+        //            {
+        //                Value1 = "Upload Error!"
+        //            };
+
+        //            return Json(error, JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // Create an anonymous object or a custom class to hold the data values
+        //        var error = new
+        //        {
+        //            Value1 = "Upload Error!"
+        //        };
+
+        //        return Json(error, JsonRequestBehavior.AllowGet);
+        //    }
+
+        //}

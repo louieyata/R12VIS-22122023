@@ -216,6 +216,7 @@
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PriorityGroup.cs" />
     <Compile Include="Models\Province.cs" />
+    <Compile Include="Models\PublicVariables.cs" />
     <Compile Include="Models\Region.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
