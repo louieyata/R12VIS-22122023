@@ -7,13 +7,13 @@ namespace R12VIS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class updatedatabase : IMigrationMetadata
+    public sealed partial class migration1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(updatedatabase));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(migration1));
         
         string IMigrationMetadata.Id
         {
-            get { return "202306080640290_updatedatabase"; }
+            get { return "202306210108444_migration1"; }
         }
         
         string IMigrationMetadata.Source

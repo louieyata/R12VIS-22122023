@@ -3,16 +3,16 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class comorbid : DbMigration
+    public partial class migration2 : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.Vaccination", "Comorbidity", c => c.String());
+            AlterColumn("dbo.Person", "BirthDate", c => c.DateTime());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.Vaccination", "Comorbidity");
+            AlterColumn("dbo.Person", "BirthDate", c => c.DateTime(nullable: false));
         }
     }
 }
