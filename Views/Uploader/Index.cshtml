@@ -1,0 +1,241 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Excel Uploader</h2>
+
+<div class="container-fluid" style="max-width: 50%" >
+
+
+
+
+    <div class="row shadow p-4 m-1 text-bg-light bg-white  rounded-2 m-5">
+
+        <h2>Excel Uploader</h2>
+
+        <div class="row m-1">
+            @*FILE SELECTOR*@
+            <div class=" col p-3 bg-white text-black shadow">
+                <input type="file" id="fuExcel" />
+            </div>
+        </div>
+
+        <div class="row m-1">
+            @*UPLOADER*@
+            <div class=" col  p-3 bg-white shadow">
+                <button id="btnUploader" class="btn btn-success float-end shadow-sm">Upload Excel</button>
+            </div>
+
+            @*VACINATION RECORD UPLOADER*@
+            <!--<div class=" col-md-6  p-3 bg-white shadow">
+                <button id="btnUpload" class="btn btn-primary float-end shadow-sm">Upload Record</button>
+            </div>
+        </div>-->
+
+        @*MODAL*@
+
+        <!-- Modal -->
+        <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Excel Reading Done</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!--<div class="row shadow p-4 m-1 text-bg-light  rounded-2">-->
+
+                            @*CARD - UPLOADED*@
+                            <!--<div class="col-md-4  p-3 bg-light">
+                                <div class="card border-0 text-white bg-primary shadow-lg">
+                                    <div class="card-header">Person Uploaded</div>
+                                    <div class="card-body">
+                                        <center>
+                                            <h1><span id="personuploaded">0</span></h1>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                            @*CARD - ERRORS*@
+                            <!--<div class="col-md-4  p-3 bg-light">
+                                <div class="card border-0 text-white bg-danger shadow-lg">
+                                    <div class="card-header">Person Errors</div>
+                                    <div class="card-body">
+                                        <center>
+                                            <h1><span id="personerrors">0</span></h1>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                            @*CARD - DUPLICATE*@
+                            <!--<div class="col-md-4  p-3 bg-light">
+                                <div class="card border-0 text-white bg-warning shadow-lg">
+                                    <div class="card-header">Person Duplicates</div>
+                                    <div class="card-body">
+
+                                        <center>
+                                            <h1><span id="personduplicates">0</span></h1>
+                                        </center>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>-->
+
+
+
+
+                        <div class="row shadow p-4 m-1 text-bg-light  rounded-2">
+
+                            @*CARD - UPLOADED*@
+                            <div class="col-md-4  p-3 bg-light">
+                                <div class="card border-0 text-white bg-primary shadow-lg">
+                                    <div class="card-header">Uploaded</div>
+                                    <div class="card-body">
+                                        <center>
+                                            <h1><span id="vaccineuploaded">0</span></h1>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*CARD - ERRORS*@
+                            <div class="col-md-4  p-3 bg-light">
+                                <div class="card border-0 text-white bg-danger shadow-lg">
+                                    <div class="card-header">Errors</div>
+                                    <div class="card-body">
+                                        <center>
+                                            <h1><span id="vaccineerrors">0</span></h1>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*CARD - DUPLICATE*@
+                            <div class="col-md-4  p-3 bg-light">
+                                <div class="card border-0 text-white bg-warning shadow-lg">
+                                    <div class="card-header">Duplicates</div>
+                                    <div class="card-body">
+
+                                        <center>
+                                            <h1><span id="vaccineduplicates">0</span></h1>
+                                        </center>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        @*<button type="button" class="btn btn-primary">Understood</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script>
+
+        // Spinners
+        var spinnerReader = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Reading...Please Wait...';
+
+        //FOR CHECKING BUTTON
+        $(document).ready(function ()
+        {
+
+            $("#btnUploader").click(function ()
+            {
+                //debugger;
+                // Show the spinner
+                $("#btnUploader").html(spinnerReader);
+
+                var formData = new FormData();
+                var fuUploadFile = $("#fuExcel")[0];
+                var myfile = fuUploadFile.files[0];
+                formData.append("myExcelData", myfile);
+
+                $.ajax
+                    ({
+                        url: "/Uploader/Uploader",
+                        type: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+
+                        success: function (data) {
+                            //debugger;
+                            console.log(data);
+
+                            // Receive Results
+                            var message = data.mssg;
+                            
+                            // check message content
+                            if (message == "success") {
+
+                                // pass result to view
+                                $("#personuploaded").text(data.personuploaded);
+                                $("#personerrors").text(data.personerror);
+                                $("#personduplicates").text(data.personduplicate);
+
+                                $("#vaccineuploaded").text(data.vaccineuploaded);
+                                $("#vaccineerrors").text(data.vaccineerror);
+                                $("#vaccineduplicates").text(data.vaccineduplicate);
+
+
+                                //clear excel
+                                $("#fuExcel").val("");
+
+                                // Show the modal
+                                $('#staticBackdrop').modal('show');
+                            }
+                            else {
+
+                            }
+
+                            // popup message
+                            //alert(message);
+
+                            
+                            //var totalduplicates = data.totalduplicates;
+
+                            //var totalerrors = data.totalerrors;
+
+                            //// pass result to view
+
+
+
+                            //// Hide the spinner
+                            $("#btnUploader").text("Upload Excel");
+                        },
+                        error: function (data2) {
+                            //debugger;
+                            //console.log(data);
+
+                            alert(data.mssg);
+                        }
+                    });
+            });
+        });
+
+    </script>
+
+}
