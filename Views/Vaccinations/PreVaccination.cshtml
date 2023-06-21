@@ -99,38 +99,34 @@
                                         @Html.DropDownList("EthnicGroupID", null, htmlAttributes: new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Person.EthnicGroupID, "", new { @class = "text-danger" })
                                     </div>
+
+
+                                </div>
+                                <div class="col-6">
                                     <div class="col-12 mb-3">
-                                        @Html.LabelFor(model => model.PriorityGroupID, "Province", htmlAttributes: new { @class = "form-label" })
-                                        @Html.DropDownList("PriorityGroupID", null, htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.PriorityGroupID, "", new { @class = "text-danger" })
+                                        @Html.LabelFor(model => model.ProvinceID, "Province", htmlAttributes: new { @class = "form-label" })
+                                        @Html.DropDownList("ProvinceID", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ProvinceID, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        @Html.LabelFor(model => model.CityMunicipalityID, "City/Municipality", htmlAttributes: new { @class = "form-label" })
+                                        @Html.DropDownList("CityMunicipalityID", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.CityMunicipalityID, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        @Html.LabelFor(model => model.BarangayID, "Barangay", htmlAttributes: new { @class = "form-label" })
+                                        @Html.DropDownList("BarangayID", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.BarangayID, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        @Html.LabelFor(model => model.BarangayID, "Barangay", htmlAttributes: new { @class = "form-label" })
+                                        @{
+                                            string birthDateValue = Model.Person?.BirthDate?.ToString("yyyy-MM-dd");
+                                        }
+                                        @Html.TextBox("", birthDateValue, new { @class = "datepicker form-control" })
+                                        @Html.ValidationMessageFor(model => model.BarangayID, "", new { @class = "text-danger" })
                                     </div>
 
-
-                                    @*<div class="col-12 mb-3">
-                                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "fomr-label" })
-                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "form-label" })
-                                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            @Html.LabelFor(model => model.isActive, htmlAttributes: new { @class = "form-label" })
-                                            <div class="form-check form-switch">
-                                                @Html.CheckBoxFor(model => model.isActive, new { @class = "form-check-input", @checked = "checked" })
-                                                @Html.ValidationMessageFor(model => model.isActive, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            @Html.LabelFor(model => model.RoleID, "Role", htmlAttributes: new { @class = "form-label" })
-                                            @Html.DropDownList("RoleID", null, htmlAttributes: new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
-                                        </div>*@
                                 </div>
                             </div>
 
@@ -157,4 +153,14 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+    @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>*@
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
 }

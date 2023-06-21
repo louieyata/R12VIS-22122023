@@ -159,6 +159,10 @@
     <Compile Include="Migrations\202306160515426_comorbid.designer.cs">
       <DependentUpon>202306160515426_comorbid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306190359071_update bdate.cs" />
+    <Compile Include="Migrations\202306190359071_update bdate.designer.cs">
+      <DependentUpon>202306190359071_update bdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Adverse.cs" />
     <Compile Include="Models\Barangay.cs" />
@@ -353,6 +357,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306160515426_comorbid.resx">
       <DependentUpon>202306160515426_comorbid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306190359071_update bdate.resx">
+      <DependentUpon>202306190359071_update bdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

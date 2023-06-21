@@ -40,7 +40,7 @@ namespace R12VIS.Models
         public int? EthnicGroupID { get; set; }
         public EthnicGroup EthnicGroup { get; set; }
 
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
     }
 }
