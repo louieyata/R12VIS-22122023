@@ -197,13 +197,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306160300235_adddatabase.cs" />
-    <Compile Include="Migrations\202306160300235_adddatabase.designer.cs">
-      <DependentUpon>202306160300235_adddatabase.cs</DependentUpon>
+    <Compile Include="Migrations\202306210108444_migration1.cs" />
+    <Compile Include="Migrations\202306210108444_migration1.designer.cs">
+      <DependentUpon>202306210108444_migration1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306160515426_comorbid.cs" />
-    <Compile Include="Migrations\202306160515426_comorbid.designer.cs">
-      <DependentUpon>202306160515426_comorbid.cs</DependentUpon>
+    <Compile Include="Migrations\202306190359071_update bdate.cs" />
+    <Compile Include="Migrations\202306190359071_update bdate.designer.cs">
+      <DependentUpon>202306190359071_update bdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306210113022_migration2.cs" />
+    <Compile Include="Migrations\202306210113022_migration2.designer.cs">
+      <DependentUpon>202306210113022_migration2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Adverse.cs" />
@@ -355,6 +359,7 @@
     <Content Include="Views\Regions1\Index.cshtml" />
     <Content Include="Views\CityMunicipalities\ImportMuniCityCodes.cshtml" />
     <Content Include="Views\AdminPanel\Home.cshtml" />
+    <Content Include="Views\Vaccinations\PreVaccination.cshtml" />
     <Content Include="Views\Uploader\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -390,11 +395,14 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306160300235_adddatabase.resx">
-      <DependentUpon>202306160300235_adddatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306210108444_migration1.resx">
+      <DependentUpon>202306210108444_migration1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306160515426_comorbid.resx">
-      <DependentUpon>202306160515426_comorbid.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306190359071_update bdate.resx">
+      <DependentUpon>202306190359071_update bdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306210113022_migration2.resx">
+      <DependentUpon>202306210113022_migration2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
