@@ -119,12 +119,12 @@
                                         @Html.ValidationMessageFor(model => model.BarangayID, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-12 mb-3">
-                                        @Html.LabelFor(model => model.BarangayID, "Barangay", htmlAttributes: new { @class = "form-label" })
+                                        @*@Html.LabelFor(model => model.BarangayID, "Barangay", htmlAttributes: new { @class = "form-label" })
                                         @{
                                             string birthDateValue = Model.Person?.BirthDate?.ToString("yyyy-MM-dd");
                                         }
                                         @Html.TextBox("", birthDateValue, new { @class = "datepicker form-control" })
-                                        @Html.ValidationMessageFor(model => model.BarangayID, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.BarangayID, "", new { @class = "text-danger" })*@
                                     </div>
 
                                 </div>
