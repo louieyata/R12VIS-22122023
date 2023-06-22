@@ -3,8 +3,11 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.WebPages;
 
 
 
@@ -13,8 +16,8 @@ namespace R12VIS.Models
     public class PublicVariables
     {
         // Excel Uploader Path
-        public string filePath = "D:\\FPRIII\\SYSTEMS\\VS2022\\WEB\\MVC\\DOH-ExcelUploader\\DOH-ExcelUploader\\Upload";
-        public string fileName = DateTime.Now.ToString("yyyyMMddHHmmss");
+        //public string filePath = "D:\\FPRIII\\SYSTEMS\\VS2022\\WEB\\MVC\\R12VIS\\Upload\\";
+        public string datetime = DateTime.Now.ToString("yyyyMMddHHmmss");
         public string CompleteFilePath;
 
         // Excel Parameters

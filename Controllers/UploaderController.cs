@@ -1,4 +1,4 @@
-﻿using ClosedXML.Excel;
+﻿
 using DocumentFormat.OpenXml.Spreadsheet;
 using Irony.Parsing;
 using Microsoft.Ajax.Utilities;
@@ -6,10 +6,14 @@ using R12VIS.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
+
+using System.IO;
+using ClosedXML.Excel;
 using static ClosedXML.Excel.XLPredefinedFormat;
 
 namespace R12VIS.Controllers
@@ -39,7 +43,9 @@ namespace R12VIS.Controllers
             {
                 if (myExcelData.ContentLength > 0)
                 {
-                    pb.CompleteFilePath = pb.filePath + pb.fileName + ".xlsx";
+                    string path = Server.MapPath("/Upload/");
+                    string excelfilename = Path.GetFileName(myExcelData.FileName);
+                    pb.CompleteFilePath = path + pb.datetime + excelfilename;
                     myExcelData.SaveAs(pb.CompleteFilePath);
                     XLWorkbook xlworkbook = new XLWorkbook(pb.CompleteFilePath);
 
@@ -449,10 +455,6 @@ namespace R12VIS.Controllers
                     var data = new
                     {
                         mssg = "success" ,
-                        personduplicate = pb.PersonDuplicateCounter,
-                        personerror = pb.PersonErrorCounter,
-                        personuploaded = pb.PersonUploadedCounter,
-
                         vaccineduplicate = pb.VaccinationDuplicateCounter,
                         vaccineerror = pb.VaccinationErrorCounter,
                         vaccineuploaded = pb.VaccinationUploadedCounter
