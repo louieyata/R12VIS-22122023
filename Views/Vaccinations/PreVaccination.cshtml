@@ -46,7 +46,7 @@
                                         @Html.ValidationMessageFor(model => model.Comorbidity, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-12 mb-3">
-                                        @Html.LabelFor(model => model.Person.UniquePersonID, htmlAttributes: new { @class = "form-label" })
+                                        @Html.LabelFor(model => model.PriorityGroupID, "Unique Person ID", htmlAttributes: new { @class = "form-label" })
                                         @Html.EditorFor(model => model.Person.UniquePersonID, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.Person.UniquePersonID, "", new { @class = "text-danger" })
                                     </div>
@@ -57,10 +57,10 @@
                                     </div>
 
                                     @*<div class="col-12 mb-3">
-                                        @Html.LabelFor(model => model.Person.FirstName, htmlAttributes: new { @class = "form-label" })
-                                        @Html.EditorFor(model => model.Person.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Person.FirstName, "", new { @class = "text-danger" })
-                                    </div>*@
+                                            @Html.LabelFor(model => model.Person.FirstName, htmlAttributes: new { @class = "form-label" })
+                                            @Html.EditorFor(model => model.Person.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Person.FirstName, "", new { @class = "text-danger" })
+                                        </div>*@
 
                                     <div class="col-12 mb-3">
                                         @Html.LabelFor(model => model.Person.MiddleName, htmlAttributes: new { @class = "form-label" })
@@ -118,14 +118,23 @@
                                         @Html.DropDownList("BarangayID", null, htmlAttributes: new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.BarangayID, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-12 mb-3">
-                                        @*@Html.LabelFor(model => model.BarangayID, "Barangay", htmlAttributes: new { @class = "form-label" })
-                                        @{
-                                            string birthDateValue = Model.Person?.BirthDate?.ToString("yyyy-MM-dd");
-                                        }
-                                        @Html.TextBox("", birthDateValue, new { @class = "datepicker form-control" })
-                                        @Html.ValidationMessageFor(model => model.BarangayID, "", new { @class = "text-danger" })*@
-                                    </div>
+                                    <fieldset class="col-12 mb-3">
+                                        <legend class="col-form-label col-sm-2 pt-0">Gender</legend>
+                                        <div class="col-sm-10">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked="">
+                                                <label class="form-check-label" for="gridRadios1">
+                                                    Male
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                                                <label class="form-check-label" for="gridRadios2">
+                                                    Female
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
 
                                 </div>
                             </div>
