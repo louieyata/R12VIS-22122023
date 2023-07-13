@@ -245,11 +245,11 @@ namespace R12VIS.Controllers
                                     // CHECK GENDER
                                     if (pb.gender.ToLower() == "m")
                                     {
-                                        pb.isMale = true;
+                                        pb.Gender = "Male";
                                     }
                                     else
                                     {
-                                        pb.isMale = false;
+                                        pb.Gender = "Female";
                                     }
 
                                     // CHECK PWD
@@ -271,7 +271,7 @@ namespace R12VIS.Controllers
                                         d.FirstName.ToLower() == pb.firstname.ToLower() &&
                                         d.MiddleName.ToLower() == pb.middlename.ToLower() &&
                                         d.LastName.ToLower() == pb.lastname.ToLower() &&
-                                        d.isMale == pb.isMale &&
+                                        d.Gender == pb.Gender &&
                                         d.BirthDate == pb.birthdateForQry &&
                                         d.isPWD == pb.isPWD).Any();
 
@@ -286,7 +286,7 @@ namespace R12VIS.Controllers
                                             y.Suffix = pb.suffix;
                                             y.ContactNumber = pb.contactnumber;
                                             y.GuardianName = pb.guardianname;
-                                            y.isMale = pb.isMale;
+                                            y.Gender = pb.Gender;
                                             y.isPWD = pb.isPWD;
                                             y.EthnicGroupID = GetEthnicGroupId.Id;
                                             y.BirthDate = pb.birthdateForQry;
@@ -334,7 +334,7 @@ namespace R12VIS.Controllers
                                                 s.FirstName.ToLower() == pb.firstname.ToLower() &&
                                                 s.LastName.ToLower() == pb.lastname.ToLower() &&
                                                 s.MiddleName.ToLower() == pb.middlename.ToLower() &&
-                                                s.isMale == pb.isMale &&
+                                                s.Gender == pb.Gender &&
                                                 s.isPWD == pb.isPWD &&
                                                 s.BirthDate == pb.birthdateForQry);
 
@@ -377,9 +377,9 @@ namespace R12VIS.Controllers
                                                         Vaccination v = new Vaccination();
                                                         v.PriorityGroupID = GetPriorityGroupId.ID;
                                                         v.PersonID = GetPersonID.ID;
-                                                        v.ProvinceID = GetProvinceId.province_id;
-                                                        v.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
-                                                        v.BarangayID = pb.BarangayId;
+                                                        v.Person.ProvinceID = GetProvinceId.province_id;
+                                                        v.Person.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
+                                                        v.Person.BarangayID = pb.BarangayId;
 
                                                         if (pb.DeferralId > 0)
                                                         {
@@ -399,8 +399,8 @@ namespace R12VIS.Controllers
                                                             v.AdverseID = pb.AdverseID;
                                                         }
 
-                                                        v.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
-                                                        v.ProvinceID = GetProvinceId.province_id;
+                                                        v.Person.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
+                                                        v.Person.ProvinceID = GetProvinceId.province_id;
                                                         v.Comorbidity = pb.comorbidity;
                                                         db.Vaccinations.Add(v);
                                                         db.SaveChanges();

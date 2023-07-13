@@ -1,0 +1,37 @@
+﻿@model R12VIS.Models.ViewModel._PersonProfile
+
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Profile</h1>
+        <nav>
+            <ol class="breadcrumb">
+                @*<li class="breadcrumb-item"><a href="index.html">Home</a></li>*@
+                @*<li class="breadcrumb-item">Individual</li>*@
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","People")">Individual</a></li>
+                <li class="breadcrumb-item active">Profile</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Person.FirstName @Model.Person.MiddleName @Model.Person.LastName  <span>@Model.Person.Province.province_name, @Model.Person.CityMunicipality.CityMunicipalityName</span></h5>
+                @Html.Partial("_VaccineRecord", Model)
+
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+

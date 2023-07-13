@@ -13,12 +13,19 @@ namespace R12VIS.Controllers
     public class UsersController : Controller
     {
         private DbContextR12 db = new DbContextR12();
+        private UserDAL userDAL;
+
+        public UsersController()
+        {
+            userDAL = new UserDAL();
+        }
 
         // GET: Users
         public ActionResult Index()
         {
-            var users = db.Users.Include(u => u.Role);
-            return View(users.ToList());
+            List<User> users = userDAL.GetUsers();
+            //var users = db.Users.Include(u => u.Role);
+            return View(users);
         }
 
         // GET: Users/Details/5
@@ -48,15 +55,14 @@ namespace R12VIS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Create(User user)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
-                db.SaveChanges();
+                UserDAL userDAL = new UserDAL();
+                userDAL.CreateUser(user);
                 return RedirectToAction("Index");
             }
-
             ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
             return View(user);
         }
@@ -82,12 +88,11 @@ namespace R12VIS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,MiddleName,LastName,Email,Password,isActive,RoleID")] User user)
+        public ActionResult Edit(User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
+                userDAL.UpdateUser(user);
                 return RedirectToAction("Index");
             }
             ViewBag.RoleID = new SelectList(db.Roles, "Id", "Title", user.RoleID);
@@ -128,17 +133,19 @@ namespace R12VIS.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Login([Bind(Include = "Email,Password")] User user)
         {
-            var authenticated = db.Users.Where(x=>x.Email == user.Email && x.Password == user.Password).Any();
+            
+            User _user = userDAL.AuthenticateUser(user.Email, user.Password);
+            bool authenticated = (_user != null);
             if (authenticated)
             {
-                // Redirect to the desired page upon successful login
-                return Json(new { success = true });
+                Session["User"] = _user;
+                Session["userFullName"] = $"{_user.FirstName[0]} {_user.LastName}";
+                TempData["ToastMessage"] = "This is a toast message.";
+                TempData["ToastClass"] = "toast-success"; // CSS class for success toast
             }
-            else
-            {
-                // Redirect back to the login page with an error message
-                return Json(new { success = false, message = "Invalid Credentials" });
-            }
+           
+            return Json(new { success = authenticated, message = authenticated ? "" : "Invalid Credentials" });
+
         }
 
         protected override void Dispose(bool disposing)

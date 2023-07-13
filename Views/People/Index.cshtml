@@ -1,0 +1,104 @@
+﻿@model IEnumerable<R12VIS.Models.Person>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Individuals</h1>
+        <nav>
+            <ol class="breadcrumb">
+                @*<li class="breadcrumb-item"><a href="index.html">Home</a></li>*@
+                <li class="breadcrumb-item">Individuals</li>
+                <li class="breadcrumb-item active">Index</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Default Card</h5>
+
+                <p>
+                    @Html.ActionLink("Create New", "Create")
+                </p>
+                <table class="table table-striped display nowrap dataTable no-footer" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Address
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Gender)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.isPWD)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.BirthDate)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.LastName, @item.FirstName @item.MiddleName
+                                <td>
+                                    @item.Province.province_name, @item.CityMunicipality.CityMunicipalityName, @item.Barangay.barangay_name
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Gender)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.isPWD)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BirthDate)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+
+@section scripts
+{
+    <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
+    <script src="~/Content/DataTable2/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                //dom: 'Bfrtip',
+                //buttons: [
+                //    'copy', 'excel', 'pdf'
+                //],
+                scrollX: true
+            });
+        });
+    </script>
+}

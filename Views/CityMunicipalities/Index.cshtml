@@ -94,10 +94,16 @@
 @section scripts
 {
     <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
-    <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_dataTables.bootstrap5.min.js"></script>
+    @*<script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_dataTables.bootstrap5.min.js"></script>*@
+    <script src="~/Content/DataTable2/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable();
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ]
+            });
         });
     </script>
 }
