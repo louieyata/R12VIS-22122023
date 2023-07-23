@@ -25,7 +25,7 @@
                 <h5 class="card-title">Default Card</h5>
 
                 <p>
-                    <a class="btn btn-primary" href="@Url.Action("PreVaccination", "Vaccinations")"><i class="bi bi-pencil-square"></i></i>New Vaccination</a>
+                    <a class="btn btn-primary" href="@Url.Action("PreVaccination", "Vaccinations")"><i class="bi bi-pencil-square"></i>New Vaccination</a>
                     @*@Html.ActionLink("Create New", "Create")*@
                 </p>
                 <table class="table table-striped display nowrap dataTable no-footer" id="myTable">
@@ -34,15 +34,15 @@
                             <th>
                                 Name
                             </th>
-                            <th>
+                            @*<th>
                                 @Html.DisplayNameFor(model => model.Deferral.Reason)
-                            </th>
+                            </th>*@
                             <th>
                                 @Html.DisplayNameFor(model => model.Dose.VaccineDose)
                             </th>
-                            <th>
+                            @*<th>
                                 @Html.DisplayNameFor(model => model.Person.UniquePersonID)
-                            </th>
+                            </th>*@
                             <th>
                                 @Html.DisplayNameFor(model => model.PriorityGroup.Category)
                             </th>
@@ -61,18 +61,18 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.VaccinationDate)
                             </th>
-                            <th>
+                            @*<th>
                                 @Html.DisplayNameFor(model => model.BatchNumber)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.LotNumber)
-                            </th>
+                            </th>*@
                             <th>
                                 @Html.DisplayNameFor(model => model.BakunaCenterCBCRID)
                             </th>
-                            <th>
+                            @*<th>
                                 @Html.DisplayNameFor(model => model.VaccinatorName)
-                            </th>
+                            </th>*@
                             <th></th>
                         </tr>
                     </thead>
@@ -84,15 +84,15 @@
                                     <a href="@Url.Action("Details","People", new {id = item.PersonID})">@item.Person.LastName, @item.Person.FirstName</a>
                                     @*@Html.DisplayFor(modelItem => item.Person.FirstName) @Html.DisplayFor(modelItem => item.Person.MiddleName)  @Html.DisplayFor(modelItem => item.Person.LastName)*@
                                 </td>
-                                <td>
+                                @*<td>
                                     @Html.DisplayFor(modelItem => item.Deferral.Reason)
-                                </td>
+                                </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Dose.VaccineDose)
                                 </td>
-                                <td>
+                                @*<td>
                                     @Html.DisplayFor(modelItem => item.Person.UniquePersonID)
-                                </td>
+                                </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.PriorityGroup.Category)
                                 </td>
@@ -111,18 +111,18 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.VaccinationDate)
                                 </td>
-                                <td>
+                                @*<td>
                                     @Html.DisplayFor(modelItem => item.BatchNumber)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.LotNumber)
-                                </td>
+                                </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.BakunaCenterCBCRID)
                                 </td>
-                                <td>
+                                @*<td>
                                     @Html.DisplayFor(modelItem => item.VaccinatorName)
-                                </td>
+                                </td>*@
                                 <td>
                                     <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("PreVaccination","Vaccinations", new { id = item.PersonID } )"><i class="bi bi-bandaid-fill"></i></a>
                                      @*|

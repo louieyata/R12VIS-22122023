@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Ajax.Utilities;
 using R12VIS.Models;
 using R12VIS.Models.ViewModel;
@@ -246,10 +247,10 @@ namespace R12VIS.Controllers
                 {
                     ViewBag.EthnicGroupID = new SelectList(db.EthnicGroups.OrderBy(p => p.IndigenousMember).Where(x => x.Id == person.EthnicGroupID), "Id", "IndigenousMember");
                     ViewBag.ProvinceID = new SelectList(db.Provinces.OrderBy(p => p.province_name).Where(x => x.province_id == person.ProvinceID), "province_id", "province_name");
-                    ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName).Where(x => x.city_municipality_id == person.ProvinceID), "city_municipality_id", "CityMunicipalityName");
+                    ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName).Where(x => x.city_municipality_id == person.CityMunicipalityID), "city_municipality_id", "CityMunicipalityName");
                     ViewBag.BarangayID = new SelectList(db.Barangays.OrderBy(p => p.barangay_name).Take(100).Where(x => x.barangay_id == person.BarangayID), "barangay_id", "barangay_name");
-                    ViewBag.Gender = new SelectList(gender.Where(x=>x.Value.ToLower() == person.Gender.ToLower()));
-                    ViewBag.Suffix = new SelectList(suffix.Where(x => x.Value.ToLower() == person.Suffix.ToLower()));
+                    ViewBag.Gender = new SelectList(gender.Where(x=>x.Value.ToLower() == person.Gender.ToLower()), "Value", "Text");
+                    ViewBag.Suffix = new SelectList(suffix.Where(x => x.Value.ToLower() == person.Suffix?.ToLower()), "Value", "Text");
 
                     ViewBag.PriorityGroupID = new SelectList(db.PriorityGroups, "ID", "Category");
                     ViewBag.DeferralID = new SelectList(db.Deferrals.OrderBy(p => p.Reason).Take(100), "Id", "Reason");
@@ -308,26 +309,32 @@ namespace R12VIS.Controllers
             {
                 return RedirectToAction("Login", "Users");
             }
+
+            //New Validation
+            //  TODO if Pedia age !< 5
             if (ModelState.IsValid)
             {
-
-                vaccination.Person.FirstName = vaccination.Person.FirstName?.ToUpper();
-                vaccination.Person.LastName = vaccination.Person.LastName?.ToUpper();
-                vaccination.Person.MiddleName = vaccination.Person.MiddleName?.ToUpper();
-                vaccination.Person.Suffix = vaccination.Person.Suffix?.ToUpper();
                 vaccination.VaccinatorName = vaccination.VaccinatorName?.ToUpper();
                 vaccination.Comorbidity = vaccination.Comorbidity?.ToUpper();
                 vaccination.CreatedBy = $"{user.FirstName} {user.LastName}";
                 vaccination.UserID = user.ID;
-                if (vaccination.PersonID > 0)
+                if (vaccination.PersonID == 0)
                 {
-                    vaccination.Person = db.Persons.FirstOrDefault(x => x.ID == vaccination.Person.ID);
-                }
-                else
-                {
+                    vaccination.Person.FirstName = vaccination.Person.FirstName?.ToUpper();
+                    vaccination.Person.LastName = vaccination.Person.LastName?.ToUpper();
+                    vaccination.Person.MiddleName = vaccination.Person.MiddleName?.ToUpper();
+                    vaccination.Person.Suffix = vaccination.Person.Suffix?.ToUpper();
                     db.Persons.Add(vaccination.Person);
                     db.SaveChanges();
                 }
+                else
+                {
+
+                    //db.Persons.Add(vaccination.Person);
+                    //db.SaveChanges();
+                }
+                vaccination.Person = new Person();
+                //vaccination.PersonID;
                 db.Vaccinations.Add(vaccination);
                 db.SaveChanges();
                 return RedirectToAction("Index");

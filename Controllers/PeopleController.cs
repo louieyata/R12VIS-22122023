@@ -11,6 +11,9 @@ using R12VIS.Models.ViewModel;
 
 namespace R12VIS.Controllers
 {
+
+    [UserAuthenticationFilter]
+
     public class PeopleController : Controller
     {
         private DbContextR12 db = new DbContextR12();

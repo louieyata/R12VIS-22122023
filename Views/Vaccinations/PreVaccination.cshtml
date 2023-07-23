@@ -41,17 +41,16 @@
                                     object checkBoxAttribute = new { @class = "form-check-input" };
                                     object dateAttribute = new { @type = "date", @class = "form-control form-control-sm", required = "required" };
 
-                                    if (Model.PersonID == 0)
+                                    if (Model.PersonID != 0)
                                     {
                                         @Html.HiddenFor(model => model.PersonID)
-                                    }
-                                    else
-                                    {
-                                        myAttribute = new { @class = "form-control form-control-sm", @readonly = "readonly" };
+                                        @*@Html.HiddenFor(model => model.Person.ID)*@
+                                        myAttribute = new { @class = "form-control form-control-sm", @disabled = "disabled" };
                                         myAttributeDisable = new { @class = "form-control form-control-sm", @disabled = "disabled" };
                                         checkBoxAttribute = new { @class = "form-check-input", @disabled = "disabled" };
-                                        dateAttribute = new { @type = "date", @class = "form-control form-control-sm", @readonly = "readonly", required = "required" };
+                                        dateAttribute = new { @type = "date", @class = "form-control form-control-sm", @disabled = "@disabled" };
                                     }
+                                
                                 }
                                 @foreach (var prop in ViewData.ModelMetadata.Properties)
                                 {
@@ -151,7 +150,7 @@
                                 <div class="col-3 mb-3">
                                     @Html.LabelFor(model => model.DeferralID, "Deferal", htmlAttributes: new { @class = "form-label" })
                                     @*@Html.DropDownListFor(model => model.Person.Gender, ViewBag.Gender as SelectList, new { @class = "form-control form-control-sm" })*@
-                                    @Html.DropDownList("DeferralID", null, "Select an option", htmlAttributes: new { @class = "form-control form-control-sm" })
+                                    @Html.DropDownList("DeferralID", null, "NA", htmlAttributes: new { @class = "form-control form-control-sm" })
                                     @Html.ValidationMessageFor(model => model.DeferralID, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-3 mb-3">
@@ -193,7 +192,7 @@
                                 </div>
                                 <div class="col-3 mb-3">
                                     @Html.LabelFor(model => model.AdverseID, "Adverse Condition", htmlAttributes: new { @class = "form-label" })
-                                    @Html.DropDownList("AdverseID", null, "Select an option", htmlAttributes: new { @class = "form-control form-control-sm" })
+                                    @Html.DropDownList("AdverseID", null, "NA", htmlAttributes: new { @class = "form-control form-control-sm" })
                                     @Html.ValidationMessageFor(model => model.AdverseID, "", new { @class = "text-danger" })
                                 </div>
 
