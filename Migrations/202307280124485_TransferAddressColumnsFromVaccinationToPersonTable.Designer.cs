@@ -7,13 +7,13 @@ namespace R12VIS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class updates : IMigrationMetadata
+    public sealed partial class TransferAddressColumnsFromVaccinationToPersonTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(updates));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(TransferAddressColumnsFromVaccinationToPersonTable));
         
         string IMigrationMetadata.Id
         {
-            get { return "202306211310172_updates"; }
+            get { return "202307280124485_TransferAddressColumnsFromVaccinationToPersonTable"; }
         }
         
         string IMigrationMetadata.Source

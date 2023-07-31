@@ -22,17 +22,17 @@ namespace R12VIS.Models
         public int PersonID { get; set; }
         public Person Person { get; set; }
 
-       
-        public int ProvinceID { get; set; }
-        public Province Province { get; set; } 
 
-        
-        public int CityMunicipalityID { get; set; }
-        public CityMunicipality CityMunicipality { get; set; }
+        //public int ProvinceID { get; set; }
+        //public Province Province { get; set; }
 
-        
-        public int BarangayID { get; set; }
-        public Barangay Barangay { get; set; }
+
+        //public int CityMunicipalityID { get; set; }
+        //public CityMunicipality CityMunicipality { get; set; }
+
+
+        //public int BarangayID { get; set; }
+        //public Barangay Barangay { get; set; }
 
         [ForeignKey("Deferral")]
         public int? DeferralID { get; set; }

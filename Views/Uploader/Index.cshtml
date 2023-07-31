@@ -1,196 +1,479 @@
-﻿
+﻿@model List<R12VIS.Models.PublicVariables>
 @{
     ViewBag.Title = "Index";
 }
-
-
-
-<main id="main" class="main">
-    <div class="pagetitle">
-        <h1>Index</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Users</a></li>
-                <li class="breadcrumb-item">Index</li>
-                @*<li class="breadcrumb-item active">Blank</li>*@
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
-
-    <section>
-
-        <div class="row">
-            <div class="col-md-3">
-                @*SPACE*@
-            </div>
-
-            <div class="col-md-6">
-
-
-                <div class="card">
-                    <div class="card-body">
-                        <br />
-                        <h2>Excel Uploader</h2>
-                        <div class="row mt-3 shadow mt-2 rounded">
-
-                            @*FILE SELECTOR*@
-                            <div class=" col p-3 bg-white text-black">
-                                <input type="file" id="fuExcel" />
-                            </div>
-                        </div>
-
-                        <div class="row mb-3 mt-2 shadow rounded">
-                            @*UPLOADER*@
-                            <div class=" col  p-3 bg-light">
-                                <button id="btnUploader" class="btn btn-success float-end shadow-sm">Upload Excel</button>
-                            </div>
-
-                            @*MODAL*@
-
-                            <!-- Modal -->
-                            <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="staticBackdropLabel">Excel Reading Done</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            <div class="row shadow p-4 m-1 text-bg-light  rounded-2">
-
-                                                @*CARD - UPLOADED*@
-                                                <div class="col-md-4  p-3 bg-light">
-                                                    <div class="card border-0 text-white bg-primary shadow-lg">
-                                                        <div class="card-header">Uploaded</div>
-                                                        <div class="card-body">
-                                                            <center>
-                                                                <h1><span id="vaccineuploaded">0</span></h1>
-                                                            </center>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                @*CARD - ERRORS*@
-                                                <div class="col-md-4  p-3 bg-light">
-                                                    <div class="card border-0 text-white bg-danger shadow-lg">
-                                                        <div class="card-header">Errors</div>
-                                                        <div class="card-body">
-                                                            <center>
-                                                                <h1><span id="vaccineerrors">0</span></h1>
-                                                            </center>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                @*CARD - DUPLICATE*@
-                                                <div class="col-md-4  p-3 bg-light">
-                                                    <div class="card border-0 text-white bg-warning shadow-lg">
-                                                        <div class="card-header">Duplicates</div>
-                                                        <div class="card-body">
-
-                                                            <center>
-                                                                <h1><span id="vaccineduplicates">0</span></h1>
-                                                            </center>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            @*<button type="button" class="btn btn-primary">Understood</button>*@
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                @*SPACE*@
-            </div>
-        </div>
-    </section>
-</main>
-
-
 
 
 @section Scripts{
 
     <script>
 
-        // Spinners
-        var spinnerReader = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Reading...Please Wait...';
+        // button click event
+        $("#select_and_upload_button").click(function () {
+            $("#files_input_field").click();
+        });
 
-        //FOR CHECKING BUTTON
+        // upload file event
+        function upload_files() {
+
+            // get selected files
+            var fileupload = $("#files_input_field").get(0);
+            var files = fileupload.files;
+            if (files.length == 0) return;
+
+            // load into formData
+            for (var i = 0; i < files.length; i++) {
+                var data = new FormData();
+                data.append(files[i]).name, files[i];
+
+                // ajax load
+                $.ajax({
+                    type: "POST",
+                    url: "Uploader/Uploader",
+                    xhr: function () {
+                        var xhr = new window.XMLHttpRequest();
+
+                        // upload progress
+                        xhr.upload.addEventListener("progress", function (evt) {
+                            if (evt.lengthComputable) {
+                                var percentComplete = evt.loaded / evt.total;
+                                $("#crlProgress").val(percentComplete * 100);
+                            }
+                        }, false);
+
+                        // download progress
+                        xhr.addEventListener("progress", function (evt) {
+                            if (evt.lengthComputable) {
+                                var percentComplete = evt.loaded / evt.total;
+
+                                // do something with download progress
+                                consol.log(percentComplete);
+                            }
+                        }, false); 
+                        return xhr;
+                    },
+
+                    contentType: false;
+                    processData: false,
+                    data: data,
+                    success: function (data) {
+
+                        $.each(data, function (index, item) {
+
+                            // show uploaded image in div results
+                            //var sItem = " <div><img src='User' "
+                        })
+                    },
+                    error: function () {
+                        alert("There was an error uploading files!");
+                    }
+                });
+            }
+        }
+
+
+
+
+
+        document.getElementById("btnUploader").addEventListener("click", function () {
+            startLongRunningTask();
+        });
+
+        function startLongRunningTask() {
+            var progressBar = document.getElementById("progress-bar-inner");
+            var progressText = document.getElementById("progress-text");
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Uploader/Uploader", true);
+
+            xhr.onloadstart = function () {
+                progressBar.style.width = "0%";
+                progressText.innerText = "0%";
+            };
+
+            xhr.onprogress = function (e) {
+                if (e.lengthComputable) {
+                    var percentage = (e.loaded / e.total) * 100;
+                    progressBar.style.width = percentage + "%";
+                    progressText.innerText = percentage.toFixed(2) + "%";
+                }
+            };
+
+            xhr.onload = function () {
+                progressBar.style.width = "100%";
+                progressText.innerText = "100%";
+                // Task completed, do something with the response if needed
+            };
+
+            xhr.onerror = function () {
+                alert("An error occurred while processing the task.");
+            };
+
+            xhr.send();
+        }
+
+
+
+
+        // Spinners Upload
+        var spinnerProcess = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Processing...Please Wait...';
+
+        // UPLOAD BUTTON
         $(document).ready(function () {
 
+
+            // Function to handle the JSON response
+            function handleResponse(response) {
+                if (response.success === false) {
+                    // Display the error message in an alert or any other way you prefer
+                    alert(response.message);
+                }
+            }
+
+            // Store the default selected index when the page loads
+            var defaultSelectedIndex = $("#selectElement")[0].selectedIndex;
+
             $("#btnUploader").click(function () {
-                //debugger;
+
                 // Show the spinner
-                $("#btnUploader").html(spinnerReader);
+                $("#btnUploader").html(spinnerProcess);
+
+                // Create button variable
+                var buttonupload = $(this);
+
+                // Disable the button
+                buttonupload.prop('disabled', true);
 
                 var formData = new FormData();
                 var fuUploadFile = $("#fuExcel")[0];
                 var myfile = fuUploadFile.files[0];
+
+                // pass velected index to selected value variable
+                var selectedValue = $('#selectElement').val();
+
                 formData.append("myExcelData", myfile);
+                formData.append("selectedValue", selectedValue);
+
+                //// disable file select button
+                document.getElementById("fuExcel").disabled = true;
+
+                // Disable select list
+                $("#selectElement").prop("disabled", true);
+
+
 
                 $.ajax
                     ({
+
                         url: "/Uploader/Uploader",
                         type: "POST",
                         data: formData,
+
                         processData: false,
                         contentType: false,
 
                         success: function (data) {
-                            //debugger;
-                            console.log(data);
-
                             // Receive Results
-                            var message = data.mssg;
+                            var success = data.success;
 
                             // check message content
-                            if (message == "success") {
+                            if (success == true) {
 
                                 // pass result to view
-                                //$("#personuploaded").text(data.personuploaded);
-                                //$("#personerrors").text(data.personerror);
-                                //$("#personduplicates").text(data.personduplicate);
-
                                 $("#vaccineuploaded").text(data.vaccineuploaded);
                                 $("#vaccineerrors").text(data.vaccineerror);
                                 $("#vaccineduplicates").text(data.vaccineduplicate);
 
+
+                                // ERROR LIST
+                                var ERRORMESSAGE = data.ERRORDETAILS;
+                                var ERRORLISTOFFIRSTNAME = data.ERRORFIRSTNAMELIST;
+                                var ERRORLISTOFLASTNAME = data.ERRORLASTNAMELIST;
+
+                                //APPEND EACH ROW TO HTML TABLE
+                                for (var i = 0; i < ERRORLISTOFFIRSTNAME.length; i++) {
+                                    tr = $('<tr/>');
+                                    tr.append("<td style='color: red; font-size:13px;'>" + ERRORMESSAGE[i] + "</td>");
+                                    tr.append("<td>" + ERRORLISTOFFIRSTNAME[i] + "</td>");
+                                    tr.append("<td>" + ERRORLISTOFLASTNAME[i] + "</td>");
+                                    $('table').append(tr);
+                                }
+
                                 //clear excel
                                 $("#fuExcel").val("");
 
-                                // Show the modal
-                                $('#staticBackdrop').modal('show');
-                            }
-                            else {
+                                // show process
+                                $("#rowtoggle").toggle();
 
+                                // show clear button
+                                $("#btnClear").show();
+                            }
+                            else if (success == false)
+                            {
+
+                                var message = data.message;
+
+                                //// enable file select button
+                                document.getElementById("fuExcel").disabled = false;
+
+                                // enable select list
+                                $("#selectElement").prop("disabled", false);
+
+                                // Reset the select list to the default selected index
+                                $("#selectElement")[0].selectedIndex = defaultSelectedIndex;
+
+                                // enable the button
+                                $("#btnUploader").prop('disabled', false);
+
+                                // show clear button
+                                $("#btnClear").hide();
+
+                                alert(message);
                             }
 
                             //// Hide the spinner
                             $("#btnUploader").text("Upload Excel");
-                        },
-                        error: function (data2) {
-                            //debugger;
-                            //console.log(data);
 
-                            alert(data.mssg);
+                            // enable upload button
+                            $("#btnuploaded").prop('disabled', true);
+                            // enable duplicate button
+                            $("#btnduplicate").prop('disabled', true);
+
+
+                        },
+                        error: function () {
+                            alert("An error occured during file upload!. Please contact your system administrator.");
                         }
                     });
             });
         });
 
+
+        // ERROR BUTTON
+        $(document).ready(function () {
+            $("#btnerror").click(function () {
+                // Show the modal
+                $('#staticBackdrop').modal('show');
+            })
+        })
+
+
+        // DOWNLOAD EXCEL BUTTON
+        $(document).ready(function () {
+            $("#btnDownloadExcelErrors").click(function () {
+                window.location.href = "/Uploader/DownloadExistingExcel";
+            })
+        })
+
+
+        // CLEAR BUTTON
+        $(document).ready(function () {
+
+            // Store the default selected index when the page loads
+            var defaultSelectedIndex = $("#selectElement")[0].selectedIndex;
+
+            $("#btnClear").click(function () {
+
+                //// disable file select button
+                document.getElementById("fuExcel").disabled = false;
+
+                // enable the button
+                $("#btnUploader").prop('disabled', false);
+
+                // enable select list
+                $("#selectElement").prop("disabled", false);
+
+
+                // Reset the select list to the default selected index
+                $("#selectElement")[0].selectedIndex = defaultSelectedIndex;
+
+                // show process
+                $("#rowtoggle").hide();
+
+                // hide clear button
+                $("#btnClear").hide();
+
+                // pass result to view
+                $("#vaccineuploaded").text(0);
+                $("#vaccineerrors").text(0);
+                $("#vaccineduplicates").text(0);
+
+                /* $("#listtable").clear();*/
+
+
+                //Delete/ Clear all Table Rows
+                var table = document.getElementById("listtable");
+                var rowCount = table.rows.length; // Get the number of rows in the table
+
+                // Loop through each row starting from the last one and remove it
+                for (var i = rowCount - 1; i > 0; i--) {
+                    table.deleteRow(i);
+                }
+
+
+                // clear public variables
+                $.ajax
+                    ({
+                    url: '@Url.Action("ClearFields", "Uploader")',
+                    type: 'POST',
+                    success: function (result) {
+
+                        // enable the button
+                        buttonupload.prop('disabled', false);
+
+                        //// disable file select button
+                        document.getElementById("fuExcel").disabled = false;
+
+                    }
+                });
+            })
+        })
+
     </script>
 
 }
+
+
+<main id="main" class="main">
+
+    <section>
+
+
+        <div class="row" style="padding-bottom: 130px; padding-top: 70px;">
+
+            <div class="row">
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <br />
+                            <h2>Excel File Uploader</h2>
+
+                            @*<div class="row">
+                                <form method="post" enctype="multipart/form-data">
+                                    <input type="file" id="files_input_field" name="files" style="visibility:hidden;height:0px;width:0px;" onchange="upload_files();" /> 
+
+                                    <input type="button" id="select_and_upload_button" value="Upload Photos..." />
+
+                                </form>
+                                <progress id="ctlProgress" value="0" max="100"></progress>
+                            </div>*@
+
+                            <div class="row shadow mt-2 rounded">
+                                @*SELECT DROP DOWN LIST*@
+                                <div class=" col p-3 bg-white text-black">
+
+                                    <select id="selectElement" class="form-select" aria-label="Default select example">
+                                        <option selected>-Select Excel Format-</option>
+                                        <option value="1">Downloaded from VAS Line List Database</option>
+                                        <option value="2">Excel Templete</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row shadow mt-2 rounded">
+                                @*FILE SELECTOR*@
+                                <div class=" col p-3 bg-white text-black">
+                                    <input class="form-control" type="file" id="fuExcel" />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3 mt-2 shadow rounded">
+                                @*UPLOADER*@
+                                <div class=" col p-3 bg-light">
+                                    <button id="btnClear" class="btn btn-m btn-outline-success float-left shadow-sm mt-2" style="display:none;">Clear and Upload another Excel File</button>
+                                    <button id="btnUploader" class="btn btn-m btn-success float-end shadow-sm mt-1">Upload File</button>
+                                </div>
+                            </div>
+
+                            @*MODAL*@
+                            <div class="modal modal-dialog-scrollable fade modal-xl" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="overflow-y:auto">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="staticBackdropLabel"> Error List</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body overflow-y-scroll" style="max-height:500px">
+
+                                            <table id="listtable" class="table table-bordered table-condensed table-hover table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="color:red; width:40%;">Error Details</th>
+                                                        <th style="width:30%;">First Name</th>
+                                                        <th style="width:30%;">Last Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="btnDownloadExcelErrors" class="btn btn-danger">Download Excel Errors</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+            </div>
+
+
+            <div class="row" id="rowtoggle" style="display:none;">
+
+                @*style="display:none"*@
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="row p-3 m-1 shadow-sm rounded-1">
+
+                        @*CARD - UPLOADED*@
+                        <div class="col-lg-4  bg-light">
+                            <button id="btnuploaded" type="button" class="btn btn-m btn-primary btn-md mt-2" style="width:100%">
+                                Uploaded <span id="vaccineuploaded" class="badge badge-light ">0</span>
+                            </button>
+                        </div>
+
+                        @*CARD - DUPLICATE*@
+                        <div class="col-lg-4 bg-light">
+                            <button id="btnduplicate" type="button" class="btn btn-m btn-warning btn-md mt-2" style="width:100%">
+                                Duplicates <span id="vaccineduplicates" class="badge badge-info">0</span>
+                            </button>
+                        </div>
+
+                        @*CARD - ERRORS*@
+                        <div class="col-lg-4  bg-light">
+                            <button id="btnerror" type="button" class="btn btn-m btn-danger btn-md mt-2" style="width:100%">
+                                Errors<span id="vaccineerrors" class="badge badge-light ">0</span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>

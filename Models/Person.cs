@@ -42,5 +42,18 @@ namespace R12VIS.Models
 
         public DateTime? BirthDate { get; set; }
 
+
+        public int ProvinceID { get; set; }
+        public Province Province { get; set; }
+
+
+        public int CityMunicipalityID { get; set; }
+        public CityMunicipality CityMunicipality { get; set; }
+
+
+        public int BarangayID { get; set; }
+        public Barangay Barangay { get; set; }
+
+
     }
 }
