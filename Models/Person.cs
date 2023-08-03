@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-using System.Xml.Linq;
 
 namespace R12VIS.Models
 {
@@ -88,6 +84,7 @@ namespace R12VIS.Models
             }
 
             var currentDate = DateTime.Now;
+            var numberOfYears = currentDate.Year - date.Year;
             var minDate = currentDate.AddYears(-150);
             var maxDate = currentDate;
 
@@ -100,6 +97,11 @@ namespace R12VIS.Models
             {
                 return new ValidationResult("Invalid Date"); // Date cant be more than 150 years old
             }
+            if (numberOfYears < 5)
+            {
+                return new ValidationResult("Invalid Date"); // Age cant be less than 5 years old
+            }
+
 
             return ValidationResult.Success;
         }

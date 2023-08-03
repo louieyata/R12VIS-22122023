@@ -105,8 +105,8 @@
             .then(data => {
                 if (data.success) {
                     const user = data.user;
-                    console.log(user);
-                    //window.location.href = "/AdminPanel/Home";
+                    //console.log(user);
+                    window.location.href = "/AdminPanel/Home";
                 } else {
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                         toastBootstrap.show();

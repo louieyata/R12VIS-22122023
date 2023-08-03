@@ -345,7 +345,7 @@ namespace R12VIS.Controllers
             return View(vaccination);
         }
 
-        public Person CheckPersonIfExisitng(Person person)
+        private Person CheckPersonIfExisitng(Person person)
         {
             var personExist = db.Persons
                 .Where(x => x.FirstName == person.FirstName)
