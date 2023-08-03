@@ -263,10 +263,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202307280124485_TransferAddressColumnsFromVaccinationToPersonTable.cs" />
-    <Compile Include="Migrations\202307280124485_TransferAddressColumnsFromVaccinationToPersonTable.designer.cs">
-      <DependentUpon>202307280124485_TransferAddressColumnsFromVaccinationToPersonTable.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Adverse.cs" />
     <Compile Include="Models\Barangay.cs" />
@@ -452,11 +448,6 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202307280124485_TransferAddressColumnsFromVaccinationToPersonTable.resx">
-      <DependentUpon>202307280124485_TransferAddressColumnsFromVaccinationToPersonTable.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
