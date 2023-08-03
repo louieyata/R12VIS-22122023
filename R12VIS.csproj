@@ -199,26 +199,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306300211212_check.cs" />
-    <Compile Include="Migrations\202306300211212_check.designer.cs">
-      <DependentUpon>202306300211212_check.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202307030248284_checkUsers.cs" />
-    <Compile Include="Migrations\202307030248284_checkUsers.designer.cs">
-      <DependentUpon>202307030248284_checkUsers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202307100711245_additional property for user.cs" />
-    <Compile Include="Migrations\202307100711245_additional property for user.designer.cs">
-      <DependentUpon>202307100711245_additional property for user.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202307110837228_notnullDate.cs" />
-    <Compile Include="Migrations\202307110837228_notnullDate.designer.cs">
-      <DependentUpon>202307110837228_notnullDate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202307110851521_notnullableDate.cs" />
-    <Compile Include="Migrations\202307110851521_notnullableDate.designer.cs">
-      <DependentUpon>202307110851521_notnullableDate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Adverse.cs" />
     <Compile Include="Models\Barangay.cs" />
@@ -581,23 +561,6 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306300211212_check.resx">
-      <DependentUpon>202306300211212_check.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202307030248284_checkUsers.resx">
-      <DependentUpon>202307030248284_checkUsers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202307100711245_additional property for user.resx">
-      <DependentUpon>202307100711245_additional property for user.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202307110837228_notnullDate.resx">
-      <DependentUpon>202307110837228_notnullDate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202307110851521_notnullableDate.resx">
-      <DependentUpon>202307110851521_notnullableDate.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
