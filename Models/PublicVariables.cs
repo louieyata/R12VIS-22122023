@@ -121,6 +121,7 @@ namespace R12VIS.Models
 
         public bool isMale = false;
         public bool isPWD = false;
+        public string Gender { get; set; }
 
         // for date validator
         public bool isValidBirthDate = false;

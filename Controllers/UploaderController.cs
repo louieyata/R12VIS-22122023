@@ -444,6 +444,7 @@ namespace R12VIS.Controllers
                                     else
                                     {
                                         pb.AdverseEventCheck = false;
+
                                     }
 
 
@@ -609,6 +610,7 @@ namespace R12VIS.Controllers
                                         d.isMale == pb.isMale &&
                                         d.BirthDate == pb.birthdateForQry).Any(); // && d.isPWD == pb.isPWD
 
+
                                         // DUPLICATE CONDITION
                                         if (pb.PersonDuplicateChecker == true)
                                         {
@@ -646,6 +648,7 @@ namespace R12VIS.Controllers
                                             }
 
                                             y.isMale = pb.isMale;
+
                                             y.isPWD = pb.isPWD;
 
                                             if (GetEthnicGroupId != null)
@@ -689,6 +692,7 @@ namespace R12VIS.Controllers
                                                 //v.BarangayID = pb.BarangayId;
 
                                                 if (pb.DeferralId > 0)
+
                                                 {
                                                     v.DeferralID = pb.DeferralId;
                                                 }
@@ -702,6 +706,7 @@ namespace R12VIS.Controllers
                                                 v.DoseID = pb.DoseId;
 
                                                 if (pb.AdverseID > 0)
+
                                                 {
                                                     v.AdverseID = pb.AdverseID;
                                                 }

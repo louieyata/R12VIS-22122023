@@ -4,36 +4,78 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<main id="main" class="main">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th></th>
-    </tr>
+    <div class="pagetitle">
+        <h1>Blank Page</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Priority Group</a></li>
+                <li class="breadcrumb-item">Index</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
+    <section class="section">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Priority Group</h5>
+                <p>
+                    <a class="btn btn-primary" href="@Url.Action("Create", "PriorityGroups")"><i class="bi bi-person-add"></i> New </a>
+                </p>
+                <table class="table table-bordered" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Category)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Category)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                @*<td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                </td>*@
+                                <td>
+                                    <a class="link-dark" href="@Url.Action("Edit","PriorityGroups", new { id=item.ID})"><i class="bi bi-pencil-square"></i></a> |
+                                    @*@Html.ActionLink("Edit", "Edit", new { id = item.ID })*@
+                                    <a class="link-dark" href="@Url.Action("Details","PriorityGroups", new { id=item.ID})"><i class="bi bi-filter-square"></i></a>                                    @*@Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+
+@section scripts
+{
+    <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
+    @*<script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_dataTables.bootstrap5.min.js"></script>*@
+    <script src="~/Content/DataTable2/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
 }
-
-</table>

@@ -104,7 +104,8 @@
             .then(response => response.json()) // Parse the response as JSON
             .then(data => {
                 if (data.success) {
-                    // Successful login, redirect to the desired page
+                    const user = data.user;
+                    //console.log(user);
                     window.location.href = "/AdminPanel/Home";
                 } else {
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)

@@ -1,3 +1,25 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@using R12VIS.Models
+
+@{
+    var user = Session["User"] as User;
+
+    string layoutPath = "~/Views/Shared/_Layout.cshtml";
+    if (user != null)
+    {
+        switch (user.Role.Title)
+        {
+            case "SUPER ADMIN":
+                layoutPath = "~/Views/Shared/_Layout.cshtml";
+                break;
+            case "ENCODER":
+                layoutPath = "~/Views/Shared/_EncoderLayout.cshtml";
+                break;
+        }
+    }
+
+
+
+
+
+    Layout = layoutPath;
 }

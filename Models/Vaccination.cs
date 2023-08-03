@@ -23,22 +23,13 @@ namespace R12VIS.Models
         public Person Person { get; set; }
 
 
-        //public int ProvinceID { get; set; }
-        //public Province Province { get; set; }
-
-
-        //public int CityMunicipalityID { get; set; }
-        //public CityMunicipality CityMunicipality { get; set; }
-
-
-        //public int BarangayID { get; set; }
-        //public Barangay Barangay { get; set; }
-
         [ForeignKey("Deferral")]
         public int? DeferralID { get; set; }
         public Deferral Deferral { get; set; }
 
-        public DateTime VaccinationDate { get; set; }
+        [DateValidation(ErrorMessage = "Invalid date")]
+        [DataType(DataType.Date)]
+        public DateTime? VaccinationDate { get; set; }
 
         [ForeignKey("Vaccine")]
         public int VaccineID { get; set; }
@@ -63,7 +54,15 @@ namespace R12VIS.Models
         public int? AdverseID { get; set; }
         public Adverse Adverse { get; set; }
 
+        [DateValidation(ErrorMessage = "Invalid date")]
+        [DataType(DataType.Date)]
+        public DateTime DateCreate { get; set; } = DateTime.Now.Date;
 
+        public string CreatedBy { get; set; }
+
+        [ForeignKey("User")]
+        public int? UserID { get; set; }
+        public User User { get; set; }
 
     }
 }
