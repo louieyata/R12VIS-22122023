@@ -38,6 +38,39 @@ namespace R12VIS.Controllers
             return View();
         }
 
+
+        // FUNCTIONING EXCEL DOWNLOAD
+        [HttpGet]
+        public ActionResult DownloadExcelTemplate()
+        {
+
+            // procedure to restore complete path and filename of existing excel
+            TempData["excelfilename"] = "ExcelTemplateAndReferences.xlsx";
+
+
+            pb.GetExcelFileName = TempData["excelfilename"] as string;
+            TempData["excelfilename"] = pb.GetExcelFileName;
+
+            pb.GetSaveTargetPath = Server.MapPath("/References/" + pb.GetExcelFileName); // complete excel path and filename
+
+            // PROCESS ON HOW TO DELETE EXCEL ROW
+            using (XLWorkbook wb = new XLWorkbook(pb.GetSaveTargetPath))
+            {
+                // PROCESS ON HOW TO DOWNLOAD EXCEL FILE
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    // Save the workbook to the stream
+                    wb.SaveAs(ms);
+
+                    // Return the file for download
+                    return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", pb.GetExcelFileName);
+                }
+            }
+        }
+
+
+
+
         //async Task<ActionResult>
         public ActionResult Uploader(HttpPostedFileBase myExcelData, string selectedValue) 
         {
@@ -260,26 +293,52 @@ namespace R12VIS.Controllers
 
                                     // Get Barangay ID
                                     var GetBarangayId = db.Barangays.FirstOrDefault(s => s.barangay_name.ToLower() == pb.barangay.ToLower());
+
                                     if (GetBarangayId == null)
                                     {
-                                        Barangay s = new Barangay();
-                                        s.city_municipality_id = GetCityMunicipalityId.city_municipality_id;
-                                        s.barangay_name = pb.barangay;
-                                        s.province_code = GetProvinceId.province_code;
-                                        s.city_municipality_code = GetCityMunicipalityId.CityMunicipalityCode;
-                                        db.Barangays.Add(s);
-                                        db.SaveChanges();
-
-                                        // Get Barangay ID
-                                        var GetBarangayId2 = db.Barangays.FirstOrDefault(w =>
-                                        w.barangay_name == pb.barangay);
-
-                                        pb.BarangayId = GetBarangayId2.barangay_id;
+                                        pb.BarangayErrorMessage = "Cannot find Barangay reference in the database,";
                                     }
                                     else
                                     {
                                         pb.BarangayId = GetBarangayId.barangay_id;
                                     }
+                                    //if (GetBarangayId == null)
+                                    //{
+                                    //    Barangay s = new Barangay();
+                                    //    if (GetCityMunicipalityId != null)
+                                    //    {
+                                    //        s.city_municipality_id = GetCityMunicipalityId.city_municipality_id;
+                                    //    }
+
+                                    //    if (pb.barangay != null)
+                                    //    {
+                                    //        s.barangay_name = pb.barangay;
+                                    //    }
+                                        
+                                    //    if (GetProvinceId.province_code != null)
+                                    //    {
+                                    //        s.province_code = GetProvinceId.province_code;
+                                    //    }
+                                        
+                                    //    if (GetCityMunicipalityId != null)
+                                    //    {
+                                    //        s.city_municipality_code = GetCityMunicipalityId.CityMunicipalityCode;
+                                    //    }
+                                        
+                                        
+                                    //    db.Barangays.Add(s);
+                                    //    db.SaveChanges();
+
+                                    //    // Get Barangay ID
+                                    //    var GetBarangayId2 = db.Barangays.FirstOrDefault(w =>
+                                    //    w.barangay_name == pb.barangay);
+
+                                    //    pb.BarangayId = GetBarangayId2.barangay_id;
+                                    //}
+                                    //else
+                                    //{
+                                    //    pb.BarangayId = GetBarangayId.barangay_id;
+                                    //}
 
                                     // Vaccine Manufacturer
                                     // Get Vaccine Manufacturer ID
@@ -528,7 +587,7 @@ namespace R12VIS.Controllers
                                         GetPriorityGroupId != null &&
                                         GetProvinceId != null &&
                                         GetCityMunicipalityId != null &&
-                                        pb.BarangayId > 0 &&
+                                        //pb.BarangayId > 0 &&
                                         GetVaccineManufacturerId != null &&
                                         pb.batchnumber != "" &&
                                         pb.lotnumber != "" &&
@@ -548,8 +607,7 @@ namespace R12VIS.Controllers
                                         d.MiddleName.ToLower() == pb.middlename.ToLower() &&
                                         d.LastName.ToLower() == pb.lastname.ToLower() &&
                                         d.isMale == pb.isMale &&
-                                        d.BirthDate == pb.birthdateForQry &&
-                                        d.isPWD == pb.isPWD).Any();
+                                        d.BirthDate == pb.birthdateForQry).Any(); // && d.isPWD == pb.isPWD
 
                                         // DUPLICATE CONDITION
                                         if (pb.PersonDuplicateChecker == true)
@@ -572,7 +630,12 @@ namespace R12VIS.Controllers
 
                                             y.ProvinceID = GetProvinceId.province_id;
                                             y.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
-                                            y.BarangayID = pb.BarangayId;
+
+                                            if (pb.BarangayId > 0)
+                                            {
+                                                y.BarangayID = pb.BarangayId;
+                                            }
+
 
                                             y.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
                                             y.ProvinceID = GetProvinceId.province_id;
@@ -710,7 +773,8 @@ namespace R12VIS.Controllers
                                                 pb.AdverseEventErrorMessage +
                                                 pb.BirthDateErrorMessage +
                                                 pb.VaccinationDateErrorMessage +
-                                                pb.DeferralErrorMessage
+                                                pb.DeferralErrorMessage +
+                                                pb.BarangayErrorMessage
 
                                                 );
 
@@ -743,7 +807,8 @@ namespace R12VIS.Controllers
                                             pb.AdverseEventErrorMessage +
                                             pb.BirthDateErrorMessage +
                                             pb.VaccinationDateErrorMessage +
-                                            pb.DeferralErrorMessage;
+                                            pb.DeferralErrorMessage + 
+                                            pb.BarangayErrorMessage;
 
 
                                         pb.filteredData.Add(xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 34).Value.ToString());
@@ -830,14 +895,13 @@ namespace R12VIS.Controllers
             }
             catch (Exception ex)
             {
-
                 // Create a JSON response with the error message
                 var errorMessage = "An error occurred: " + ex.Message;
                 return Json(new { success = false, message = errorMessage }, JsonRequestBehavior.AllowGet);
 
             }
 
-            return Json(new { success = false, message = "Excel File encoundered an error during uploading, Please contact your administrator." });
+            return Json(new { success = false, message = "Excel File encoundered an error during uploading. Either excel rows is more than 10k or incorrect foramt. Please double check the Excel File or contact your administrator." });
         }
 
         // FUNCTIONING EXCEL DOWNLOAD
@@ -894,6 +958,7 @@ namespace R12VIS.Controllers
             pb.BirthDateErrorMessage = "";
             pb.VaccinationDateErrorMessage = "";
             pb.DeferralErrorMessage = "";
+            pb.BarangayErrorMessage = "";
 
             pb.GuardianIsRequired = false;
 

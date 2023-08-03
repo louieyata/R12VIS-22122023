@@ -102,6 +102,7 @@ namespace R12VIS.Models
         public int SheetCount;
         public int TotalExcelRows = 0;
         public int TotalProcessedExcelRows = 0;
+        public string BarangayErrorMessage;
         
 
         public bool success = false;

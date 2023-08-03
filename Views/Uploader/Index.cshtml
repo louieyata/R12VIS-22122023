@@ -8,68 +8,6 @@
 
     <script>
 
-        // button click event
-        $("#select_and_upload_button").click(function () {
-            $("#files_input_field").click();
-        });
-
-        // upload file event
-        function upload_files() {
-
-            // get selected files
-            var fileupload = $("#files_input_field").get(0);
-            var files = fileupload.files;
-            if (files.length == 0) return;
-
-            // load into formData
-            for (var i = 0; i < files.length; i++) {
-                var data = new FormData();
-                data.append(files[i]).name, files[i];
-
-                // ajax load
-                $.ajax({
-                    type: "POST",
-                    url: "Uploader/Uploader",
-                    xhr: function () {
-                        var xhr = new window.XMLHttpRequest();
-
-                        // upload progress
-                        xhr.upload.addEventListener("progress", function (evt) {
-                            if (evt.lengthComputable) {
-                                var percentComplete = evt.loaded / evt.total;
-                                $("#crlProgress").val(percentComplete * 100);
-                            }
-                        }, false);
-
-                        // download progress
-                        xhr.addEventListener("progress", function (evt) {
-                            if (evt.lengthComputable) {
-                                var percentComplete = evt.loaded / evt.total;
-
-                                // do something with download progress
-                                consol.log(percentComplete);
-                            }
-                        }, false); 
-                        return xhr;
-                    },
-
-                    contentType: false;
-                    processData: false,
-                    data: data,
-                    success: function (data) {
-
-                        $.each(data, function (index, item) {
-
-                            // show uploaded image in div results
-                            //var sItem = " <div><img src='User' "
-                        })
-                    },
-                    error: function () {
-                        alert("There was an error uploading files!");
-                    }
-                });
-            }
-        }
 
 
 
@@ -149,7 +87,7 @@
                 var myfile = fuUploadFile.files[0];
 
                 // pass velected index to selected value variable
-                var selectedValue = $('#selectElement').val();
+                var selectedValue = $("#selectElement").val();
 
                 formData.append("myExcelData", myfile);
                 formData.append("selectedValue", selectedValue);
@@ -159,8 +97,6 @@
 
                 // Disable select list
                 $("#selectElement").prop("disabled", true);
-
-
 
                 $.ajax
                     ({
@@ -226,7 +162,7 @@
                                 $("#btnUploader").prop('disabled', false);
 
                                 // show clear button
-                                $("#btnClear").hide();
+                                $("#btnClear").show();
 
                                 alert(message);
                             }
@@ -242,6 +178,17 @@
 
                         },
                         error: function () {
+
+                            //// Hide the spinner
+                            $("#btnUploader").text("Upload Excel");
+                            // disable upload button
+                            $("#btnuploaded").prop('disabled', true);
+                            // disable duplicate button
+                            $("#btnduplicate").prop('disabled', true);
+
+                            // show clear button
+                            $("#btnClear").show();
+
                             alert("An error occured during file upload!. Please contact your system administrator.");
                         }
                     });
