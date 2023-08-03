@@ -185,6 +185,7 @@
     <Compile Include="Controllers\DosesController.cs" />
     <Compile Include="Controllers\EthnicGroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LineListsController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\PriorityGroupsController.cs" />
     <Compile Include="Controllers\ProvincesController.cs" />
@@ -546,11 +547,13 @@
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Shared\_LayoutEncoder.cshtml" />
     <Content Include="Views\People\_VaccineRecord.cshtml" />
+    <Content Include="Views\Shared\_EncoderLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Upload\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Views\LineLists\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

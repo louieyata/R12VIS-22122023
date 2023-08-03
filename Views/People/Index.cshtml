@@ -27,7 +27,7 @@
                 <p>
                     @Html.ActionLink("Create New", "Create")
                 </p>
-                <table class="table table-striped display nowrap dataTable no-footer" id="myTable">
+                <table class="table table-bordered" id="myTable">
                     <thead>
                         <tr>
                             <th>
@@ -92,13 +92,7 @@
     <script src="~/Content/DataTable2/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable({
-                //dom: 'Bfrtip',
-                //buttons: [
-                //    'copy', 'excel', 'pdf'
-                //],
-                scrollX: true
-            });
+            $('#myTable').DataTable();
         });
     </script>
 }

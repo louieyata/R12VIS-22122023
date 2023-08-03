@@ -26,23 +26,18 @@
 
                 <p>
                     <a class="btn btn-primary" href="@Url.Action("PreVaccination", "Vaccinations")"><i class="bi bi-pencil-square"></i>New Vaccination</a>
-                    @*@Html.ActionLink("Create New", "Create")*@
                 </p>
-                <table class="table table-striped display nowrap dataTable no-footer" id="myTable">
+                <table class="table table-bordered display nowrap dataTable no-footer" id="myTable">
                     <thead>
                         <tr>
                             <th>
                                 Name
                             </th>
-                            @*<th>
-                                @Html.DisplayNameFor(model => model.Deferral.Reason)
-                            </th>*@
+
                             <th>
                                 @Html.DisplayNameFor(model => model.Dose.VaccineDose)
                             </th>
-                            @*<th>
-                                @Html.DisplayNameFor(model => model.Person.UniquePersonID)
-                            </th>*@
+
                             <th>
                                 @Html.DisplayNameFor(model => model.PriorityGroup.Category)
                             </th>
@@ -61,18 +56,11 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.VaccinationDate)
                             </th>
-                            @*<th>
-                                @Html.DisplayNameFor(model => model.BatchNumber)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.LotNumber)
-                            </th>*@
+
                             <th>
                                 @Html.DisplayNameFor(model => model.BakunaCenterCBCRID)
                             </th>
-                            @*<th>
-                                @Html.DisplayNameFor(model => model.VaccinatorName)
-                            </th>*@
+
                             <th></th>
                         </tr>
                     </thead>
@@ -82,17 +70,12 @@
                             <tr>
                                 <td>
                                     <a href="@Url.Action("Details","People", new {id = item.PersonID})">@item.Person.LastName, @item.Person.FirstName</a>
-                                    @*@Html.DisplayFor(modelItem => item.Person.FirstName) @Html.DisplayFor(modelItem => item.Person.MiddleName)  @Html.DisplayFor(modelItem => item.Person.LastName)*@
                                 </td>
-                                @*<td>
-                                    @Html.DisplayFor(modelItem => item.Deferral.Reason)
-                                </td>*@
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Dose.VaccineDose)
                                 </td>
-                                @*<td>
-                                    @Html.DisplayFor(modelItem => item.Person.UniquePersonID)
-                                </td>*@
+                 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.PriorityGroup.Category)
                                 </td>
@@ -111,23 +94,13 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.VaccinationDate)
                                 </td>
-                                @*<td>
-                                    @Html.DisplayFor(modelItem => item.BatchNumber)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.LotNumber)
-                                </td>*@
+                       
                                 <td>
                                     @Html.DisplayFor(modelItem => item.BakunaCenterCBCRID)
                                 </td>
-                                @*<td>
-                                    @Html.DisplayFor(modelItem => item.VaccinatorName)
-                                </td>*@
+                            
                                 <td>
                                     <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("PreVaccination","Vaccinations", new { id = item.PersonID } )"><i class="bi bi-bandaid-fill"></i></a>
-                                     @*|
-                                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
                                 </td>
                             </tr>
                         }
@@ -147,13 +120,7 @@
     <script src="~/Content/DataTable2/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'excel', 'pdf'
-                ],
-                scrollX: true
-            });
+            $('#myTable').DataTable();
         });
     </script>
 }

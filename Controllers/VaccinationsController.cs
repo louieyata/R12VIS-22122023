@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using R12VIS.Models;
+using R12VIS.Models.ViewModel;
+using System;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using Microsoft.Ajax.Utilities;
-using R12VIS.Models;
-using R12VIS.Models.ViewModel;
 
 namespace R12VIS.Controllers
 {
@@ -245,11 +241,12 @@ namespace R12VIS.Controllers
                 }
                 else
                 {
+
                     ViewBag.EthnicGroupID = new SelectList(db.EthnicGroups.OrderBy(p => p.IndigenousMember).Where(x => x.Id == person.EthnicGroupID), "Id", "IndigenousMember");
                     ViewBag.ProvinceID = new SelectList(db.Provinces.OrderBy(p => p.province_name).Where(x => x.province_id == person.ProvinceID), "province_id", "province_name");
                     ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName).Where(x => x.city_municipality_id == person.CityMunicipalityID), "city_municipality_id", "CityMunicipalityName");
                     ViewBag.BarangayID = new SelectList(db.Barangays.OrderBy(p => p.barangay_name).Take(100).Where(x => x.barangay_id == person.BarangayID), "barangay_id", "barangay_name");
-                    ViewBag.Gender = new SelectList(gender.Where(x=>x.Value.ToLower() == person.Gender.ToLower()), "Value", "Text");
+                    ViewBag.Gender = new SelectList(gender.Where(x => x.Value.ToLower() == person.Gender.ToLower()), "Value", "Text");
                     ViewBag.Suffix = new SelectList(suffix.Where(x => x.Value.ToLower() == person.Suffix?.ToLower()), "Value", "Text");
 
                     ViewBag.PriorityGroupID = new SelectList(db.PriorityGroups, "ID", "Category");
@@ -286,18 +283,6 @@ namespace R12VIS.Controllers
             ViewBag.Gender = gender;
             ViewBag.Suffix = suffix;
 
-
-
-            //if (id != null && id > 0)
-            //{
-            //    var person = db.Persons.Find(id);
-            //    if (person != null)
-            //    {
-            //        vaccination.Person = person;
-            //        vaccination.PersonID = (int)id;
-            //        return View(vaccination);
-            //    }
-            //}
             return View(vaccination);
         }
         [HttpPost]
@@ -309,32 +294,19 @@ namespace R12VIS.Controllers
             {
                 return RedirectToAction("Login", "Users");
             }
-
-            //New Validation
-            //  TODO if Pedia age !< 5
             if (ModelState.IsValid)
             {
                 vaccination.VaccinatorName = vaccination.VaccinatorName?.ToUpper();
                 vaccination.Comorbidity = vaccination.Comorbidity?.ToUpper();
                 vaccination.CreatedBy = $"{user.FirstName} {user.LastName}";
                 vaccination.UserID = user.ID;
-                if (vaccination.PersonID == 0)
-                {
-                    vaccination.Person.FirstName = vaccination.Person.FirstName?.ToUpper();
-                    vaccination.Person.LastName = vaccination.Person.LastName?.ToUpper();
-                    vaccination.Person.MiddleName = vaccination.Person.MiddleName?.ToUpper();
-                    vaccination.Person.Suffix = vaccination.Person.Suffix?.ToUpper();
-                    db.Persons.Add(vaccination.Person);
-                    db.SaveChanges();
-                }
-                else
-                {
 
-                    //db.Persons.Add(vaccination.Person);
-                    //db.SaveChanges();
+                Person personExist = CheckPersonIfExisitng(vaccination.Person);
+                if (personExist != null)
+                {
+                    vaccination.Person = personExist;
                 }
-                vaccination.Person = new Person();
-                //vaccination.PersonID;
+
                 db.Vaccinations.Add(vaccination);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -373,10 +345,47 @@ namespace R12VIS.Controllers
             return View(vaccination);
         }
 
-        public void VaccineExistingPatient()
+        public Person CheckPersonIfExisitng(Person person)
         {
-
+            var personExist = db.Persons
+                .Where(x => x.FirstName == person.FirstName)
+                .Where(x => x.LastName == person.LastName)
+                .Where(x => x.BirthDate == person.BirthDate)
+                .Where(x => x.CityMunicipalityID == person.CityMunicipalityID)
+                .FirstOrDefault();
+            return personExist;
         }
+
+        //create a fucntion that will take a nullable string firstname, middleName,lastname,city/municityid of person and return a list of person in json format
+        public JsonResult GetPersons(string firstName, string middleName, string lastName, int? cityMunicipalityID)
+        {
+            var personsQuery = db.Persons.AsQueryable();
+
+            // Check and apply filtering conditions for each parameter only if they are not null or empty
+            if (!string.IsNullOrEmpty(firstName))
+            {
+                personsQuery = personsQuery.Where(p => p.FirstName.Equals(firstName));
+            }
+
+            if (!string.IsNullOrEmpty(middleName))
+            {
+                personsQuery = personsQuery.Where(p => p.MiddleName.Contains(middleName));
+            }
+
+            if (!string.IsNullOrEmpty(lastName))
+            {
+                personsQuery = personsQuery.Where(p => p.LastName.Contains(lastName));
+            }
+
+            if (cityMunicipalityID.HasValue)
+            {
+                personsQuery = personsQuery.Where(p => p.CityMunicipalityID == cityMunicipalityID);
+            }
+
+            var persons = personsQuery.ToList();
+            return Json(persons, JsonRequestBehavior.AllowGet);
+        }
+
 
 
         protected override void Dispose(bool disposing)

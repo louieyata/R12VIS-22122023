@@ -1,12 +1,10 @@
-﻿using System;
+﻿using R12VIS.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using R12VIS.Models;
 
 namespace R12VIS.Controllers
 {
@@ -33,9 +31,11 @@ namespace R12VIS.Controllers
         {
             if (id == null)
             {
+                //return to page not foud
+
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            User user = db.Users.Include(x => x.Role).Where(x => x.ID == id).First();
             if (user == null)
             {
                 return HttpNotFound();
@@ -133,7 +133,7 @@ namespace R12VIS.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Login([Bind(Include = "Email,Password")] User user)
         {
-            
+
             User _user = userDAL.AuthenticateUser(user.Email, user.Password);
             bool authenticated = (_user != null);
             if (authenticated)
@@ -143,7 +143,7 @@ namespace R12VIS.Controllers
                 TempData["ToastMessage"] = "This is a toast message.";
                 TempData["ToastClass"] = "toast-success"; // CSS class for success toast
             }
-           
+
             return Json(new { success = authenticated, message = authenticated ? "" : "Invalid Credentials" });
 
         }

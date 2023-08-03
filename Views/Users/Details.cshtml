@@ -4,71 +4,54 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Role.Title)
-        </dt>
+<main id="main" class="main">
 
-        <dd>
-            @Html.DisplayFor(model => model.Role.Title)
-        </dd>
+    <div class="pagetitle">
+        <h1>Blank Page</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item">Pages</li>
+                <li class="breadcrumb-item active">Blank</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+    <section class="section">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Details</h5>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+                        <div class="row mb-3">
+                            <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                            <div class="col-lg-9 col-md-8">@Model.FirstName @Model.MiddleName @Model.LastName</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-3 col-md-4 label ">Title</div>
+                            <div class="col-lg-9 col-md-8">@Model.Role.Title</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-3 col-md-4 label ">Email</div>
+                            <div class="col-lg-9 col-md-8">@Model.Email</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-3 col-md-4 label ">Active</div>
+                            <div class="col-lg-9 col-md-8">@Model.isActive</div>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MiddleName)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MiddleName)
-        </dd>
+                        <p>
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+                            @Html.ActionLink("Back to List", "Index")
+                        </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.isActive)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.isActive)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+</main><!-- End #main -->

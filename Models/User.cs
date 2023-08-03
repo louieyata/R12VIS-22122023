@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 using System.Data;
 using System.Data.Entity;
-using System.Net;
-using System.Web.Mvc;
-using R12VIS.Models;
-using System.Data.Entity.Migrations;
+using System.Linq;
 
 
 
@@ -56,7 +50,7 @@ namespace R12VIS.Models
         {
             var user = db.Users
                 .Find(id);
-            
+
             return user;
         }
         public void CreateUser(User user)
@@ -74,12 +68,12 @@ namespace R12VIS.Models
 
         public User AuthenticateUser(string email, string password)
         {
-            User user = db.Users.Where(x => x.Email.ToLower() == email.ToLower() && x.Password == password).FirstOrDefault();
-    
+            User user = db.Users.Include(x => x.Role).Where(x => x.Email.ToLower() == email.ToLower() && x.Password == password).FirstOrDefault();
+
 
             return user;
-            
+
         }
-       
+
     }
 }
