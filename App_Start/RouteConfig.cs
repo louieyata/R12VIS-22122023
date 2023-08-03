@@ -13,11 +13,19 @@ namespace R12VIS
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //routes.MapRoute(
+            //    name: "RowCount",
+            //    url: "Uploader/GetRowCount",
+            //    defaults: new { controller = "Uploader", action = "GetRowCount" }
+            //);
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Users", action = "Login", id = UrlParameter.Optional }
             );
+
+
         }
     }
 }

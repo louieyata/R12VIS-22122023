@@ -23,8 +23,6 @@ namespace R12VIS.Models
         public Person Person { get; set; }
 
 
-       
-
         [ForeignKey("Deferral")]
         public int? DeferralID { get; set; }
         public Deferral Deferral { get; set; }

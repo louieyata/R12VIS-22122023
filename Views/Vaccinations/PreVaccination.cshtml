@@ -94,6 +94,7 @@
                                     @Html.ValidationMessageFor(model => model.Person.MiddleName, "", new { @class = "text-danger" })
                                 </div>
 
+
                                 <div class="col-4 mb-3">
                                     @Html.LabelFor(model => model.Person.LastName, "Last Name*", htmlAttributes: new { @class = "form-label" })
                                     @Html.EditorFor(model => model.Person.LastName, new { htmlAttributes = myAttribute })
