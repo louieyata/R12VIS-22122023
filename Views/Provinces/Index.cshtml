@@ -4,48 +4,88 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Region.RegionName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.province_name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.province_code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.province_code_excel)
-        </th>
-        <th></th>
-    </tr>
+<main id="main" class="main">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Region.RegionName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.province_name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.province_code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.province_code_excel)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.province_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.province_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.province_id })
-        </td>
-    </tr>
+    <div class="pagetitle">
+        <h1>Province</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item">Index</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Index</h5>
+
+                <p>
+                    <a class="btn btn-primary" href="@Url.Action("Create", "Provinces")"><i class="bi bi-person-add"></i> New </a>
+                </p>
+                <table class="table table-bordered" id="myTable">
+                    <thead>
+                        <tr>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.Region.RegionName)
+                                </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.province_name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.province_code)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.province_code_excel)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.Region.RegionName)
+                                    </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.province_name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.province_code)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.province_code_excel)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.province_id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.province_id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.province_id })
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+@section scripts
+{
+    <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
+    <script src="~/Content/DataTable2/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
 }
-
-</table>

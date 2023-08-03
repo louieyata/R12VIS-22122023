@@ -185,6 +185,8 @@
     <Compile Include="Controllers\DosesController.cs" />
     <Compile Include="Controllers\EthnicGroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LineListsController.cs" />
+    <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\PriorityGroupsController.cs" />
     <Compile Include="Controllers\ProvincesController.cs" />
     <Compile Include="Controllers\Regions1Controller.cs" />
@@ -197,10 +199,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306211310172_updates.cs" />
-    <Compile Include="Migrations\202306211310172_updates.designer.cs">
-      <DependentUpon>202306211310172_updates.cs</DependentUpon>
-    </Compile>
+
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Adverse.cs" />
     <Compile Include="Models\Barangay.cs" />
@@ -218,6 +217,10 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Vaccination.cs" />
     <Compile Include="Models\Vaccine.cs" />
+    <Compile Include="Models\ViewModel\UserAuthenticationFilter.cs" />
+    <Compile Include="Models\ViewModel\_PersonProfile.cs" />
+    <Compile Include="Models\ViewModel\_PersonsTable.cs" />
+    <Compile Include="Models\ViewModel\_VaccinedPersons.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +243,168 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.bootstrap.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.bootstrap.min.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.bootstrap4.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.bootstrap4.min.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.bootstrap5.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.bootstrap5.min.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.bulma.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.bulma.min.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.dataTables.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.dataTables.min.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.foundation.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.foundation.min.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.jqueryui.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.jqueryui.min.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.semanticui.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\css\autoFill.semanticui.min.css" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.bootstrap.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.bootstrap.min.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.bootstrap4.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.bootstrap4.min.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.bootstrap5.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.bootstrap5.min.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.bulma.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.bulma.min.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.dataTables.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.dataTables.min.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.foundation.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.foundation.min.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.jqueryui.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.jqueryui.min.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.semanticui.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\autoFill.semanticui.min.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\dataTables.autoFill.js" />
+    <Content Include="Content\DataTable2\AutoFill-2.5.3\js\dataTables.autoFill.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.bootstrap.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.bootstrap.min.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.bootstrap4.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.bootstrap4.min.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.bootstrap5.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.bootstrap5.min.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.bulma.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.bulma.min.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.dataTables.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.dataTables.min.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.foundation.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.foundation.min.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.jqueryui.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.jqueryui.min.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.semanticui.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\buttons.semanticui.min.css" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.bootstrap.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.bootstrap.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.bootstrap4.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.bootstrap4.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.bootstrap5.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.bootstrap5.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.bulma.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.bulma.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.colVis.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.colVis.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.dataTables.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.dataTables.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.foundation.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.foundation.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.html5.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.html5.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.jqueryui.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.jqueryui.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.print.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.print.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.semanticui.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\buttons.semanticui.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\dataTables.buttons.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\js\dataTables.buttons.min.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.bootstrap.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.bootstrap.min.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.bootstrap4.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.bootstrap5.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.bootstrap5.min.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.bulma.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.bulma.min.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.dataTables.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.dataTables.min.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.foundation.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.foundation.min.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.jqueryui.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.jqueryui.min.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.semanticui.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\dataTables.semanticui.min.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\jquery.dataTables.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\css\jquery.dataTables.min.css" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\images\sort_asc.png" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\images\sort_asc_disabled.png" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\images\sort_both.png" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\images\sort_desc.png" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\images\sort_desc_disabled.png" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.bootstrap.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.bootstrap.min.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.bootstrap4.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.bootstrap5.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.bootstrap5.min.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.bulma.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.bulma.min.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.dataTables.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.dataTables.min.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.foundation.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.foundation.min.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.jqueryui.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.jqueryui.min.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.semanticui.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\dataTables.semanticui.min.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\jquery.dataTables.js" />
+    <Content Include="Content\DataTable2\DataTables-1.13.4\js\jquery.dataTables.min.js" />
+    <Content Include="Content\DataTable2\datatables.css" />
+    <Content Include="Content\DataTable2\datatables.js" />
+    <Content Include="Content\DataTable2\datatables.min.css" />
+    <Content Include="Content\DataTable2\datatables.min.js" />
+    <Content Include="Content\DataTable2\DateTime-1.4.1\css\dataTables.dateTime.css" />
+    <Content Include="Content\DataTable2\DateTime-1.4.1\css\dataTables.dateTime.min.css" />
+    <Content Include="Content\DataTable2\DateTime-1.4.1\js\dataTables.dateTime.js" />
+    <Content Include="Content\DataTable2\DateTime-1.4.1\js\dataTables.dateTime.min.js" />
+    <Content Include="Content\DataTable2\JSZip-2.5.0\jszip.js" />
+    <Content Include="Content\DataTable2\JSZip-2.5.0\jszip.min.js" />
+    <Content Include="Content\DataTable2\pdfmake-0.2.7\pdfmake.js" />
+    <Content Include="Content\DataTable2\pdfmake-0.2.7\pdfmake.min.js" />
+    <Content Include="Content\DataTable2\pdfmake-0.2.7\vfs_fonts.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.bootstrap.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.bootstrap.min.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.bootstrap4.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.bootstrap4.min.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.bootstrap5.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.bootstrap5.min.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.bulma.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.bulma.min.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.dataTables.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.dataTables.min.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.foundation.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.foundation.min.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.jqueryui.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.jqueryui.min.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.semanticui.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\css\searchPanes.semanticui.min.css" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\dataTables.searchPanes.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\dataTables.searchPanes.min.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.bootstrap.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.bootstrap.min.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.bootstrap4.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.bootstrap4.min.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.bootstrap5.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.bootstrap5.min.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.bulma.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.bulma.min.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.dataTables.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.dataTables.min.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.foundation.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.foundation.min.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.jqueryui.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.jqueryui.min.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.semanticui.js" />
+    <Content Include="Content\DataTable2\SearchPanes-2.1.2\js\searchPanes.semanticui.min.js" />
     <Content Include="Content\DataTable\cdn.datatables.net_1.13.4_css_dataTables.bootstrap5.min.css" />
     <Content Include="Content\DataTable\cdn.datatables.net_1.13.4_js_dataTables.bootstrap5.min.js" />
     <Content Include="Content\DataTable\cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js" />
@@ -253,6 +418,8 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\common.scss" />
+    <Content Include="Content\DataTable2\Buttons-2.3.6\css\mixins.scss" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -278,12 +445,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\PriorityGroups\Create.cshtml" />
     <Content Include="Views\PriorityGroups\Delete.cshtml" />
     <Content Include="Views\PriorityGroups\Details.cshtml" />
@@ -353,11 +514,27 @@
     <Content Include="Views\AdminPanel\Home.cshtml" />
     <Content Include="Views\Vaccinations\PreVaccination.cshtml" />
     <Content Include="Views\Uploader\Index.cshtml" />
+    <Content Include="ToUpload\Lamfugon-Mar-15172231.xlsx" />
+    <Content Include="Views\People\Create.cshtml" />
+    <Content Include="Views\People\Delete.cshtml" />
+    <Content Include="Views\People\Details.cshtml" />
+    <Content Include="Views\People\Edit.cshtml" />
+    <Content Include="Views\People\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\Shared\_LayoutEncoder.cshtml" />
+    <Content Include="Views\People\_VaccineRecord.cshtml" />
+    <Content Include="Views\Shared\_EncoderLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Upload\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Views\LineLists\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -386,11 +563,7 @@
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306211310172_updates.resx">
-      <DependentUpon>202306211310172_updates.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
+
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

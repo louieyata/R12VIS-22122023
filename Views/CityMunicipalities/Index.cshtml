@@ -7,10 +7,10 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Index</h1>
+        <h1>City/Municipality</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Users</a></li>
+                <li class="breadcrumb-item"><a href="index.html">City/Municipality</a></li>
                 <li class="breadcrumb-item">Index</li>
                 @*<li class="breadcrumb-item active">Blank</li>*@
             </ol>
@@ -22,6 +22,9 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Default Card</h5>
+                <p>
+                    <a class="btn btn-primary" href="@Url.Action("Create", "CityMunicipalities")"><i class="bi bi-person-add"></i> New </a>
+                </p>
                 <table class="table table-bordered" id="myTable">
                     <thead>
                         <tr>
@@ -32,14 +35,14 @@
                                 @Html.DisplayNameFor(model => model.CityMunicipalityName)
                             </th>
                             @*<th>
-                                @Html.DisplayNameFor(model => model.ProvinceCode)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CityMunicipalityCode)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ZipCode)
-                            </th>*@
+                        @Html.DisplayNameFor(model => model.ProvinceCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CityMunicipalityCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ZipCode)
+                    </th>*@
                             <th>
                                 @Html.DisplayNameFor(model => model.CityMunicipalityCodeExcel)
                             </th>
@@ -57,14 +60,14 @@
                                     @Html.DisplayFor(modelItem => item.CityMunicipalityName)
                                 </td>
                                 @*<td>
-                                    @Html.DisplayFor(modelItem => item.ProvinceCode)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CityMunicipalityCode)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ZipCode)
-                                </td>*@
+                            @Html.DisplayFor(modelItem => item.ProvinceCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CityMunicipalityCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ZipCode)
+                        </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CityMunicipalityCodeExcel)
                                 </td>
@@ -94,10 +97,16 @@
 @section scripts
 {
     <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
-    <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_dataTables.bootstrap5.min.js"></script>
+    @*<script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_dataTables.bootstrap5.min.js"></script>*@
+    <script src="~/Content/DataTable2/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable();
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ]
+            });
         });
     </script>
 }

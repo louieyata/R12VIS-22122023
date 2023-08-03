@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using R12VIS.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using R12VIS.Models;
 
 namespace R12VIS.Controllers
 {
@@ -50,6 +46,7 @@ namespace R12VIS.Controllers
         {
             if (ModelState.IsValid)
             {
+                role.ToUpper();
                 db.Roles.Add(role);
                 db.SaveChanges();
                 return RedirectToAction("Index");
