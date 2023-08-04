@@ -29,7 +29,7 @@ namespace R12VIS.Models
         [Display(Name = "Contact Number")]
         public string ContactNumber { get; set; }
 
-        [RegularExpression(@"^[a-zA-ZñÑ\- ']+$", ErrorMessage = "Invalid characters")]
+        //[RegularExpression(@"^[a-zA-ZñÑ\- ']+$", ErrorMessage = "Invalid characters")]
         [Display(Name = "Guardian Name")]
         public string GuardianName { get; set; }
 

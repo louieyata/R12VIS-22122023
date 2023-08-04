@@ -70,9 +70,7 @@ namespace R12VIS.Models
         {
             User user = db.Users.Include(x => x.Role).Where(x => x.Email.ToLower() == email.ToLower() && x.Password == password).FirstOrDefault();
 
-
             return user;
-
         }
 
     }

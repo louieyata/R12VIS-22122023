@@ -75,8 +75,8 @@ namespace R12VIS.Controllers
         public ActionResult Uploader(HttpPostedFileBase myExcelData, string selectedValue) 
         {
             // MAIN PROCESS
-            try
-            {
+            //try
+            //{
                 int result;
 
                 if (int.TryParse(selectedValue, out result))
@@ -131,8 +131,6 @@ namespace R12VIS.Controllers
                                 // loop excel rows and get data on each cells
                                 while (xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 1).GetString() != "")
                                 {
-
-
                                     // PERSON TABLE
                                     pb.uniquepersonid = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 3).GetString();
                                     pb.pwd = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 4).GetString();
@@ -195,14 +193,17 @@ namespace R12VIS.Controllers
 
                                     // Gender
                                     // CHECK GENDER
+
                                     if (pb.gender.ToLower().StartsWith("m"))
                                     {
-                                        pb.isMale = true;
+                                        //pb.isMale = true;
+                                        pb.gender = "m";
                                         pb.GenderCheck = true;
                                     }
                                     else if (pb.gender.ToLower().StartsWith("f"))
                                     {
-                                        pb.isMale = false;
+                                        //pb.isMale = false;
+                                        pb.gender = "f";
                                         pb.GenderCheck = true;
                                     }
                                     else
@@ -282,7 +283,6 @@ namespace R12VIS.Controllers
                                     }
 
 
-
                                     // Get City Municipality ID
                                     var GetCityMunicipalityId = db.CityMunicipalities.FirstOrDefault(s => s.CityMunicipalityCodeExcel.ToLower() == pb.citymunicipality.ToLower());
                                     if (GetCityMunicipalityId == null)
@@ -293,15 +293,14 @@ namespace R12VIS.Controllers
 
                                     // Get Barangay ID
                                     var GetBarangayId = db.Barangays.FirstOrDefault(s => s.barangay_name.ToLower() == pb.barangay.ToLower());
-
                                     if (GetBarangayId == null)
                                     {
                                         pb.BarangayErrorMessage = "Cannot find Barangay reference in the database,";
                                     }
-                                    else
-                                    {
-                                        pb.BarangayId = GetBarangayId.barangay_id;
-                                    }
+                                    //else
+                                    //{
+                                    //    pb.BarangayId = GetBarangayId.barangay_id;
+                                    //}
                                     //if (GetBarangayId == null)
                                     //{
                                     //    Barangay s = new Barangay();
@@ -607,7 +606,7 @@ namespace R12VIS.Controllers
                                         d.FirstName.ToLower() == pb.firstname.ToLower() &&
                                         d.MiddleName.ToLower() == pb.middlename.ToLower() &&
                                         d.LastName.ToLower() == pb.lastname.ToLower() &&
-                                        d.isMale == pb.isMale &&
+                                        d.Gender == pb.gender &&
                                         d.BirthDate == pb.birthdateForQry).Any(); // && d.isPWD == pb.isPWD
 
 
@@ -622,43 +621,43 @@ namespace R12VIS.Controllers
                                         }
                                         else
                                         {
-                                            Person y = new Person();
-                                            y.UniquePersonID = pb.uniquepersonid;
-                                            y.FirstName = pb.firstname;
-                                            y.MiddleName = pb.middlename;
-                                            y.LastName = pb.lastname;
-                                            y.Suffix = pb.suffix;
-                                            y.ContactNumber = pb.contactnumber;
+                                            Person person = new Person();
+                                            person.UniquePersonID = pb.uniquepersonid;
+                                            person.FirstName = pb.firstname;
+                                            person.MiddleName = pb.middlename;
+                                            person.LastName = pb.lastname;
+                                            person.Suffix = pb.suffix;
+                                            person.ContactNumber = pb.contactnumber;
 
-                                            y.ProvinceID = GetProvinceId.province_id;
-                                            y.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
+                                            person.ProvinceID = GetProvinceId.province_id;
+                                            person.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
 
-                                            if (pb.BarangayId > 0)
+                                            if (GetBarangayId != null)
                                             {
-                                                y.BarangayID = pb.BarangayId;
+                                                person.BarangayID = GetBarangayId.barangay_id;
                                             }
 
 
-                                            y.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
-                                            y.ProvinceID = GetProvinceId.province_id;
+                                            person.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
+                                            person.ProvinceID = GetProvinceId.province_id;
 
                                             if (pb.GuardianIsRequired == true)
                                             {
-                                                y.GuardianName = pb.guardianname;
+                                                person.GuardianName = pb.guardianname;
                                             }
 
-                                            y.isMale = pb.isMale;
+                                            person.Gender = pb.gender.ToLower();
 
-                                            y.isPWD = pb.isPWD;
+                                            person.isPWD = pb.isPWD;
 
                                             if (GetEthnicGroupId != null)
                                             {
-                                                y.EthnicGroupID = GetEthnicGroupId.Id;
+                                                person.EthnicGroupID = GetEthnicGroupId.Id;
                                             }
 
-                                            y.BirthDate = pb.birthdateForQry;
+                                            person.BirthDate = pb.birthdateForQry;
 
-                                            db.Persons.Add(y);
+                                            db.Persons.Add(person);
                                             db.SaveChanges();
                                         }
 
@@ -667,7 +666,7 @@ namespace R12VIS.Controllers
                                         s.FirstName.ToLower() == pb.firstname.ToLower() &&
                                         s.LastName.ToLower() == pb.lastname.ToLower() &&
                                         s.MiddleName.ToLower() == pb.middlename.ToLower() &&
-                                        s.isMale == pb.isMale &&
+                                        s.Gender == pb.gender &&
                                         s.isPWD == pb.isPWD &&
                                         s.BirthDate == pb.birthdateForQry);
 
@@ -684,37 +683,31 @@ namespace R12VIS.Controllers
 
                                             if (VaccinationDuplicateScanner == null)
                                             {
-                                                Vaccination v = new Vaccination();
-                                                v.PriorityGroupID = GetPriorityGroupId.ID;
-                                                v.PersonID = GetPersonID.ID;
-                                                //v.ProvinceID = GetProvinceId.province_id;
-                                                //v.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
-                                                //v.BarangayID = pb.BarangayId;
+                                                Vaccination vaccination = new Vaccination();
+                                                vaccination.PriorityGroupID = GetPriorityGroupId.ID;
+                                                vaccination.PersonID = GetPersonID.ID;
 
                                                 if (pb.DeferralId > 0)
 
                                                 {
-                                                    v.DeferralID = pb.DeferralId;
+                                                    vaccination.DeferralID = pb.DeferralId;
                                                 }
 
-                                                v.VaccinationDate = pb.vaccinationdateForQry;
-                                                v.VaccineID = GetVaccineManufacturerId.ID;
-                                                v.BatchNumber = pb.batchnumber;
-                                                v.LotNumber = pb.lotnumber;
-                                                v.BakunaCenterCBCRID = pb.bakunacentercbcrid;
-                                                v.VaccinatorName = pb.vaccinatorname;
-                                                v.DoseID = pb.DoseId;
+                                                vaccination.VaccinationDate = pb.vaccinationdateForQry.Date;
+                                                vaccination.VaccineID = GetVaccineManufacturerId.ID;
+                                                vaccination.BatchNumber = pb.batchnumber;
+                                                vaccination.LotNumber = pb.lotnumber;
+                                                vaccination.BakunaCenterCBCRID = pb.bakunacentercbcrid;
+                                                vaccination.VaccinatorName = pb.vaccinatorname;
+                                                vaccination.DoseID = pb.DoseId;
 
                                                 if (pb.AdverseID > 0)
-
                                                 {
-                                                    v.AdverseID = pb.AdverseID;
+                                                    vaccination.AdverseID = pb.AdverseID;
                                                 }
-
-                                                //v.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
-                                                //v.ProvinceID = GetProvinceId.province_id;
-                                                v.Comorbidity = pb.comorbidity;
-                                                db.Vaccinations.Add(v);
+                                                vaccination.Comorbidity = pb.comorbidity;
+                                                //vaccination.DateCreate = System.DateTime.Now.Date;
+                                                db.Vaccinations.Add(vaccination);
                                                 db.SaveChanges();
 
                                                 pb.VaccinationUploadedCounter++;
@@ -778,8 +771,8 @@ namespace R12VIS.Controllers
                                                 pb.AdverseEventErrorMessage +
                                                 pb.BirthDateErrorMessage +
                                                 pb.VaccinationDateErrorMessage +
-                                                pb.DeferralErrorMessage +
-                                                pb.BarangayErrorMessage
+                                                pb.DeferralErrorMessage //+
+                                                //pb.BarangayErrorMessage
 
                                                 );
 
@@ -835,10 +828,6 @@ namespace R12VIS.Controllers
                                 }
 
                                 // DELETE UPLOADED OR DUPLICATE ROWS IN EXCEL
-                                // Load the Excel file using ClosedXML
-
-                                //var worksheet = xlworkbook.Worksheet(pb.worksheet);
-
                                 int lastRow = xlworkbook.Worksheet(pb.worksheet).LastRowUsed().RowNumber(); // worksheet.LastRowUsed().RowNumber();
                                 var rowsToDelete = new List<int>();
 
@@ -850,17 +839,12 @@ namespace R12VIS.Controllers
                                     {
                                         rowsToDelete.Add(row);
                                     }
-                                    //if (worksheet.Cell(row, 34).IsEmpty())
-                                    //{
-                                    //    rowsToDelete.Add(row);
-                                    //}
                                 }
 
                                 // Delete the rows after the iteration is complete
                                 foreach (var rowNumber in rowsToDelete.OrderByDescending(r => r))
                                 {
                                     xlworkbook.Worksheet(pb.worksheet).Row(rowNumber).Delete();
-                                    //worksheet.Row(rowNumber).Delete();
                                 }
 
 
@@ -897,14 +881,14 @@ namespace R12VIS.Controllers
                 {
                     return Json(new { success = pb.success, message = "Please select worksheet format." });
                 }
-            }
-            catch (Exception ex)
-            {
-                // Create a JSON response with the error message
-                var errorMessage = "An error occurred: " + ex.Message;
-                return Json(new { success = false, message = errorMessage }, JsonRequestBehavior.AllowGet);
+            //}
+            //catch (Exception ex)
+            //{
+            //    // Create a JSON response with the error message
+            //    var errorMessage = "An error occurred: " + ex.Message;
+            //    return Json(new { success = false, message = errorMessage }, JsonRequestBehavior.AllowGet);
 
-            }
+            //}
 
             return Json(new { success = false, message = "Excel File encoundered an error during uploading. Either excel rows is more than 10k or incorrect foramt. Please double check the Excel File or contact your administrator." });
         }
