@@ -265,14 +265,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202308030852432_8-32-2023-updates.cs" />
-    <Compile Include="Migrations\202308030852432_8-32-2023-updates.designer.cs">
-      <DependentUpon>202308030852432_8-32-2023-updates.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Adverse.cs" />
     <Compile Include="Models\Barangay.cs" />
     <Compile Include="Models\CityMunicipality.cs" />
+    <Compile Include="Models\CustomDateValidation\BrithDateValidationAttribute.cs" />
+    <Compile Include="Models\CustomDateValidation\DateFormatValidationAttribute.cs" />
     <Compile Include="Models\DbContextR12.cs" />
     <Compile Include="Models\Deferral.cs" />
     <Compile Include="Models\Dose.cs" />
@@ -632,11 +630,6 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202308030852432_8-32-2023-updates.resx">
-      <DependentUpon>202308030852432_8-32-2023-updates.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

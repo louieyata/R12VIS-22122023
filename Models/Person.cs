@@ -1,4 +1,5 @@
-﻿using System;
+﻿using R12VIS.Models.CustomDateValidation;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -43,20 +44,21 @@ namespace R12VIS.Models
         public int? EthnicGroupID { get; set; }
         public EthnicGroup EthnicGroup { get; set; }
 
-        [DateValidation(ErrorMessage = "Invalid date")]
+        [DateFormatValidation(ErrorMessage = "Invalid date")]
+        [BrithDateValidation(ErrorMessage = "Invalid date")]
         [DataType(DataType.Date)]
         public DateTime? BirthDate { get; set; }
 
         ///public int ProvinceID { get; set; }
-       /// public Province Province { get; set; }
+        /// public Province Province { get; set; }
 
 
-       /// public int CityMunicipalityID { get; set; }
+        /// public int CityMunicipalityID { get; set; }
         ///public CityMunicipality CityMunicipality { get; set; }
 
 
-       /// public int BarangayID { get; set; }
-      ///  public Barangay Barangay { get; set; }
+        /// public int BarangayID { get; set; }
+        ///  public Barangay Barangay { get; set; }
 
 
         [ForeignKey("Province")]
@@ -73,49 +75,4 @@ namespace R12VIS.Models
 
     }
 
-    public class DateValidationAttribute : ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            DateTime date;
-
-            if (value is DateTime)
-            {
-                date = (DateTime)value;
-            }
-            else if (value is string)
-            {
-                if (!DateTime.TryParse((string)value, out date))
-                {
-                    return new ValidationResult("Invalid date format.");
-                }
-            }
-            else
-            {
-                return new ValidationResult("Invalid date format.");
-            }
-
-            var currentDate = DateTime.Now;
-            var numberOfYears = currentDate.Year - date.Year;
-            var minDate = currentDate.AddYears(-150);
-            var maxDate = currentDate;
-
-            if (date > maxDate)
-            {
-                return new ValidationResult("Invalid Date"); //Date cannot be in the future
-            }
-
-            if (date < minDate)
-            {
-                return new ValidationResult("Invalid Date"); // Date cant be more than 150 years old
-            }
-            if (numberOfYears < 5)
-            {
-                return new ValidationResult("Invalid Date"); // Age cant be less than 5 years old
-            }
-
-
-            return ValidationResult.Success;
-        }
-    }
 }

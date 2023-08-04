@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using R12VIS.Models.CustomDateValidation;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-using System.Xml.Linq;
 
 namespace R12VIS.Models
 {
@@ -27,7 +24,7 @@ namespace R12VIS.Models
         public int? DeferralID { get; set; }
         public Deferral Deferral { get; set; }
 
-        [DateValidation(ErrorMessage = "Invalid date")]
+        [DateFormatValidation(ErrorMessage = "Invalid date")]
         [DataType(DataType.Date)]
         public DateTime? VaccinationDate { get; set; }
 
@@ -54,7 +51,7 @@ namespace R12VIS.Models
         public int? AdverseID { get; set; }
         public Adverse Adverse { get; set; }
 
-        [DateValidation(ErrorMessage = "Invalid date")]
+        [DateFormatValidation(ErrorMessage = "Invalid date")]
         [DataType(DataType.Date)]
         public DateTime DateCreate { get; set; } = DateTime.Now.Date;
 
