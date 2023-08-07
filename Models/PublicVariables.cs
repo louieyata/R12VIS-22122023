@@ -60,7 +60,12 @@ namespace R12VIS.Models
         public bool AdverseEventCheck = false;
         public bool DeferralCheck = false;
         public bool GuardianIsRequired = false;
-        //public bool isRowUploaded = false;
+
+        public bool FirstNameChecker = false;
+        public bool LastNameChecker = false;
+        public bool MiddleNameChecker = false;
+        public bool SuffixChecker = false;
+        public bool ContactNumberChecker = false;
 
 
         public bool PersonCheck = false;
@@ -103,7 +108,8 @@ namespace R12VIS.Models
         public int TotalExcelRows = 0;
         public int TotalProcessedExcelRows = 0;
         public string BarangayErrorMessage;
-        
+        public string SuffixErrorMessage;
+
 
         public bool success = false;
 

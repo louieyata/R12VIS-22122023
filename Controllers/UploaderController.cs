@@ -24,6 +24,8 @@ using DocumentFormat.OpenXml.Drawing;
 using WebGrease.Css.Ast;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using System.Text.RegularExpressions;
+using System.ComponentModel.DataAnnotations;
 
 namespace R12VIS.Controllers
 {
@@ -36,6 +38,27 @@ namespace R12VIS.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        // LETTER AND SPACES CHECKER - USED
+        public bool ContainsOnlyLetters(string input)
+        {
+            // Use a regular expression to match only letters and spaces (alphabetic characters)
+            //return Regex.IsMatch(input, "^[a-zA-Z-  ]+$");
+            return Regex.IsMatch(input, @"^[a-zA-ZñÑ\- ']+$");
+        }
+
+
+        public bool CheckString(string inputString)
+        {
+            // Define the regular expression pattern
+            string pattern = @"^[+]?[0-9]{10,12}$";
+
+            // Use Regex.IsMatch() to check the inputString against the pattern
+            bool isMatch = Regex.IsMatch(inputString, pattern);
+
+            return isMatch;
+
         }
 
 
@@ -75,714 +98,751 @@ namespace R12VIS.Controllers
         public ActionResult Uploader(HttpPostedFileBase myExcelData, string selectedValue) 
         {
             // MAIN PROCESS
-            //try
-            //{
-                int result;
+            int result;
 
-                if (int.TryParse(selectedValue, out result))
+            if (int.TryParse(selectedValue, out result))
+            {
+                if (result > 0)
                 {
-                    if (result > 0)
+                    if (myExcelData != null)
                     {
-                        if (myExcelData != null)
+                        if (myExcelData.ContentLength > 0)
                         {
-                            if (myExcelData.ContentLength > 0)
+                            pb.worksheet = Convert.ToInt32(selectedValue);
+                            // Get Current Excel Filename
+                            pb.GetExcelFileName = System.IO.Path.GetFileName(myExcelData.FileName);
+
+
+                            // Get path where to save excel file to upload folder in the project
+                            pb.GetSaveTargetPath = Server.MapPath("/Upload/");
+
+                            // Generate excel new filename with datetime tag
+                            pb.ExcelNewFileName = pb.datetime + pb.GetExcelFileName;
+                            TempData["excelfilename"] = pb.ExcelNewFileName;
+
+                            // complete path and new excel file
+                            pb.CompleteFilePathAndFileName = pb.GetSaveTargetPath + pb.ExcelNewFileName;
+
+                            // save excel file to upload folder in the project with new filename
+                            myExcelData.SaveAs(pb.CompleteFilePathAndFileName);
+
+                            // penetrate excel content
+                            XLWorkbook xlworkbook = new XLWorkbook(pb.CompleteFilePathAndFileName);
+
+                            // Cout Excel Sheets
+                            pb.SheetCount = xlworkbook.Worksheets.Count;
+
+                            // get total excel rows
+                            pb.TotalExcelRows = xlworkbook.Worksheet(pb.worksheet).LastRowUsed().RowNumber() - 1;
+
+                            // from VAS Excel
+                            if (pb.SheetCount == 1 && result != 1)
                             {
-                                pb.worksheet = Convert.ToInt32(selectedValue);
-                                // Get Current Excel Filename
-                                pb.GetExcelFileName = System.IO.Path.GetFileName(myExcelData.FileName);
+                                return Json(new { success = false, message = "Excel Attached contains 1 sheet only so therefore, it is probably downloaded from VAS Line Website." });
+                            }
+                            else if (pb.SheetCount > 1 && result == 1)
+                            {
+                                return Json(new { success = false, message = "Excel Attached contains multiple sheets so therefore, it is probably Excel Default Template." });
+                            }
 
 
-                                // Get path where to save excel file to upload folder in the project
-                                pb.GetSaveTargetPath = Server.MapPath("/Upload/");
+                            var progress = 0;
 
-                                // Generate excel new filename with datetime tag
-                                pb.ExcelNewFileName = pb.datetime + pb.GetExcelFileName;
-                                TempData["excelfilename"] = pb.ExcelNewFileName;
+                            // GET LIST
+                            // loop excel rows and get data on each cells
+                            while (xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 1).GetString() != "")
+                            {
+                                // PERSON TABLE
+                                pb.uniquepersonid = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 3).GetString();
+                                pb.pwd = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 4).GetString();
+                                pb.ethnicgroup = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 5).GetString();
+                                pb.lastname = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 6).GetString();
+                                pb.firstname = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 7).GetString();
+                                pb.middlename = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 8).GetString();
+                                pb.suffix = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 9).GetString();
+                                pb.contactnumber = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 10).GetString();
+                                pb.guardianname = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 11).GetString();
+                                pb.gender = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 16).GetString();
+                                pb.birthdate = xlworkbook.Worksheet(pb.worksheet).Cell(pb.row, 17).GetString();
 
-                                // complete path and new excel file
-                                pb.CompleteFilePathAndFileName = pb.GetSaveTargetPath + pb.ExcelNewFileName;
+                                // MAIN TABLE
+                                pb.category = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 1).GetString();
+                                pb.comorbidity = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 2).GetString();
+                                pb.region = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 12).GetString();
+                                pb.province = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 13).GetString();
+                                pb.citymunicipality = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 14).GetString();
+                                pb.barangay = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 15).GetString();
+                                pb.deferral = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 18).GetString();
+                                pb.reasonfordeferral = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 19).GetString();
+                                pb.vaccinationdate = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 20).GetString();
+                                pb.vaccinemanufacturername = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 21).GetString();
+                                pb.batchnumber = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 22).GetString();
+                                pb.lotnumber = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 23).GetString();
+                                pb.bakunacentercbcrid = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 24).GetString();
+                                pb.vaccinatorname = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 25).GetString();
+                                pb.firstdose = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 26).GetString();
+                                pb.seconddose = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 27).GetString();
+                                pb.additionalboosterdose = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 28).GetString();
+                                pb.secondadditionalboosterdose = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 29).GetString();
+                                pb.adverseevent = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 30).GetString();
+                                pb.adverseeventcondition = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 31).GetString();
+                                pb.RowHash = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 32).GetString();
 
-                                // save excel file to upload folder in the project with new filename
-                                myExcelData.SaveAs(pb.CompleteFilePathAndFileName);
-
-                                // penetrate excel content
-                                XLWorkbook xlworkbook = new XLWorkbook(pb.CompleteFilePathAndFileName);
-
-                                // Cout Excel Sheets
-                                pb.SheetCount = xlworkbook.Worksheets.Count;
-
-                                // get total excel rows
-                                pb.TotalExcelRows = xlworkbook.Worksheet(pb.worksheet).LastRowUsed().RowNumber() -1;
-
-                                // from VAS Excel
-                                if (pb.SheetCount == 1 && result != 1)
+                                // Unique Person ID
+                                if (pb.uniquepersonid == "")
                                 {
-                                    return Json(new { success = false, message = "Excel Attached contains 1 sheet only so therefore, it is probably downloaded from VAS Line Website." });
+                                    pb.UniquePersonIdErrorMessage = "Unique Person ID must not empty,";
                                 }
-                                else if (pb.SheetCount > 1 && result == 1)
+
+                                // First Name
+                                if (pb.firstname != "")
                                 {
-                                    return Json(new { success = false, message = "Excel Attached contains multiple sheets so therefore, it is probably Excel Default Template." });
+                                    pb.FirstNameChecker = ContainsOnlyLetters(pb.firstname);
+
+                                    if (pb.FirstNameChecker == false)
+                                    {
+                                        pb.FirstNameErrorMessage = "First Name is invalid,";
+                                    }
+                                }
+                                else
+                                {
+                                    pb.FirstNameErrorMessage = "First Name must not empty,";
+                                }
+
+                                // Middle Name
+                                if (pb.middlename != "")
+                                {
+                                    pb.MiddleNameChecker = ContainsOnlyLetters(pb.middlename);
+
+                                    if (pb.MiddleNameChecker == false)
+                                    {
+                                        pb.MiddleNameErrorMessage = "Middle Name is invalid,";
+                                    }
+
+                                    //pb.MiddleNameErrorMessage = "* Middle Name must not empty!";
+                                }
+
+                                // Last Name
+                                if (pb.lastname != "")
+                                {
+                                    pb.LastNameChecker = ContainsOnlyLetters(pb.lastname);
+
+                                    if (pb.LastNameChecker == false)
+                                    {
+                                        pb.LastNameErrorMessage = "Last Name is invalid,";
+                                    }
+                                }
+                                else
+                                {
+                                    pb.LastNameErrorMessage = "Last Name must not empty,";
+                                }
+
+                                // Contact Number
+                                if (pb.contactnumber != "")
+                                {
+                                    pb.ContactNumberChecker = CheckString(pb.contactnumber);
+
+                                    if (pb.ContactNumberChecker == false)
+                                    {
+                                        pb.ContactNumberErrorMessage = "Contact Number is invalid!";
+                                    }
+                                }
+                                else
+                                {
+                                    pb.ContactNumberErrorMessage = "Contact number must not empty,";
                                 }
 
 
-                                var progress = 0; 
-
-                                // GET LIST
-                                // loop excel rows and get data on each cells
-                                while (xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 1).GetString() != "")
+                                // Suffix
+                                if (pb.suffix != "")
                                 {
-                                    // PERSON TABLE
-                                    pb.uniquepersonid = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 3).GetString();
-                                    pb.pwd = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 4).GetString();
-                                    pb.ethnicgroup = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 5).GetString();
-                                    pb.lastname = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 6).GetString();
-                                    pb.firstname = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 7).GetString();
-                                    pb.middlename = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 8).GetString();
-                                    pb.suffix = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 9).GetString();
-                                    pb.contactnumber = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 10).GetString();
-                                    pb.guardianname = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 11).GetString();
-                                    pb.gender = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 16).GetString();
-                                    pb.birthdate = xlworkbook.Worksheet(pb.worksheet).Cell(pb.row, 17).GetString();
+                                    pb.SuffixChecker = ContainsOnlyLetters(pb.suffix);
 
-                                    // MAIN TABLE
-                                    pb.category = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 1).GetString();
-                                    pb.comorbidity = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 2).GetString();
-                                    pb.region = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 12).GetString();
-                                    pb.province = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 13).GetString();
-                                    pb.citymunicipality = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 14).GetString();
-                                    pb.barangay = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 15).GetString();
-                                    pb.deferral = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 18).GetString();
-                                    pb.reasonfordeferral = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 19).GetString();
-                                    pb.vaccinationdate = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 20).GetString();
-                                    pb.vaccinemanufacturername = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 21).GetString();
-                                    pb.batchnumber = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 22).GetString();
-                                    pb.lotnumber = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 23).GetString();
-                                    pb.bakunacentercbcrid = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 24).GetString();
-                                    pb.vaccinatorname = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 25).GetString();
-                                    pb.firstdose = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 26).GetString();
-                                    pb.seconddose = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 27).GetString();
-                                    pb.additionalboosterdose = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 28).GetString();
-                                    pb.secondadditionalboosterdose = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 29).GetString();
-                                    pb.adverseevent = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 30).GetString();
-                                    pb.adverseeventcondition = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 31).GetString();
-                                    pb.RowHash = xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 32).GetString();
-
-                                    // Unique Person ID
-                                    if (pb.uniquepersonid == "")
+                                    if (pb.SuffixChecker == false)
                                     {
-                                        pb.UniquePersonIdErrorMessage = "Unique Person ID must not empty,";
+                                        pb.SuffixErrorMessage = "Suffix is invalid,";
                                     }
+                                }
 
-                                    // First Name
-                                    if (pb.firstname == "")
-                                    {
-                                        pb.FirstNameErrorMessage = "First Name must not empty,";
-                                    }
 
-                                    // Middle Name
-                                    if (pb.middlename == "")
-                                    {
-                                        //pb.MiddleNameErrorMessage = "* Middle Name must not empty!";
-                                    }
+                                // Gender
+                                // CHECK GENDER
+                                if (pb.gender.ToLower().StartsWith("m"))
+                                {
+                                    //pb.isMale = true;
+                                    pb.gender = "m";
+                                    pb.GenderCheck = true;
+                                }
+                                else if (pb.gender.ToLower().StartsWith("f"))
+                                {
+                                    //pb.isMale = false;
+                                    pb.gender = "f";
+                                    pb.GenderCheck = true;
+                                }
+                                else
+                                {
+                                    pb.GenderErrorMessage = "Sex is either Incorrect or empty,";
+                                    pb.GenderCheck = false;
+                                }
 
-                                    // Last Name
-                                    if (pb.lastname == "")
-                                    {
-                                        pb.LastNameErrorMessage = "Last Name must not empty,";
-                                    }
 
-                                    // Gender
-                                    // CHECK GENDER
+                                // PWD
+                                // CHECK PWD
+                                // No or N || yes or Y
+                                if (pb.pwd.ToLower().StartsWith("y"))
+                                {
+                                    pb.isPWD = true;
+                                    pb.PWDCheck = true;
+                                }
+                                else if (pb.pwd.ToLower().StartsWith("n"))
+                                {
+                                    pb.isPWD = false;
+                                    pb.PWDCheck = true;
+                                }
+                                else
+                                {
+                                    pb.PWDErrorMessage = "PWD is either incorrect or empty,";
+                                    pb.PWDCheck = false;
+                                }
 
-                                    if (pb.gender.ToLower().StartsWith("m"))
+                                // Ethnic Group
+                                // Get Ethnic Group ID
+                                var GetEthnicGroupId = db.EthnicGroups.FirstOrDefault(s => s.IndigenousMember.ToLower() == pb.ethnicgroup.ToLower());
+
+                                //Category
+                                // Get Priority Group ID
+                                if (pb.category.ToLower() == "a3")
+                                {
+                                    pb.category = "a3 - immunocompetent";
+                                }
+                                var GetPriorityGroupId = db.PriorityGroups.FirstOrDefault(s => s.Category.ToLower() == pb.category.ToLower());
+                                if (GetPriorityGroupId == null)
+                                {
+                                    pb.PriorityGroupErrorMessage = "Cannot find Priority Group or Category reference in the database,";
+                                }
+                                else
+                                {
+                                    if (GetPriorityGroupId.Category.ToLower().StartsWith("ropp") || pb.category.ToLower().StartsWith("pedia"))
                                     {
-                                        //pb.isMale = true;
-                                        pb.gender = "m";
-                                        pb.GenderCheck = true;
-                                    }
-                                    else if (pb.gender.ToLower().StartsWith("f"))
-                                    {
-                                        //pb.isMale = false;
-                                        pb.gender = "f";
-                                        pb.GenderCheck = true;
+                                        pb.GuardianIsRequired = true;
                                     }
                                     else
                                     {
-                                        pb.GenderErrorMessage = "Sex is either Incorrect or empty,";
-                                        pb.GenderCheck = false;
+                                        pb.GuardianIsRequired = false;
                                     }
+                                }
 
 
-                                    // PWD
-                                    // CHECK PWD
-                                    // No or N || yes or Y
-                                    if (pb.pwd.ToLower().StartsWith("y"))
-                                    {
-                                        pb.isPWD = true;
-                                        pb.PWDCheck = true;
-                                    }
-                                    else if (pb.pwd.ToLower().StartsWith("n"))
-                                    {
-                                        pb.isPWD = false;
-                                        pb.PWDCheck = true;
-                                    }
-                                    else
-                                    {
-                                        pb.PWDErrorMessage = "PWD is either incorrect or empty,";
-                                        pb.PWDCheck = false;
-                                    }
-
-                                    // Ethnic Group
-                                    // Get Ethnic Group ID
-                                    var GetEthnicGroupId = db.EthnicGroups.FirstOrDefault(s => s.IndigenousMember.ToLower() == pb.ethnicgroup.ToLower());
-
-                                    // Contact Number
-                                    if (pb.contactnumber == "")
-                                    {
-                                        pb.ContactNumberErrorMessage = "Contact number must not empty,";
-                                    }
+                                // Region
+                                if (pb.region == "")
+                                {
+                                    pb.RegionErrorMessage = "Region must not empty,";
+                                }
 
 
-                                    //Category
-                                    // Get Priority Group ID
-                                    if (pb.category.ToLower() == "a3")
-                                    {
-                                        pb.category = "a3 - immunocompetent";
-                                    }
-                                    var GetPriorityGroupId = db.PriorityGroups.FirstOrDefault(s => s.Category.ToLower() == pb.category.ToLower());
-                                    if (GetPriorityGroupId == null)
-                                    {
-                                        pb.PriorityGroupErrorMessage = "Cannot find Priority Group or Category reference in the database,";
-                                    }
-                                    else
-                                    {
-                                        if (GetPriorityGroupId.Category.ToLower().StartsWith("ropp") || pb.category.ToLower().StartsWith("pedia"))
-                                        {
-                                            pb.GuardianIsRequired = true;
-                                        }
-                                        else
-                                        {
-                                            pb.GuardianIsRequired = false;
-                                        }
-                                    }
+                                // Province
+                                // Get Province ID
+                                var GetProvinceId = db.Provinces.FirstOrDefault(s => s.province_code_excel.ToLower() == pb.province.ToLower());
+                                if (GetProvinceId == null)
+                                {
+                                    pb.ProvinceErrorMessage = "Cannot find province reference in the database,";
+                                }
 
 
-                                    // Region
-                                    if (pb.region == "")
-                                    {
-                                        pb.RegionErrorMessage = "Region must not empty,";
-                                    }
+                                // Get City Municipality ID
+                                var GetCityMunicipalityId = db.CityMunicipalities.FirstOrDefault(s => s.CityMunicipalityCodeExcel.ToLower() == pb.citymunicipality.ToLower());
+                                if (GetCityMunicipalityId == null)
+                                {
+                                    pb.CityErrorMessage = "Cannot find City reference in the database,";
+                                }
 
 
-                                    // Province
-                                    // Get Province ID
-                                    var GetProvinceId = db.Provinces.FirstOrDefault(s => s.province_code_excel.ToLower() == pb.province.ToLower());
-                                    if (GetProvinceId == null)
-                                    {
-                                        pb.ProvinceErrorMessage = "Cannot find province reference in the database,";
-                                    }
-
-
-                                    // Get City Municipality ID
-                                    var GetCityMunicipalityId = db.CityMunicipalities.FirstOrDefault(s => s.CityMunicipalityCodeExcel.ToLower() == pb.citymunicipality.ToLower());
-                                    if (GetCityMunicipalityId == null)
-                                    {
-                                        pb.CityErrorMessage = "Cannot find City reference in the database,";
-                                    }
-
-
-                                    // Get Barangay ID
+                                // Get Barangay ID
+                                if (pb.barangay != "")
+                                {
                                     var GetBarangayId = db.Barangays.FirstOrDefault(s => s.barangay_name.ToLower() == pb.barangay.ToLower());
-                                    if (GetBarangayId == null)
+
+                                    if (GetBarangayId != null)
                                     {
-                                        pb.BarangayErrorMessage = "Cannot find Barangay reference in the database,";
+                                        pb.BarangayId = GetBarangayId.barangay_id;
                                     }
-                                    //else
-                                    //{
-                                    //    pb.BarangayId = GetBarangayId.barangay_id;
-                                    //}
-                                    //if (GetBarangayId == null)
-                                    //{
-                                    //    Barangay s = new Barangay();
-                                    //    if (GetCityMunicipalityId != null)
-                                    //    {
-                                    //        s.city_municipality_id = GetCityMunicipalityId.city_municipality_id;
-                                    //    }
+                                }
 
-                                    //    if (pb.barangay != null)
-                                    //    {
-                                    //        s.barangay_name = pb.barangay;
-                                    //    }
-                                        
-                                    //    if (GetProvinceId.province_code != null)
-                                    //    {
-                                    //        s.province_code = GetProvinceId.province_code;
-                                    //    }
-                                        
-                                    //    if (GetCityMunicipalityId != null)
-                                    //    {
-                                    //        s.city_municipality_code = GetCityMunicipalityId.CityMunicipalityCode;
-                                    //    }
-                                        
-                                        
-                                    //    db.Barangays.Add(s);
-                                    //    db.SaveChanges();
+                                // Vaccine Manufacturer
+                                // Get Vaccine Manufacturer ID
+                                var GetVaccineManufacturerId = db.Vaccines.FirstOrDefault(s => s.VaccineBrand.ToLower() == pb.vaccinemanufacturername.ToLower() || s.VaccineManufacturer.ToLower() == pb.vaccinemanufacturername.ToLower());
+                                if (GetVaccineManufacturerId == null)
+                                {
+                                    pb.VaccineManufacturerErrorMessage = "Cannot find Vaccine Manufacturer reference in the database,";
+                                }
 
-                                    //    // Get Barangay ID
-                                    //    var GetBarangayId2 = db.Barangays.FirstOrDefault(w =>
-                                    //    w.barangay_name == pb.barangay);
 
-                                    //    pb.BarangayId = GetBarangayId2.barangay_id;
-                                    //}
-                                    //else
-                                    //{
-                                    //    pb.BarangayId = GetBarangayId.barangay_id;
-                                    //}
+                                // Batch Number
+                                if (pb.batchnumber == "")
+                                {
+                                    pb.BatchNumberErrorMessage = "Batch Number must not empty,";
+                                }
 
-                                    // Vaccine Manufacturer
-                                    // Get Vaccine Manufacturer ID
-                                    var GetVaccineManufacturerId = db.Vaccines.FirstOrDefault(s => s.VaccineBrand.ToLower() == pb.vaccinemanufacturername.ToLower() || s.VaccineManufacturer.ToLower() == pb.vaccinemanufacturername.ToLower());
-                                    if (GetVaccineManufacturerId == null)
+
+                                // Lot Number
+                                if (pb.lotnumber == "")
+                                {
+                                    pb.LotNumberErrorMessage = "Lot Number must not empty,";
+                                }
+
+
+                                // Bakuna Center CBCB ID
+                                if (pb.bakunacentercbcrid == "")
+                                {
+                                    pb.BakunaCenterCBCRIdErrorMessage = "Bakuna Center CBCR ID must not empty,";
+                                }
+
+
+                                // Vaccinator Name
+                                if (pb.vaccinatorname == "")
+                                {
+                                    pb.VaccinatorNameErrorMessage = "Vaccinator Name must not empty,";
+                                }
+
+
+                                // Dose
+                                // Get Dose ID
+                                // FIRST DOSE
+                                if (pb.firstdose.ToLower().StartsWith("y") && pb.seconddose.ToLower().StartsWith("n") && pb.additionalboosterdose.ToLower().StartsWith("n") && pb.secondadditionalboosterdose.ToLower().StartsWith("n"))
+                                {
+                                    var GetDoseId = db.Dose.FirstOrDefault(s => s.VaccineDose.ToLower() == "1st dose");
+                                    pb.DoseId = GetDoseId.ID;
+                                }
+                                // SECOND DOSE
+                                else if (pb.firstdose.ToLower().StartsWith("n") && pb.seconddose.ToLower().StartsWith("y") && pb.additionalboosterdose.ToLower().StartsWith("n") && pb.secondadditionalboosterdose.ToLower().StartsWith("n"))
+                                {
+                                    var GetDoseId = db.Dose.FirstOrDefault(s => s.VaccineDose.ToLower() == "2nd dose");
+                                    pb.DoseId = GetDoseId.ID;
+                                }
+                                // ADDITIONAL BOOSTER DOSE
+                                else if (pb.firstdose.ToLower().StartsWith("n") && pb.seconddose.ToLower().StartsWith("n") && pb.additionalboosterdose.ToLower().StartsWith("y") && pb.secondadditionalboosterdose.ToLower().StartsWith("n"))
+                                {
+                                    var GetDoseId = db.Dose.FirstOrDefault(s => s.VaccineDose.ToLower() == "additional/booster dose");
+                                    pb.DoseId = GetDoseId.ID;
+                                }
+                                // SECOND ADDITIONAL BOOSTER DOSE
+                                else if (pb.firstdose.ToLower().StartsWith("n") && pb.seconddose.ToLower().StartsWith("n") && pb.additionalboosterdose.ToLower().StartsWith("n") && pb.secondadditionalboosterdose.ToLower().StartsWith("y"))
+                                {
+                                    var GetDoseId = db.Dose.FirstOrDefault(s => s.VaccineDose.ToLower() == "2nd additional/booster dose");
+                                    pb.DoseId = GetDoseId.ID;
+                                }
+                                else
+                                {
+                                    pb.DoseErrorMessage = "Cannot find Dose reference in the database,";
+                                }
+
+
+                                // adverse Event
+                                // ADVERSE EVENT AND ADVERSE EVENT CONDITION
+                                if (pb.adverseevent.ToLower().StartsWith("y"))
+                                {
+                                    if (pb.adverseeventcondition != "")
                                     {
-                                        pb.VaccineManufacturerErrorMessage = "Cannot find Vaccine Manufacturer reference in the database,";
-                                    }
+                                        var GetAdverseID = db.Adverses.SingleOrDefault(s => s.Condition == pb.adverseeventcondition);
 
-
-                                    // Batch Number
-                                    if (pb.batchnumber == "")
-                                    {
-                                        pb.BatchNumberErrorMessage = "Batch Number must not empty,";
-                                    }
-
-
-                                    // Lot Number
-                                    if (pb.lotnumber == "")
-                                    {
-                                        pb.LotNumberErrorMessage = "Lot Number must not empty,";
-                                    }
-
-
-                                    // Bakuna Center CBCB ID
-                                    if (pb.bakunacentercbcrid == "")
-                                    {
-                                        pb.BakunaCenterCBCRIdErrorMessage = "Bakuna Center CBCR ID must not empty,";
-                                    }
-
-
-                                    // Vaccinator Name
-                                    if (pb.vaccinatorname == "")
-                                    {
-                                        pb.VaccinatorNameErrorMessage = "Vaccinator Name must not empty,";
-                                    }
-
-
-                                    // Dose
-                                    // Get Dose ID
-                                    // FIRST DOSE
-                                    if (pb.firstdose.ToLower().StartsWith("y") && pb.seconddose.ToLower().StartsWith("n") && pb.additionalboosterdose.ToLower().StartsWith("n") && pb.secondadditionalboosterdose.ToLower().StartsWith("n"))
-                                    {
-                                        var GetDoseId = db.Dose.FirstOrDefault(s => s.VaccineDose.ToLower() == "1st dose");
-                                        pb.DoseId = GetDoseId.ID;
-                                    }
-                                    // SECOND DOSE
-                                    else if (pb.firstdose.ToLower().StartsWith("n") && pb.seconddose.ToLower().StartsWith("y") && pb.additionalboosterdose.ToLower().StartsWith("n") && pb.secondadditionalboosterdose.ToLower().StartsWith("n"))
-                                    {
-                                        var GetDoseId = db.Dose.FirstOrDefault(s => s.VaccineDose.ToLower() == "2nd dose");
-                                        pb.DoseId = GetDoseId.ID;
-                                    }
-                                    // ADDITIONAL BOOSTER DOSE
-                                    else if (pb.firstdose.ToLower().StartsWith("n") && pb.seconddose.ToLower().StartsWith("n") && pb.additionalboosterdose.ToLower().StartsWith("y") && pb.secondadditionalboosterdose.ToLower().StartsWith("n"))
-                                    {
-                                        var GetDoseId = db.Dose.FirstOrDefault(s => s.VaccineDose.ToLower() == "additional/booster dose");
-                                        pb.DoseId = GetDoseId.ID;
-                                    }
-                                    // SECOND ADDITIONAL BOOSTER DOSE
-                                    else if (pb.firstdose.ToLower().StartsWith("n") && pb.seconddose.ToLower().StartsWith("n") && pb.additionalboosterdose.ToLower().StartsWith("n") && pb.secondadditionalboosterdose.ToLower().StartsWith("y"))
-                                    {
-                                        var GetDoseId = db.Dose.FirstOrDefault(s => s.VaccineDose.ToLower() == "2nd additional/booster dose");
-                                        pb.DoseId = GetDoseId.ID;
+                                        if (GetAdverseID != null)
+                                        {
+                                            pb.AdverseID = GetAdverseID.ID;
+                                        }
+                                        pb.AdverseEventCheck = true;
                                     }
                                     else
                                     {
-                                        pb.DoseErrorMessage = "Cannot find Dose reference in the database,";
-                                    }
-
-
-                                    // adverse Event
-                                    // ADVERSE EVENT AND ADVERSE EVENT CONDITION
-                                    if (pb.adverseevent.ToLower().StartsWith("y"))
-                                    {
-                                        if (pb.adverseeventcondition != "")
-                                        {
-                                            var GetAdverseID = db.Adverses.SingleOrDefault(s => s.Condition == pb.adverseeventcondition);
-
-                                            if (GetAdverseID != null)
-                                            {
-                                                pb.AdverseID = GetAdverseID.ID;
-                                            }
-                                            pb.AdverseEventCheck = true;
-                                        }
-                                        else
-                                        {
-                                            pb.AdverseEventErrorMessage = "Make sure that the Adverse Event Condition is not empty if the Adverse Event status is Yes,";
-                                            pb.AdverseEventCheck = false;
-                                        }
-                                    }
-                                    else if (pb.adverseevent.ToLower().StartsWith("n"))
-                                    {
-                                        if (pb.adverseeventcondition == "" || pb.adverseeventcondition.ToLower().StartsWith("n"))
-                                        {
-                                            pb.AdverseEventCheck = true;
-                                        }
-                                        else
-                                        {
-                                            pb.AdverseEventErrorMessage = "Make sure that the Adverse Event status is Yes if the Adverse Event Condition has a content,";
-                                            pb.AdverseEventCheck = false;
-                                        }
-                                    }
-                                    else
-                                    {
+                                        pb.AdverseEventErrorMessage = "Make sure that the Adverse Event Condition is not empty if the Adverse Event status is Yes,";
                                         pb.AdverseEventCheck = false;
-
                                     }
-
-
-                                    //BIRTHDATE
-                                    if (pb.birthdate != "")
+                                }
+                                else if (pb.adverseevent.ToLower().StartsWith("n"))
+                                {
+                                    if (pb.adverseeventcondition == "" || pb.adverseeventcondition.ToLower().StartsWith("n"))
                                     {
-                                        // CHECK AND VALIDATE BIRTH DATE
-                                        // check if value is already in date format
-                                        if (System.DateTime.TryParse(pb.birthdate, out pb.parsedDate))
+                                        pb.AdverseEventCheck = true;
+                                    }
+                                    else
+                                    {
+                                        pb.AdverseEventErrorMessage = "Make sure that the Adverse Event status is Yes if the Adverse Event Condition has a content,";
+                                        pb.AdverseEventCheck = false;
+                                    }
+                                }
+                                else
+                                {
+                                    pb.AdverseEventCheck = false;
+
+                                }
+
+
+                                //BIRTHDATE
+                                if (pb.birthdate != "")
+                                {
+                                    // CHECK AND VALIDATE BIRTH DATE
+                                    // check if value is already in date format
+                                    if (System.DateTime.TryParse(pb.birthdate, out pb.parsedDate))
+                                    {
+                                        
+                                        // PASS DATE TO DATETIME VARIABLE FOR QUERY
+                                        pb.birthdateForQry = pb.birthdate.AsDateTime();
+
+                                        var currentDate = System.DateTime.Now;
+                                        var numberOfYears = currentDate.Year - pb.birthdateForQry.Year;
+                                        var minDate = currentDate.AddYears(-150);
+                                        var maxDate = currentDate;
+
+                                        if (pb.birthdateForQry > maxDate)
+                                        {
+                                            pb.BirthDateErrorMessage = "Oops! It looks like the selected date is in the future."; //Date cannot be in the future
+                                            pb.isValidBirthDate = false;
+                                        }
+
+                                        else if (pb.birthdateForQry < minDate)
+                                        {
+                                            pb.BirthDateErrorMessage = "Oops! It looks like the selected date is too far."; // Date cant be more than 150 years old
+                                            pb.isValidBirthDate = false;
+                                        }
+                                        else if (numberOfYears < 5)
+                                        {
+                                            pb.BirthDateErrorMessage = "Oops! It looks like age is less than 5 years old."; // Age cant be less than 5 years old
+                                            pb.isValidBirthDate = false;
+                                        }
+                                        else
                                         {
                                             pb.isValidBirthDate = true;
-
-                                            // PASS DATE TO DATETIME VARIABLE FOR QUERY
-                                            pb.birthdateForQry = pb.birthdate.AsDateTime();
                                         }
-                                        // chaeck if value is in double format
-                                        else if (double.TryParse(pb.birthdate, out pb.parsedResult))
+
+                                    }
+                                    // chaeck if value is in double format
+                                    else if (double.TryParse(pb.birthdate, out pb.parsedResult))
+                                    {
+                                        // get value as double
+                                        var dataExcelValue = xlworkbook.Worksheet(pb.worksheet).Cell(pb.row, 17).GetDouble();
+
+                                        // convert double value to date time format
+                                        pb.birthdate = System.DateTime.FromOADate(dataExcelValue).ToString();
+
+                                        // validate datetime value
+                                        pb.isValidBirthDate = System.DateTime.TryParseExact(pb.birthdate, pb.dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out pb.parsedDate);
+
+                                        // PASS DATE TO DATETIME VARIABLE FOR QUERY
+                                        pb.birthdateForQry = pb.birthdate.AsDateTime();
+
+                                        var currentDate = System.DateTime.Now;
+                                        var numberOfYears = currentDate.Year - pb.birthdateForQry.Year;
+                                        var minDate = currentDate.AddYears(-150);
+                                        var maxDate = currentDate;
+
+                                        if (pb.birthdateForQry > maxDate)
                                         {
-                                            // get value as double
-                                            var dataExcelValue = xlworkbook.Worksheet(pb.worksheet).Cell(pb.row, 17).GetDouble();
+                                            pb.BirthDateErrorMessage = "Oops! It looks like the selected date is in the future."; //Date cannot be in the future
+                                            pb.isValidBirthDate = false;
+                                        }
 
-                                            // convert double value to date time format
-                                            pb.birthdate = System.DateTime.FromOADate(dataExcelValue).ToString();
-
-                                            // validate datetime value
-                                            pb.isValidBirthDate = System.DateTime.TryParseExact(pb.birthdate, pb.dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out pb.parsedDate);
-
-                                            // PASS DATE TO DATETIME VARIABLE FOR QUERY
-                                            pb.birthdateForQry = pb.birthdate.AsDateTime();
+                                        else if (pb.birthdateForQry < minDate)
+                                        {
+                                            pb.BirthDateErrorMessage = "Oops! It looks like the selected date is too far."; // Date cant be more than 150 years old
+                                            pb.isValidBirthDate = false;
+                                        }
+                                        else if (numberOfYears < 5)
+                                        {
+                                            pb.BirthDateErrorMessage = "Oops! It looks like age is less than 5 years old."; // Age cant be less than 5 years old
+                                            pb.isValidBirthDate = false;
                                         }
                                         else
                                         {
-                                            pb.isValidBirthDate = false;
-                                            pb.BirthDateErrorMessage = "Birth Date format is not valid,";
+                                            pb.isValidBirthDate = true;
                                         }
                                     }
                                     else
                                     {
                                         pb.isValidBirthDate = false;
-                                        pb.BirthDateErrorMessage = "Birth Date must not empty,";
+                                        pb.BirthDateErrorMessage = "Birth Date format is not valid,";
                                     }
+                                }
+                                else
+                                {
+                                    pb.isValidBirthDate = false;
+                                    pb.BirthDateErrorMessage = "Birth Date must not empty,";
+                                }
 
 
 
-                                    //VACCINATION DATE
-                                    if (pb.vaccinationdate != "")
+                                //VACCINATION DATE
+                                if (pb.vaccinationdate != "")
+                                {
+                                    // check if value is already in date format
+                                    if (System.DateTime.TryParse(pb.vaccinationdate, out pb.parsedDate))
                                     {
-                                        // check if value is already in date format
-                                        if (System.DateTime.TryParse(pb.vaccinationdate, out pb.parsedDate))
-                                        {
-                                            pb.isValidVaccinationDate = true;
+                                        pb.isValidVaccinationDate = true;
 
-                                            // PASS DATE TO DATETIME VARIABLE FOR QUERY
-                                            pb.vaccinationdateForQry = pb.vaccinationdate.AsDateTime();
-                                        }
-                                        // check if value is in double format
-                                        else if (double.TryParse(pb.vaccinationdate, out pb.parsedResult))
-                                        {
-                                            // get value as double
-                                            var dataExcelValue = xlworkbook.Worksheet(pb.worksheet).Cell(pb.row, 20).GetDouble();
+                                        // PASS DATE TO DATETIME VARIABLE FOR QUERY
+                                        pb.vaccinationdateForQry = pb.vaccinationdate.AsDateTime();
+                                    }
+                                    // check if value is in double format
+                                    else if (double.TryParse(pb.vaccinationdate, out pb.parsedResult))
+                                    {
+                                        // get value as double
+                                        var dataExcelValue = xlworkbook.Worksheet(pb.worksheet).Cell(pb.row, 20).GetDouble();
 
-                                            // convert double value to date time format
-                                            pb.vaccinationdate = System.DateTime.FromOADate(dataExcelValue).ToString();
+                                        // convert double value to date time format
+                                        pb.vaccinationdate = System.DateTime.FromOADate(dataExcelValue).ToString();
 
-                                            // validate datetime value
-                                            pb.isValidVaccinationDate = System.DateTime.TryParseExact(pb.vaccinationdate, pb.dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out pb.parsedDate);
+                                        // validate datetime value
+                                        pb.isValidVaccinationDate = System.DateTime.TryParseExact(pb.vaccinationdate, pb.dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out pb.parsedDate);
 
-                                            // PASS DATE TO DATETIME VARIABLE FOR QUERY
-                                            pb.vaccinationdateForQry = pb.vaccinationdate.AsDateTime();
-                                        }
-                                        else
-                                        {
-                                            pb.isValidVaccinationDate = false;
-                                            pb.VaccinationDateErrorMessage = "Vaccination Date format is not valid,";
-                                        }
+                                        // PASS DATE TO DATETIME VARIABLE FOR QUERY
+                                        pb.vaccinationdateForQry = pb.vaccinationdate.AsDateTime();
                                     }
                                     else
                                     {
                                         pb.isValidVaccinationDate = false;
-                                        pb.VaccinationDateErrorMessage = "Vaccination Date must not empty,";
+                                        pb.VaccinationDateErrorMessage = "Vaccination Date format is not valid,";
                                     }
+                                }
+                                else
+                                {
+                                    pb.isValidVaccinationDate = false;
+                                    pb.VaccinationDateErrorMessage = "Vaccination Date must not empty,";
+                                }
 
 
-                                    // DEFERRAL AND REASON FOR DEFERRAL
-                                    if (pb.deferral != "")
+                                // DEFERRAL AND REASON FOR DEFERRAL
+                                if (pb.deferral != "")
+                                {
+                                    if (pb.deferral.ToLower().StartsWith("y"))
                                     {
-                                        if (pb.deferral.ToLower().StartsWith("y"))
+                                        if (pb.reasonfordeferral != "")
                                         {
-                                            if (pb.reasonfordeferral != "")
-                                            {
-                                                var GetDeferralID = db.Deferrals.SingleOrDefault(s => s.Reason == pb.reasonfordeferral);
+                                            var GetDeferralID = db.Deferrals.SingleOrDefault(s => s.Reason == pb.reasonfordeferral);
 
-                                                if (GetDeferralID != null)
-                                                {
-                                                    pb.DeferralId = GetDeferralID.Id;
-                                                    pb.DeferralCheck = true;
-                                                }
-                                                else
-                                                {
-                                                    pb.DeferralErrorMessage = "Cannot find deferral references in the database,";
-                                                    pb.DeferralCheck = false;
-                                                }
-                                            }
-                                            else
+                                            if (GetDeferralID != null)
                                             {
-                                                pb.DeferralErrorMessage = "Make sure that the Reason for deferral is not empty if the Deferral Status is YES,";
-                                                pb.DeferralCheck = false;
-                                            }
-                                        }
-                                        else if (pb.deferral.ToLower().StartsWith("n"))
-                                        {
-                                            if (pb.reasonfordeferral == "" || pb.reasonfordeferral.ToLower().StartsWith("n"))
-                                            {
+                                                pb.DeferralId = GetDeferralID.Id;
                                                 pb.DeferralCheck = true;
                                             }
                                             else
                                             {
-                                                pb.DeferralErrorMessage = "Make sure that the Deferral Status is YES if the Reason for deferral is not empty,";
+                                                pb.DeferralErrorMessage = "Cannot find deferral references in the database,";
                                                 pb.DeferralCheck = false;
                                             }
                                         }
                                         else
                                         {
+                                            pb.DeferralErrorMessage = "Make sure that the Reason for deferral is not empty if the Deferral Status is YES,";
                                             pb.DeferralCheck = false;
-                                            pb.DeferralErrorMessage = "Deferral status is not in valid format,";
+                                        }
+                                    }
+                                    else if (pb.deferral.ToLower().StartsWith("n"))
+                                    {
+                                        if (pb.reasonfordeferral == "" || pb.reasonfordeferral.ToLower().StartsWith("n"))
+                                        {
+                                            pb.DeferralCheck = true;
+                                        }
+                                        else
+                                        {
+                                            pb.DeferralErrorMessage = "Make sure that the Deferral Status is YES if the Reason for deferral is not empty,";
+                                            pb.DeferralCheck = false;
                                         }
                                     }
                                     else
                                     {
                                         pb.DeferralCheck = false;
-                                        pb.DeferralErrorMessage = "Deferral status must not empty,";
+                                        pb.DeferralErrorMessage = "Deferral status is not in valid format,";
                                     }
+                                }
+                                else
+                                {
+                                    pb.DeferralCheck = false;
+                                    pb.DeferralErrorMessage = "Deferral status must not empty,";
+                                }
 
-                                    // CHECK REQUIRED FIELDS IF VALID
-                                    if (pb.uniquepersonid != "" &&
-                                        pb.firstname != "" &&
-                                        pb.lastname != "" &&
-                                        pb.GenderCheck == true &&
-                                        pb.PWDCheck == true &&
-                                        pb.contactnumber != "" &&
-                                        GetPriorityGroupId != null &&
-                                        GetProvinceId != null &&
-                                        GetCityMunicipalityId != null &&
-                                        //pb.BarangayId > 0 &&
-                                        GetVaccineManufacturerId != null &&
-                                        pb.batchnumber != "" &&
-                                        pb.lotnumber != "" &&
-                                        pb.bakunacentercbcrid != "" &&
-                                        pb.vaccinatorname != "" &&
-                                        pb.DoseId > 0 &&
-                                        pb.AdverseEventCheck == true &&
-                                        pb.isValidBirthDate == true &&
-                                        pb.isValidVaccinationDate == true &&
-                                        pb.DeferralCheck == true
-                                        )
+                                // CHECK REQUIRED FIELDS IF VALID
+                                if (pb.uniquepersonid != "" &&
+                                    pb.firstname != "" &&
+                                    pb.FirstNameChecker == true &&
+                                    pb.lastname != "" &&
+                                    pb.LastNameChecker == true &&
+                                    pb.GenderCheck == true &&
+                                    pb.PWDCheck == true &&
+                                    pb.contactnumber != "" &&
+                                    pb.ContactNumberChecker == true &&
+                                    GetPriorityGroupId != null &&
+                                    GetProvinceId != null &&
+                                    GetCityMunicipalityId != null &&
+                                    //pb.BarangayId > 0 &&
+                                    GetVaccineManufacturerId != null &&
+                                    pb.batchnumber != "" &&
+                                    pb.lotnumber != "" &&
+                                    pb.bakunacentercbcrid != "" &&
+                                    pb.vaccinatorname != "" &&
+                                    pb.DoseId > 0 &&
+                                    pb.AdverseEventCheck == true &&
+                                    pb.isValidBirthDate == true &&
+                                    pb.isValidVaccinationDate == true &&
+                                    pb.DeferralCheck == true
+                                    )
+                                {
+                                    // CHECKING FOR DUPLICATES
+                                    // PERSON
+                                    pb.PersonDuplicateChecker = db.Persons.Where(d =>
+                                    d.FirstName.ToLower() == pb.firstname.ToLower() &&
+                                    d.MiddleName.ToLower() == pb.middlename.ToLower() &&
+                                    d.LastName.ToLower() == pb.lastname.ToLower() &&
+                                    d.Gender == pb.gender &&
+                                    d.BirthDate == pb.birthdateForQry).Any(); // && d.isPWD == pb.isPWD
+
+
+                                    // DUPLICATE CONDITION
+                                    if (pb.PersonDuplicateChecker == true)
                                     {
-                                        // CHECKING FOR DUPLICATES
-                                        // PERSON
-                                        pb.PersonDuplicateChecker = db.Persons.Where(d =>
-                                        d.FirstName.ToLower() == pb.firstname.ToLower() &&
-                                        d.MiddleName.ToLower() == pb.middlename.ToLower() &&
-                                        d.LastName.ToLower() == pb.lastname.ToLower() &&
-                                        d.Gender == pb.gender &&
-                                        d.BirthDate == pb.birthdateForQry).Any(); // && d.isPWD == pb.isPWD
-
-
-                                        // DUPLICATE CONDITION
-                                        if (pb.PersonDuplicateChecker == true)
-                                        {
-                                            pb.PersonDuplicateErrorMessage = "Person information is already exist,";
-                                        }
-                                        else if (pb.GuardianIsRequired == true && pb.guardianname == "")
-                                        {
-                                            pb.GuardianNameErrorMessage = "Category/ Priotity Group is in PEDIA/ ROPP, therefore the Guardian Name must not empty,";
-                                        }
-                                        else
-                                        {
-                                            Person person = new Person();
-                                            person.UniquePersonID = pb.uniquepersonid;
-                                            person.FirstName = pb.firstname;
-                                            person.MiddleName = pb.middlename;
-                                            person.LastName = pb.lastname;
-                                            person.Suffix = pb.suffix;
-                                            person.ContactNumber = pb.contactnumber;
-
-                                            person.ProvinceID = GetProvinceId.province_id;
-                                            person.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
-
-                                            if (GetBarangayId != null)
-                                            {
-                                                person.BarangayID = GetBarangayId.barangay_id;
-                                            }
-
-
-                                            person.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
-                                            person.ProvinceID = GetProvinceId.province_id;
-
-                                            if (pb.GuardianIsRequired == true)
-                                            {
-                                                person.GuardianName = pb.guardianname;
-                                            }
-
-                                            person.Gender = pb.gender.ToLower();
-
-                                            person.isPWD = pb.isPWD;
-
-                                            if (GetEthnicGroupId != null)
-                                            {
-                                                person.EthnicGroupID = GetEthnicGroupId.Id;
-                                            }
-
-                                            person.BirthDate = pb.birthdateForQry;
-
-                                            db.Persons.Add(person);
-                                            db.SaveChanges();
-                                        }
-
-                                        // GET PERSON ID AFTER CHECKING
-                                        var GetPersonID = db.Persons.FirstOrDefault(s =>
-                                        s.FirstName.ToLower() == pb.firstname.ToLower() &&
-                                        s.LastName.ToLower() == pb.lastname.ToLower() &&
-                                        s.MiddleName.ToLower() == pb.middlename.ToLower() &&
-                                        s.Gender == pb.gender &&
-                                        s.isPWD == pb.isPWD &&
-                                        s.BirthDate == pb.birthdateForQry);
-
-                                        // VACCINATION
-                                        // check references if not empty
-                                        if (GetPersonID == null)
-                                        {
-                                            pb.PersonErrorMessage = "Cannot find Person reference in the database,";
-                                        }
-                                        else
-                                        {
-                                            // CHECK FOR DUPLICATE VACCINATION RECORD
-                                            var VaccinationDuplicateScanner = db.Vaccinations.FirstOrDefault(z => z.PersonID == GetPersonID.ID && z.DoseID == pb.DoseId);
-
-                                            if (VaccinationDuplicateScanner == null)
-                                            {
-                                                Vaccination vaccination = new Vaccination();
-                                                vaccination.PriorityGroupID = GetPriorityGroupId.ID;
-                                                vaccination.PersonID = GetPersonID.ID;
-
-                                                if (pb.DeferralId > 0)
-
-                                                {
-                                                    vaccination.DeferralID = pb.DeferralId;
-                                                }
-
-                                                vaccination.VaccinationDate = pb.vaccinationdateForQry.Date;
-                                                vaccination.VaccineID = GetVaccineManufacturerId.ID;
-                                                vaccination.BatchNumber = pb.batchnumber;
-                                                vaccination.LotNumber = pb.lotnumber;
-                                                vaccination.BakunaCenterCBCRID = pb.bakunacentercbcrid;
-                                                vaccination.VaccinatorName = pb.vaccinatorname;
-                                                vaccination.DoseID = pb.DoseId;
-
-                                                if (pb.AdverseID > 0)
-                                                {
-                                                    vaccination.AdverseID = pb.AdverseID;
-                                                }
-                                                vaccination.Comorbidity = pb.comorbidity;
-                                                //vaccination.DateCreate = System.DateTime.Now.Date;
-                                                db.Vaccinations.Add(vaccination);
-                                                db.SaveChanges();
-
-                                                pb.VaccinationUploadedCounter++;
-
-                                                // Get List of Uploaded 
-                                                pb.RowUploadedorDeuplicateFirstNameList.Add(pb.firstname);
-                                                pb.RowUploadedorDuplicateMiddleNameList.Add(pb.middlename);
-                                                pb.RowUploadedorDuplicateLastNameList.Add(pb.lastname);
-                                                pb.RowUploadedorDuplicateBirthdayList.Add(pb.birthdate);
-                                                pb.RowUploadedorDuplicateGenderList.Add(pb.gender);
-                                                pb.RowUploadedorDuplicatePWDList.Add(pb.pwd);
-                                                pb.RowUploadedorDuplicateFirstDoseList.Add(pb.firstdose);
-                                                pb.RowUploadedorDuplicateSecondDoseList.Add(pb.seconddose);
-                                                pb.RowUploadedorDuplicateAdditionalBoosterDoseList.Add(pb.additionalboosterdose);
-                                                pb.RowUploadedorDuplicateSecondAdditionalBoosterDoseList.Add(pb.secondadditionalboosterdose);
-                                            }
-                                            else
-                                            {
-                                                pb.VaccinationDuplicateCounter++;
-
-                                                // Get List of Duplicate 
-                                                pb.RowUploadedorDeuplicateFirstNameList.Add(pb.firstname);
-                                                pb.RowUploadedorDuplicateMiddleNameList.Add(pb.middlename);
-                                                pb.RowUploadedorDuplicateLastNameList.Add(pb.lastname);
-                                                pb.RowUploadedorDuplicateBirthdayList.Add(pb.birthdate);
-                                                pb.RowUploadedorDuplicateGenderList.Add(pb.gender);
-                                                pb.RowUploadedorDuplicatePWDList.Add(pb.pwd);
-                                                pb.RowUploadedorDuplicateFirstDoseList.Add(pb.firstdose);
-                                                pb.RowUploadedorDuplicateSecondDoseList.Add(pb.seconddose);
-                                                pb.RowUploadedorDuplicateAdditionalBoosterDoseList.Add(pb.additionalboosterdose);
-                                                pb.RowUploadedorDuplicateSecondAdditionalBoosterDoseList.Add(pb.secondadditionalboosterdose);
-                                            }
-                                        }
+                                        pb.PersonDuplicateErrorMessage = "Person information is already exist,";
+                                    }
+                                    else if (pb.GuardianIsRequired == true && pb.guardianname == "")
+                                    {
+                                        pb.GuardianNameErrorMessage = "Category/ Priotity Group is in PEDIA/ ROPP, therefore the Guardian Name must not empty,";
                                     }
                                     else
                                     {
-                                        pb.VaccinationErrorCounter++;
+                                        Person person = new Person();
+                                        person.UniquePersonID = pb.uniquepersonid;
+                                        person.FirstName = pb.firstname;
 
-                                        // GET ERROR LIST
-                                        // Get Error Message
-                                        pb.ErrorMessagesList.Add(
-                                                pb.UniquePersonIdErrorMessage +
-                                                pb.FirstNameErrorMessage +
-                                                pb.LastNameErrorMessage +
-                                                pb.MiddleNameErrorMessage +
-                                                pb.GenderErrorMessage +
-                                                pb.PWDErrorMessage +
-                                                pb.EthnicGroupErrorMessage +
-                                                pb.ContactNumberErrorMessage +
-                                                pb.PriorityGroupErrorMessage +
-                                                pb.GuardianNameErrorMessage +
-                                                pb.RegionErrorMessage +
-                                                pb.ProvinceErrorMessage +
-                                                pb.CityErrorMessage +
-                                                pb.VaccineManufacturerErrorMessage +
-                                                pb.BatchNumberErrorMessage +
-                                                pb.LotNumberErrorMessage +
-                                                pb.BakunaCenterCBCRIdErrorMessage +
-                                                pb.VaccinatorNameErrorMessage +
-                                                pb.DoseErrorMessage +
-                                                pb.AdverseEventErrorMessage +
-                                                pb.BirthDateErrorMessage +
-                                                pb.VaccinationDateErrorMessage +
-                                                pb.DeferralErrorMessage //+
-                                                //pb.BarangayErrorMessage
+                                        if (pb.MiddleNameChecker == true)
+                                        {
+                                            person.MiddleName = pb.middlename;
+                                        }
 
-                                                );
+                                        person.LastName = pb.lastname;
 
-                                        // Row Details
-                                        pb.RowErrorFirstNameList.Add(pb.firstname);
-                                        pb.RowErrorMiddleNameList.Add(pb.middlename);
-                                        pb.RowErrorLastNameList.Add(pb.lastname);
+                                        if (pb.SuffixChecker == true)
+                                        {
+                                            person.Suffix = pb.suffix;
+                                        }
 
-                                        // Saving remarks to excel row
-                                        xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 34).Value =
+                                        person.ContactNumber = pb.contactnumber;
+
+                                        person.ProvinceID = GetProvinceId.province_id;
+                                        person.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
+
+                                        if (pb.BarangayId > 0)
+                                        {
+                                            person.BarangayID = pb.BarangayId;
+                                        }
+
+
+                                        person.CityMunicipalityID = GetCityMunicipalityId.city_municipality_id;
+                                        person.ProvinceID = GetProvinceId.province_id;
+
+                                        if (pb.GuardianIsRequired == true)
+                                        {
+                                            person.GuardianName = pb.guardianname;
+                                        }
+
+                                        person.Gender = pb.gender.ToLower();
+
+                                        person.isPWD = pb.isPWD;
+
+                                        if (GetEthnicGroupId != null)
+                                        {
+                                            person.EthnicGroupID = GetEthnicGroupId.Id;
+                                        }
+
+                                        person.BirthDate = pb.birthdateForQry;
+
+                                        db.Persons.Add(person);
+                                        db.SaveChanges();
+                                    }
+
+                                    // GET PERSON ID AFTER CHECKING
+                                    var GetPersonID = db.Persons.FirstOrDefault(s =>
+                                    s.FirstName.ToLower() == pb.firstname.ToLower() &&
+                                    s.LastName.ToLower() == pb.lastname.ToLower() &&
+                                    s.MiddleName.ToLower() == pb.middlename.ToLower() &&
+                                    s.Gender == pb.gender &&
+                                    s.isPWD == pb.isPWD &&
+                                    s.BirthDate == pb.birthdateForQry);
+
+                                    // VACCINATION
+                                    // check references if not empty
+                                    if (GetPersonID == null)
+                                    {
+                                        pb.PersonErrorMessage = "Cannot find Person reference in the database,";
+                                    }
+                                    else
+                                    {
+                                        // CHECK FOR DUPLICATE VACCINATION RECORD
+                                        var VaccinationDuplicateScanner = db.Vaccinations.FirstOrDefault(z => z.PersonID == GetPersonID.ID && z.DoseID == pb.DoseId);
+
+                                        if (VaccinationDuplicateScanner == null)
+                                        {
+                                            Vaccination vaccination = new Vaccination();
+                                            vaccination.PriorityGroupID = GetPriorityGroupId.ID;
+                                            vaccination.PersonID = GetPersonID.ID;
+
+                                            if (pb.DeferralId > 0)
+
+                                            {
+                                                vaccination.DeferralID = pb.DeferralId;
+                                            }
+
+                                            vaccination.VaccinationDate = pb.vaccinationdateForQry.Date;
+                                            vaccination.VaccineID = GetVaccineManufacturerId.ID;
+                                            vaccination.BatchNumber = pb.batchnumber;
+                                            vaccination.LotNumber = pb.lotnumber;
+                                            vaccination.BakunaCenterCBCRID = pb.bakunacentercbcrid;
+                                            vaccination.VaccinatorName = pb.vaccinatorname;
+                                            vaccination.DoseID = pb.DoseId;
+
+                                            if (pb.AdverseID > 0)
+                                            {
+                                                vaccination.AdverseID = pb.AdverseID;
+                                            }
+                                            vaccination.Comorbidity = pb.comorbidity;
+                                            //vaccination.DateCreate = System.DateTime.Now.Date;
+                                            db.Vaccinations.Add(vaccination);
+                                            db.SaveChanges();
+
+                                            pb.VaccinationUploadedCounter++;
+
+                                            // Get List of Uploaded 
+                                            pb.RowUploadedorDeuplicateFirstNameList.Add(pb.firstname);
+                                            pb.RowUploadedorDuplicateMiddleNameList.Add(pb.middlename);
+                                            pb.RowUploadedorDuplicateLastNameList.Add(pb.lastname);
+                                            pb.RowUploadedorDuplicateBirthdayList.Add(pb.birthdate);
+                                            pb.RowUploadedorDuplicateGenderList.Add(pb.gender);
+                                            pb.RowUploadedorDuplicatePWDList.Add(pb.pwd);
+                                            pb.RowUploadedorDuplicateFirstDoseList.Add(pb.firstdose);
+                                            pb.RowUploadedorDuplicateSecondDoseList.Add(pb.seconddose);
+                                            pb.RowUploadedorDuplicateAdditionalBoosterDoseList.Add(pb.additionalboosterdose);
+                                            pb.RowUploadedorDuplicateSecondAdditionalBoosterDoseList.Add(pb.secondadditionalboosterdose);
+                                        }
+                                        else
+                                        {
+                                            pb.VaccinationDuplicateCounter++;
+
+                                            // Get List of Duplicate 
+                                            pb.RowUploadedorDeuplicateFirstNameList.Add(pb.firstname);
+                                            pb.RowUploadedorDuplicateMiddleNameList.Add(pb.middlename);
+                                            pb.RowUploadedorDuplicateLastNameList.Add(pb.lastname);
+                                            pb.RowUploadedorDuplicateBirthdayList.Add(pb.birthdate);
+                                            pb.RowUploadedorDuplicateGenderList.Add(pb.gender);
+                                            pb.RowUploadedorDuplicatePWDList.Add(pb.pwd);
+                                            pb.RowUploadedorDuplicateFirstDoseList.Add(pb.firstdose);
+                                            pb.RowUploadedorDuplicateSecondDoseList.Add(pb.seconddose);
+                                            pb.RowUploadedorDuplicateAdditionalBoosterDoseList.Add(pb.additionalboosterdose);
+                                            pb.RowUploadedorDuplicateSecondAdditionalBoosterDoseList.Add(pb.secondadditionalboosterdose);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    pb.VaccinationErrorCounter++;
+
+                                    // GET ERROR LIST
+                                    // Get Error Message
+                                    pb.ErrorMessagesList.Add(
                                             pb.UniquePersonIdErrorMessage +
                                             pb.FirstNameErrorMessage +
                                             pb.LastNameErrorMessage +
@@ -805,93 +865,132 @@ namespace R12VIS.Controllers
                                             pb.AdverseEventErrorMessage +
                                             pb.BirthDateErrorMessage +
                                             pb.VaccinationDateErrorMessage +
-                                            pb.DeferralErrorMessage + 
-                                            pb.BarangayErrorMessage;
+                                            pb.DeferralErrorMessage //+
+                                                                    //pb.BarangayErrorMessage
+
+                                            );
+
+                                    // Row Details
+                                    pb.RowErrorFirstNameList.Add(pb.firstname);
+                                    pb.RowErrorMiddleNameList.Add(pb.middlename);
+                                    pb.RowErrorLastNameList.Add(pb.lastname);
+
+                                    // Saving remarks to excel row
+                                    xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 34).Value =
+                                        pb.UniquePersonIdErrorMessage +
+                                        pb.FirstNameErrorMessage +
+                                        pb.LastNameErrorMessage +
+                                        pb.MiddleNameErrorMessage +
+                                        pb.GenderErrorMessage +
+                                        pb.PWDErrorMessage +
+                                        pb.EthnicGroupErrorMessage +
+                                        pb.ContactNumberErrorMessage +
+                                        pb.PriorityGroupErrorMessage +
+                                        pb.GuardianNameErrorMessage +
+                                        pb.RegionErrorMessage +
+                                        pb.ProvinceErrorMessage +
+                                        pb.CityErrorMessage +
+                                        pb.VaccineManufacturerErrorMessage +
+                                        pb.BatchNumberErrorMessage +
+                                        pb.LotNumberErrorMessage +
+                                        pb.BakunaCenterCBCRIdErrorMessage +
+                                        pb.VaccinatorNameErrorMessage +
+                                        pb.DoseErrorMessage +
+                                        pb.AdverseEventErrorMessage +
+                                        pb.BirthDateErrorMessage +
+                                        pb.VaccinationDateErrorMessage +
+                                        pb.DeferralErrorMessage +
+                                        pb.BarangayErrorMessage;
 
 
-                                        pb.filteredData.Add(xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 34).Value.ToString());
+                                    pb.filteredData.Add(xlworkbook.Worksheets.Worksheet(pb.worksheet).Cell(pb.row, 34).Value.ToString());
 
-                                        pb.ErrorRowList.Add(pb.row);
-
-                                    }
-
-                                    ClearFields();
-
-                                    pb.row++;
-
-                                    // get total processed rows
-                                    pb.TotalProcessedExcelRows = pb.row - 2;
-
-                                    progress = (pb.TotalProcessedExcelRows * 100) / pb.TotalExcelRows; // (int)((float)pb.TotalProcessedExcelRows / (float)pb.TotalExcelRows * 100.0);
-
+                                    pb.ErrorRowList.Add(pb.row);
 
                                 }
 
-                                // DELETE UPLOADED OR DUPLICATE ROWS IN EXCEL
-                                int lastRow = xlworkbook.Worksheet(pb.worksheet).LastRowUsed().RowNumber(); // worksheet.LastRowUsed().RowNumber();
-                                var rowsToDelete = new List<int>();
+                                ClearFields();
 
-                                // Iterate over the rows to find the ones with an empty cell in the specified column
-                                for (int row = 2; row <= lastRow; row++)
-                                {
+                                pb.row++;
 
-                                    if (xlworkbook.Worksheet(pb.worksheet).Cell(row, 34).IsEmpty())
-                                    {
-                                        rowsToDelete.Add(row);
-                                    }
-                                }
+                                // get total processed rows
+                                pb.TotalProcessedExcelRows = pb.row - 2;
 
-                                // Delete the rows after the iteration is complete
-                                foreach (var rowNumber in rowsToDelete.OrderByDescending(r => r))
-                                {
-                                    xlworkbook.Worksheet(pb.worksheet).Row(rowNumber).Delete();
-                                }
+                                progress = (pb.TotalProcessedExcelRows * 100) / pb.TotalExcelRows; // (int)((float)pb.TotalProcessedExcelRows / (float)pb.TotalExcelRows * 100.0);
 
 
-                                xlworkbook.Save();
-                                pb.success = true;
-
-                                var data = new
-                                {
-                                    success = pb.success,
-                                    vaccineduplicate = pb.VaccinationDuplicateCounter,
-                                    vaccineerror = pb.VaccinationErrorCounter,
-                                    vaccineuploaded = pb.VaccinationUploadedCounter,
-
-                                    // LIST
-                                    ERRORDETAILS = pb.ErrorMessagesList,
-                                    ERRORFIRSTNAMELIST = pb.RowErrorFirstNameList,
-                                    ERRORLASTNAMELIST = pb.RowErrorLastNameList
-                                };
-
-                                return Json(data, JsonRequestBehavior.AllowGet);
                             }
-                        }
-                        else
-                        {
-                            return Json(new { success = pb.success, message = "Please select an excel file first." });
+
+                            // DELETE UPLOADED OR DUPLICATE ROWS IN EXCEL
+                            int lastRow = xlworkbook.Worksheet(pb.worksheet).LastRowUsed().RowNumber(); // worksheet.LastRowUsed().RowNumber();
+                            var rowsToDelete = new List<int>();
+
+                            // Iterate over the rows to find the ones with an empty cell in the specified column
+                            for (int row = 2; row <= lastRow; row++)
+                            {
+
+                                if (xlworkbook.Worksheet(pb.worksheet).Cell(row, 34).IsEmpty())
+                                {
+                                    rowsToDelete.Add(row);
+                                }
+                            }
+
+                            // Delete the rows after the iteration is complete
+                            foreach (var rowNumber in rowsToDelete.OrderByDescending(r => r))
+                            {
+                                xlworkbook.Worksheet(pb.worksheet).Row(rowNumber).Delete();
+                            }
+
+
+                            xlworkbook.Save();
+                            pb.success = true;
+
+                            var data = new
+                            {
+                                success = pb.success,
+                                vaccineduplicate = pb.VaccinationDuplicateCounter,
+                                vaccineerror = pb.VaccinationErrorCounter,
+                                vaccineuploaded = pb.VaccinationUploadedCounter,
+
+                                // LIST
+                                ERRORDETAILS = pb.ErrorMessagesList,
+                                ERRORFIRSTNAMELIST = pb.RowErrorFirstNameList,
+                                ERRORLASTNAMELIST = pb.RowErrorLastNameList
+                            };
+
+                            return Json(data, JsonRequestBehavior.AllowGet);
                         }
                     }
                     else
                     {
-                        return Json(new { success = pb.success, message = "Please select worksheet number." });
+                        return Json(new { success = pb.success, message = "Please select an excel file first." });
                     }
                 }
                 else
                 {
-                    return Json(new { success = pb.success, message = "Please select worksheet format." });
+                    return Json(new { success = pb.success, message = "Please select worksheet number." });
                 }
-            //}
-            //catch (Exception ex)
-            //{
-            //    // Create a JSON response with the error message
-            //    var errorMessage = "An error occurred: " + ex.Message;
-            //    return Json(new { success = false, message = errorMessage }, JsonRequestBehavior.AllowGet);
-
-            //}
+            }
+            else
+            {
+                return Json(new { success = pb.success, message = "Please select worksheet format." });
+            }
 
             return Json(new { success = false, message = "Excel File encoundered an error during uploading. Either excel rows is more than 10k or incorrect foramt. Please double check the Excel File or contact your administrator." });
         }
+
+
+
+        private int CalculateProgress()
+        {
+            // Calculate the progress percentage here based on your task
+            // For demonstration purposes, let's just simulate progress
+            Random random = new Random();
+            return random.Next(0, 101);
+        }
+
+
+
 
         // FUNCTIONING EXCEL DOWNLOAD
         [HttpGet]
