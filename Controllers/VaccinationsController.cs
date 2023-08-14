@@ -274,8 +274,8 @@ namespace R12VIS.Controllers
             //ethnicGroups.Insert(0, new EthnicGroup { Id = 0, IndigenousMember = "NA" });
             ViewBag.EthnicGroupID = new SelectList(db.EthnicGroups.OrderBy(p => p.IndigenousMember), "Id", "IndigenousMember");
             ViewBag.ProvinceID = new SelectList(db.Provinces.OrderBy(p => p.province_name), "province_id", "province_name");
-            ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName), "city_municipality_id", "CityMunicipalityName");
-            ViewBag.BarangayID = new SelectList(db.Barangays.OrderBy(p => p.barangay_name).Take(100), "barangay_id", "barangay_name");
+            ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName).Take(1), "city_municipality_id", "CityMunicipalityName");
+            ViewBag.BarangayID = new SelectList(db.Barangays.OrderBy(p => p.barangay_name).Take(1), "barangay_id", "barangay_name");
             ViewBag.DeferralID = new SelectList(db.Deferrals.OrderBy(p => p.Reason).Take(100), "Id", "Reason");
             ViewBag.VaccineID = new SelectList(db.Vaccines.OrderBy(p => p.VaccineManufacturer), "ID", "VaccineManufacturer");
             ViewBag.DoseID = new SelectList(db.Dose.OrderBy(p => p.ID), "ID", "VaccineDose");
@@ -306,7 +306,9 @@ namespace R12VIS.Controllers
                 {
                     vaccination.Person = personExist;
                 }
-
+                vaccination.Person.FirstName = vaccination.Person.FirstName?.ToUpper();
+                vaccination.Person.MiddleName = vaccination.Person.MiddleName?.ToUpper();
+                vaccination.Person.LastName = vaccination.Person.LastName?.ToUpper();
                 db.Vaccinations.Add(vaccination);
                 db.SaveChanges();
                 return RedirectToAction("Index");

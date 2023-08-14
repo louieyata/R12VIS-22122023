@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using R12VIS.Models;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using R12VIS.Models;
 
 namespace R12VIS.Controllers
 {
@@ -118,6 +115,12 @@ namespace R12VIS.Controllers
             db.Barangays.Remove(barangay);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public JsonResult GetBarangays(int? cityMunicipality_id)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var barangays = db.Barangays.Where(x => x.city_municipality_id == cityMunicipality_id).Select(x => new { id = x.barangay_id, name = x.barangay_name }).ToList();
+            return Json(barangays.OrderBy(x => x.name), JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)
