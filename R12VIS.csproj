@@ -494,6 +494,7 @@
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\Costum\BarangayDropDownFiller.js" />
     <Content Include="Scripts\Costum\CityMuniFiller.js" />
+    <Content Include="Scripts\Costum\GetAllowedDose.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.js" />
@@ -603,6 +604,7 @@
     <Content Include="Views\Shared\_LayoutEncoder.cshtml" />
     <Content Include="Views\People\_VaccineRecord.cshtml" />
     <Content Include="Views\Shared\_EncoderLayout.cshtml" />
+    <Content Include="Views\Vaccinations\BlankPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

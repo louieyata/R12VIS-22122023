@@ -27,6 +27,7 @@
                 <p>
                     <a class="btn btn-primary" href="@Url.Action("PreVaccination", "Vaccinations")"><i class="bi bi-pencil-square"></i>New Vaccination</a>
                 </p>
+
                 <table class="table table-bordered display nowrap dataTable no-footer" id="myTable">
                     <thead>
                         <tr>
@@ -75,7 +76,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Dose.VaccineDose)
                                 </td>
-                 
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.PriorityGroup.Category)
                                 </td>
@@ -94,11 +95,11 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.VaccinationDate)
                                 </td>
-                       
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.BakunaCenterCBCRID)
                                 </td>
-                            
+
                                 <td>
                                     <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("PreVaccination","Vaccinations", new { id = item.PersonID } )"><i class="bi bi-bandaid-fill"></i></a>
                                 </td>
@@ -120,7 +121,10 @@
     <script src="~/Content/DataTable2/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable();
+            $('#myTable').DataTable(
+                {
+                    scrollX: true
+                });
         });
     </script>
 }

@@ -195,7 +195,9 @@
                                 </div>
                                 <div class="col-3 mb-3">
                                     @Html.LabelFor(model => model.DoseID, "Dose*", htmlAttributes: new { @class = "form-label" })
-                                    @Html.DropDownList("DoseID", null, "Select an option", htmlAttributes: new { @class = "form-control form-control-sm", required = "required" })
+                                    @Html.DropDownList("DoseID", emptyList, "", htmlAttributes: myAttributeWithDisabled)
+
+                                    @*@Html.DropDownList("DoseID", null, "Select an option", htmlAttributes: new { @class = "form-control form-control-sm", required = "required" })*@
                                     @Html.ValidationMessageFor(model => model.DoseID, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-3 mb-3">
@@ -234,6 +236,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="~/Scripts/Costum/CityMuniFiller.js"></script>
     <script src="~/Scripts/Costum/BarangayDropDownFiller.js"></script>
+    <script src="~/Scripts/Costum/GetAllowedDose.js"></script>
     <script>
         $(function () {
             $(".datepicker").datepicker({
@@ -264,55 +267,6 @@
 
         })
     </script>
-    @*<script>
-            //create a javascript function to check if person existing in GetPerson controllers and if existing, fill up the form
-            const firstname = document.getElementById("Person_MiddleName");
-            firstname.addEventListener('change', () => {
-                getPerson(firstname.value);
-            })
-
-            function getPerson(firstName) {
-                //let firstName = document.getElementById("Person_FirstName").value;
-                //let lastname = document.getElementById("LastName").value;
-
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "@Url.Action("GetPersons","Vaccinations")", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        showPersonResultList();
-                        console.log("Request Status: " + xhr.status);
-                        let persons = JSON.parse(xhr.responseText);
-                        //bind result to model Vaccination.person
-                        console.log(persons);
-                        //for each persons , create a list item
-                        let result = "";
-
-                        for (let i = 0; i < persons.length; i++) {
-                            result += "<li>" + persons[i].FirstName + " " + persons[i].LastName + "</li>";
-                        }
-                        document.getElementById("personsCard").innerHTML = result;
-
-                        //document.getElementById("personsCard").innerHTML = "Response: " + result.Message + "<br />String: " + result.StringValue + "<br />Int: " + result.IntValue;
-                    } else {
-                        console.error("Request failed. Status: " + xhr.status);
-                    }
-                };
-
-                xhr.onerror = function () {
-                    console.error("Network error occurred");
-                };
-
-                var formData = "middleName=" + encodeURIComponent(firstName);
-                xhr.send(formData);
-            }
-
-            function showPersonResultList() {
-                const personResultList = document.getElementById("personResultList");
-               //remove hidden attribute
-                personResultList.removeAttribute('hidden');
-            }
-        </script>*@
+   
 
 }

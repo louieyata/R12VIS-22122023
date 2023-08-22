@@ -140,7 +140,7 @@ namespace R12VIS.Controllers
             {
                 Session["User"] = _user;
                 Session["userFullName"] = $"{_user.FirstName[0]} {_user.LastName}";
-                TempData["ToastMessage"] = "This is a toast message.";
+                TempData["ToastMessage"] = "Welcome " + user.FirstName + " " + user.LastName;
                 TempData["ToastClass"] = "toast-success"; // CSS class for success toast
             }
 
