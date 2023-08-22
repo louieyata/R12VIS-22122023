@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using R12VIS.Models;
+using System;
 using System.Data;
 using System.Data.Entity;
 using System.IO;
@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using R12VIS.Models;
 
 namespace R12VIS.Controllers
 {
@@ -201,8 +200,9 @@ namespace R12VIS.Controllers
                 string description = row["DESCRIPTION"].ToString();
                 string municity = row["MUNICITY"].ToString();
 
-                CityMunicipality city = db.CityMunicipalities.Where(x=>x.CityMunicipalityName == description).FirstOrDefault();
-                if (city !=null) {
+                CityMunicipality city = db.CityMunicipalities.Where(x => x.CityMunicipalityName == description).FirstOrDefault();
+                if (city != null)
+                {
                     city.CityMunicipalityCodeExcel = municity;
                     db.Entry(city).State = EntityState.Modified;
                     db.SaveChanges();
@@ -213,6 +213,16 @@ namespace R12VIS.Controllers
                 // Example:
                 // InsertDataIntoDatabase(code, description, municity);
             }
+        }
+
+        public JsonResult GetCityMunicipality(int? province_id)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var cityMunicipalities = db.CityMunicipalities
+                .Where(x => x.province_id == province_id)
+                .Select(x => new { id = x.city_municipality_id, name = x.CityMunicipalityName })
+                .ToList();
+            return Json(cityMunicipalities.OrderBy(x => x.name), JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

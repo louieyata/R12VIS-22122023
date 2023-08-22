@@ -71,9 +71,8 @@
                                     @Html.DisplayFor(modelItem => item.BirthDate)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                    <a class="link-dark" href="@Url.Action("Edit", new {id = item.ID})"><i class="bi bi-pencil-square"></i></a>|
+                                    <a class="link-dark" href="@Url.Action("Details", new {id = item.ID})"><i class="bi bi-filter-square"></i></a>
                                 </td>
                             </tr>
                         }

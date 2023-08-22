@@ -41,11 +41,13 @@ namespace R12VIS.Models
         public bool isPWD { get; set; }
 
         [ForeignKey("EthnicGroup")]
+        [Display(Name = "Ethnic Group")]
         public int? EthnicGroupID { get; set; }
         public EthnicGroup EthnicGroup { get; set; }
 
         [DateFormatValidation(ErrorMessage = "Invalid date")]
         [BrithDateValidation(ErrorMessage = "Invalid date")]
+        [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
         public DateTime? BirthDate { get; set; }
 
@@ -54,6 +56,7 @@ namespace R12VIS.Models
         public Province Province { get; set; }
 
         [ForeignKey("CityMunicipality")]
+        [Display(Name = "City/Municipality?")]
         public int? CityMunicipalityID { get; set; }
         public CityMunicipality CityMunicipality { get; set; }
 

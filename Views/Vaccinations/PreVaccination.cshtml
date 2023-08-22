@@ -44,7 +44,8 @@
                             <div class="row">
                                 @{
                                     object myAttribute = new { @class = "form-control form-control-sm" };
-                                    object myAttributeDisable = new { @class = "form-control form-control-sm" };
+                                    object requiredAttribute = new { @class = "form-control form-control-sm", @required = "required" };
+                                    object myAttributeWithDisabled = new { @class = "form-control form-control-sm", @disabled = "disabled", @required = "required" };
                                     object checkBoxAttribute = new { @class = "form-check-input" };
                                     object dateAttribute = new { @type = "date", @class = "form-control form-control-sm", required = "required" };
 
@@ -53,16 +54,15 @@
                                         @Html.HiddenFor(model => model.PersonID)
                                         @*@Html.HiddenFor(model => model.Person.ID)*@
                                         myAttribute = new { @class = "form-control form-control-sm", @disabled = "disabled" };
-                                        myAttributeDisable = new { @class = "form-control form-control-sm", @disabled = "disabled" };
+                                        myAttribute = new { @class = "form-control form-control-sm", @disabled = "disabled", @required = "required" };
                                         checkBoxAttribute = new { @class = "form-check-input", @disabled = "disabled" };
                                         dateAttribute = new { @type = "date", @class = "form-control form-control-sm", @disabled = "@disabled" };
                                     }
 
                                 }
-                                @*@foreach (var prop in ViewData.ModelMetadata.Properties)
-                                    {
-                                        @Html.ValidationMessage(prop.PropertyName)
-                                    }*@
+                                @{
+                                    var emptyList = new SelectList(new List<SelectListItem>(), "Value", "Text");
+                                }
 
                                 <div class="col-4 mb-3">
                                     @Html.LabelFor(model => model.PriorityGroupID, "Priority Group*", htmlAttributes: new { @class = "form-label" })
@@ -81,9 +81,7 @@
                                 </div>
                                 <div class="col-4 mb-3">
                                     @Html.LabelFor(model => model.Person.FirstName, "First Name*", htmlAttributes: new { @class = "form-label" })
-                                    @*@Html.EditorFor(model => model.Person.FirstName, htmlAttributes)*@
-                                    @Html.EditorFor(model => model.Person.FirstName, new { htmlAttributes = myAttribute })
-
+                                    @Html.EditorFor(model => model.Person.FirstName, new { htmlAttributes = requiredAttribute })
                                     @Html.ValidationMessageFor(model => model.Person.FirstName, "", new { @class = "text-danger" })
                                 </div>
 
@@ -97,12 +95,12 @@
 
                                 <div class="col-4 mb-3">
                                     @Html.LabelFor(model => model.Person.LastName, "Last Name*", htmlAttributes: new { @class = "form-label" })
-                                    @Html.EditorFor(model => model.Person.LastName, new { htmlAttributes = myAttribute })
+                                    @Html.EditorFor(model => model.Person.LastName, new { htmlAttributes = requiredAttribute })
                                     @Html.ValidationMessageFor(model => model.Person.LastName, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-2 mb-3">
                                     @Html.LabelFor(model => model.Person.Suffix, htmlAttributes: new { @class = "form-label" })
-                                    @Html.DropDownList("Person.Suffix", ViewBag.Suffix as SelectList, "NA", htmlAttributes: myAttributeDisable)
+                                    @Html.DropDownList("Person.Suffix", ViewBag.Suffix as SelectList, "NA", htmlAttributes: myAttribute)
                                     @Html.ValidationMessageFor(model => model.Person.Suffix, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-2 mb-3">
@@ -114,16 +112,16 @@
                                 </div>
                                 <div class="col-4 mb-3">
                                     @Html.LabelFor(model => model.Person.GuardianName, htmlAttributes: new { @class = "form-label" })
-                                    @Html.EditorFor(model => model.Person.GuardianName, new { htmlAttributes = new { @class = "form-control form-control-sm", @disabled = "disabled" } })
+                                    @Html.EditorFor(model => model.Person.GuardianName, new { htmlAttributes = new { @class = "form-control form-control-sm", @disabled = "disabled", @required ="required" } })
                                     @Html.ValidationMessageFor(model => model.Person.GuardianName, "", new { @class = "text-danger" })
                                 </div><div class="col-4 mb-3">
                                     @Html.LabelFor(model => model.Person.ContactNumber, "Contact Number*", htmlAttributes: new { @class = "form-label" })
-                                    @Html.EditorFor(model => model.Person.ContactNumber, new { htmlAttributes = myAttribute })
+                                    @Html.EditorFor(model => model.Person.ContactNumber, new { htmlAttributes = requiredAttribute })
                                     @Html.ValidationMessageFor(model => model.Person.ContactNumber, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-4 mb-3">
                                     @Html.LabelFor(model => model.Person.EthnicGroupID, "Indigenous Member", htmlAttributes: new { @class = "form-label" })
-                                    @Html.DropDownList("Person.EthnicGroupID", ViewBag.EthnicGroupID as SelectList, "NA", htmlAttributes: myAttributeDisable)
+                                    @Html.DropDownList("Person.EthnicGroupID", ViewBag.EthnicGroupID as SelectList, "NA", htmlAttributes: myAttribute)
                                     @Html.ValidationMessageFor(model => model.Person.EthnicGroupID, "", new { @class = "text-danger" })
                                 </div>
 
@@ -132,23 +130,24 @@
                                 @*<div class="col-6">*@
                                 <div class="col-4 mb-3">
                                     @Html.LabelFor(model => model.Person.ProvinceID, "Province*", htmlAttributes: new { @class = "form-label" })
-                                    @Html.DropDownList("Person.ProvinceID", ViewBag.ProvinceID as SelectList, "Select Province", htmlAttributes: myAttributeDisable)
+                                    @Html.DropDownList("Person.ProvinceID", ViewBag.ProvinceID as SelectList, "Select Province", htmlAttributes: requiredAttribute)
                                     @Html.ValidationMessageFor(model => model.Person.ProvinceID, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-4 mb-3">
                                     @Html.LabelFor(model => model.Person.CityMunicipalityID, "City/Municipality*", htmlAttributes: new { @class = "form-label" })
-                                    @Html.DropDownList("Person.CityMunicipalityID", ViewBag.CityMunicipalityID as SelectList, "Select City/Municipality", htmlAttributes: myAttributeDisable)
+                                    @Html.DropDownList("Person.CityMunicipalityID", emptyList as SelectList, "", htmlAttributes: myAttributeWithDisabled)
                                     @Html.ValidationMessageFor(model => model.Person.CityMunicipalityID, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-3 mb-3">
                                     @Html.LabelFor(model => model.Person.BarangayID, "Barangay*", htmlAttributes: new { @class = "form-label" })
-                                    @Html.DropDownList("Person.BarangayID", ViewBag.BarangayID as SelectList, "Select an option", htmlAttributes: myAttributeDisable)
+
+                                    @Html.DropDownList("Person.BarangayID", emptyList, "", htmlAttributes: myAttributeWithDisabled)
                                     @Html.ValidationMessageFor(model => model.Person.BarangayID, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-3 mb-3">
                                     @Html.LabelFor(model => model.Person.Gender, "Sex*", htmlAttributes: new { @class = "form-label" })
                                     @*@Html.DropDownListFor(model => model.Person.Gender, ViewBag.Gender as SelectList, new { @class = "form-control form-control-sm" })*@
-                                    @Html.DropDownList("Person.Gender", ViewBag.Gender as SelectList, "Select an option", htmlAttributes: myAttributeDisable)
+                                    @Html.DropDownList("Person.Gender", ViewBag.Gender as SelectList, "Select an option", htmlAttributes: requiredAttribute)
                                     @Html.ValidationMessageFor(model => model.Person.Gender, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-3 mb-3">
@@ -196,7 +195,9 @@
                                 </div>
                                 <div class="col-3 mb-3">
                                     @Html.LabelFor(model => model.DoseID, "Dose*", htmlAttributes: new { @class = "form-label" })
-                                    @Html.DropDownList("DoseID", null, "Select an option", htmlAttributes: new { @class = "form-control form-control-sm", required = "required" })
+                                    @Html.DropDownList("DoseID", emptyList, "", htmlAttributes: myAttributeWithDisabled)
+
+                                    @*@Html.DropDownList("DoseID", null, "Select an option", htmlAttributes: new { @class = "form-control form-control-sm", required = "required" })*@
                                     @Html.ValidationMessageFor(model => model.DoseID, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-3 mb-3">
@@ -233,6 +234,9 @@
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
     @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>*@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/Costum/CityMuniFiller.js"></script>
+    <script src="~/Scripts/Costum/BarangayDropDownFiller.js"></script>
+    <script src="~/Scripts/Costum/GetAllowedDose.js"></script>
     <script>
         $(function () {
             $(".datepicker").datepicker({
@@ -263,55 +267,6 @@
 
         })
     </script>
-    <script>
-        //create a javascript function to check if person existing in GetPerson controllers and if existing, fill up the form
-        const firstname = document.getElementById("Person_MiddleName");
-        firstname.addEventListener('change', () => {
-            getPerson(firstname.value);
-        })
-
-        function getPerson(firstName) {
-            //let firstName = document.getElementById("Person_FirstName").value;
-            //let lastname = document.getElementById("LastName").value;
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "@Url.Action("GetPersons","Vaccinations")", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    showPersonResultList();
-                    console.log("Request Status: " + xhr.status);
-                    let persons = JSON.parse(xhr.responseText);
-                    //bind result to model Vaccination.person
-                    console.log(persons);
-                    //for each persons , create a list item
-                    let result = "";
-
-                    for (let i = 0; i < persons.length; i++) {
-                        result += "<li>" + persons[i].FirstName + " " + persons[i].LastName + "</li>";
-                    }
-                    document.getElementById("personsCard").innerHTML = result;
-
-                    //document.getElementById("personsCard").innerHTML = "Response: " + result.Message + "<br />String: " + result.StringValue + "<br />Int: " + result.IntValue;
-                } else {
-                    console.error("Request failed. Status: " + xhr.status);
-                }
-            };
-
-            xhr.onerror = function () {
-                console.error("Network error occurred");
-            };
-
-            var formData = "middleName=" + encodeURIComponent(firstName);
-            xhr.send(formData);
-        }
-
-        function showPersonResultList() {
-            const personResultList = document.getElementById("personResultList");
-           //remove hidden attribute
-            personResultList.removeAttribute('hidden');
-        }
-    </script>
+   
 
 }

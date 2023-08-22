@@ -1,6 +1,7 @@
 ﻿using R12VIS.Models;
 using R12VIS.Models.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -270,12 +271,10 @@ namespace R12VIS.Controllers
             Vaccination vaccination = new Vaccination();
 
             ViewBag.PriorityGroupID = new SelectList(db.PriorityGroups, "ID", "Category");
-            //var ethnicGroups = db.EthnicGroups.ToList();
-            //ethnicGroups.Insert(0, new EthnicGroup { Id = 0, IndigenousMember = "NA" });
             ViewBag.EthnicGroupID = new SelectList(db.EthnicGroups.OrderBy(p => p.IndigenousMember), "Id", "IndigenousMember");
             ViewBag.ProvinceID = new SelectList(db.Provinces.OrderBy(p => p.province_name), "province_id", "province_name");
-            ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName), "city_municipality_id", "CityMunicipalityName");
-            ViewBag.BarangayID = new SelectList(db.Barangays.OrderBy(p => p.barangay_name).Take(100), "barangay_id", "barangay_name");
+            ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName).Take(1), "city_municipality_id", "CityMunicipalityName");
+            ViewBag.BarangayID = new SelectList(db.Barangays.OrderBy(p => p.barangay_name).Take(1), "barangay_id", "barangay_name");
             ViewBag.DeferralID = new SelectList(db.Deferrals.OrderBy(p => p.Reason).Take(100), "Id", "Reason");
             ViewBag.VaccineID = new SelectList(db.Vaccines.OrderBy(p => p.VaccineManufacturer), "ID", "VaccineManufacturer");
             ViewBag.DoseID = new SelectList(db.Dose.OrderBy(p => p.ID), "ID", "VaccineDose");
@@ -296,6 +295,7 @@ namespace R12VIS.Controllers
             }
             if (ModelState.IsValid)
             {
+
                 vaccination.VaccinatorName = vaccination.VaccinatorName?.ToUpper();
                 vaccination.Comorbidity = vaccination.Comorbidity?.ToUpper();
                 vaccination.CreatedBy = $"{user.FirstName} {user.LastName}";
@@ -306,10 +306,22 @@ namespace R12VIS.Controllers
                 {
                     vaccination.Person = personExist;
                 }
+                var isPersonHasTheSameVaccination = CheckVaccinationDuplicate(vaccination);
+                if (isPersonHasTheSameVaccination) //Toaster if person has the same vaccination dose
+                {
+                    TempData["ToastMessage"] = vaccination.Person.FirstName + " " + vaccination.Person.LastName + " is already vaccinated with selected Dose";
+                    TempData["ToastClass"] = "text-bg-warning";
+                }
+                else
+                {
+                    vaccination.Person.FirstName = vaccination.Person.FirstName?.ToUpper();
+                    vaccination.Person.MiddleName = vaccination.Person.MiddleName?.ToUpper();
+                    vaccination.Person.LastName = vaccination.Person.LastName?.ToUpper();
+                    db.Vaccinations.Add(vaccination);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-                db.Vaccinations.Add(vaccination);
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
             ViewBag.PriorityGroupID = new SelectList(db.PriorityGroups, "ID", "Category", vaccination.PriorityGroupID);
             var ethnicGroups = db.EthnicGroups.ToList();
@@ -343,6 +355,13 @@ namespace R12VIS.Controllers
             ViewBag.Suffix = suffix;
             ViewBag.Gender = gender;
             return View(vaccination);
+        }
+
+        private bool CheckVaccinationDuplicate(Vaccination vaccination)
+        {
+
+            var isAny = db.Vaccinations.Where(x => x.Person.ID == vaccination.Person.ID && x.DoseID == vaccination.DoseID).Any();
+            return isAny;
         }
 
         private Person CheckPersonIfExisitng(Person person)
@@ -384,6 +403,24 @@ namespace R12VIS.Controllers
 
             var persons = personsQuery.ToList();
             return Json(persons, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetAllowedDose(int vaccineID)
+        {
+            var dose = new List<Dose>();
+            if (vaccineID == 7)
+            {
+                dose = db.Dose.Where(p => p.ID != 1).ToList();
+            }
+            else
+            {
+                dose = db.Dose.ToList();
+            }
+            return Json(dose, JsonRequestBehavior.AllowGet);
+
+        }
+        public ActionResult BlankPage()
+        {
+            return View();
         }
 
 
