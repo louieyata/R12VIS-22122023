@@ -12,18 +12,10 @@ namespace R12VIS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Region
+    public partial class student
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Region()
-        {
-            this.Provinces = new HashSet<Province>();
-        }
-    
         public int ID { get; set; }
-        public string RegionName { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Province> Provinces { get; set; }
+        public string StudentName { get; set; }
+        public Nullable<int> TotalMarks { get; set; }
     }
 }

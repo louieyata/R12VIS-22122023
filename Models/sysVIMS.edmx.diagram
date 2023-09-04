@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6861433dd37348b78a0badb9137455a8" Name="Diagram1">
+        <EntityTypeShape EntityType="DbR12VISModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.Adverse" Width="1.5" PointX="9.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.Barangay" Width="1.5" PointX="7.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.CityMunicipality" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.Deferral" Width="1.5" PointX="9.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.Dose" Width="1.5" PointX="9.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.EthnicGroup" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.PatientInformation" Width="1.5" PointX="2.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.Person" Width="1.5" PointX="9.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.PriorityGroup" Width="1.5" PointX="9.75" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.Province" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.Region" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.Role" Width="1.5" PointX="7.5" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.student" Width="1.5" PointX="4.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.sysdiagram" Width="1.5" PointX="6.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.User" Width="1.5" PointX="9.75" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.Vaccination" Width="1.5" PointX="12" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbR12VISModel.Vaccine" Width="1.5" PointX="9.75" PointY="21.875" IsExpanded="true" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Vaccination_dbo_Adverse_AdverseID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Barangay_dbo_CityMunicipality_city_municipality_id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Person_dbo_Barangay_BarangayID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_CityMunicipality_dbo_Province_province_id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Person_dbo_CityMunicipality_CityMunicipalityID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Vaccination_dbo_Deferral_DeferralID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Vaccination_dbo_Dose_DoseID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Person_dbo_EthnicGroup_EthnicGroupID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Person_dbo_Province_ProvinceID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Vaccination_dbo_Person_PersonID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Vaccination_dbo_PriorityGroup_PriorityGroupID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Province_dbo_Region_RegionID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_User_dbo_Role_RoleID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Vaccination_dbo_User_UserID" ManuallyRouted="false" />
+        <AssociationConnector Association="DbR12VISModel.FK_dbo_Vaccination_dbo_Vaccine_VaccineID" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

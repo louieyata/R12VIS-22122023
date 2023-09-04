@@ -1,0 +1,1287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DbR12VISModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Adverse">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Event" Type="nvarchar(max)" />
+          <Property Name="Condition" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Barangay">
+          <Key>
+            <PropertyRef Name="barangay_id" />
+          </Key>
+          <Property Name="barangay_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="city_municipality_id" Type="int" Nullable="false" />
+          <Property Name="barangay_name" Type="nvarchar(max)" />
+          <Property Name="province_code" Type="nvarchar(max)" />
+          <Property Name="city_municipality_code" Type="nvarchar(max)" />
+          <Property Name="barangay_code" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CityMunicipality">
+          <Key>
+            <PropertyRef Name="city_municipality_id" />
+          </Key>
+          <Property Name="city_municipality_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="province_id" Type="int" Nullable="false" />
+          <Property Name="CityMunicipalityName" Type="nvarchar(max)" />
+          <Property Name="ProvinceCode" Type="nvarchar(max)" />
+          <Property Name="CityMunicipalityCode" Type="nvarchar(max)" />
+          <Property Name="ZipCode" Type="nvarchar(max)" />
+          <Property Name="CityMunicipalityCodeExcel" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Deferral">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Dose">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VaccineDose" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="EthnicGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IndigenousMember" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PatientInformation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fullname" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UniquePersonID" Type="nvarchar(max)" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="MiddleName" Type="nvarchar(max)" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+          <Property Name="Suffix" Type="nvarchar(max)" />
+          <Property Name="ContactNumber" Type="nvarchar(max)" />
+          <Property Name="GuardianName" Type="nvarchar(max)" />
+          <Property Name="Gender" Type="nvarchar(max)" />
+          <Property Name="isPWD" Type="bit" Nullable="false" />
+          <Property Name="EthnicGroupID" Type="int" />
+          <Property Name="BirthDate" Type="datetime" />
+          <Property Name="ProvinceID" Type="int" />
+          <Property Name="CityMunicipalityID" Type="int" />
+          <Property Name="BarangayID" Type="int" />
+        </EntityType>
+        <EntityType Name="PriorityGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Category" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Province">
+          <Key>
+            <PropertyRef Name="province_id" />
+          </Key>
+          <Property Name="province_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="province_name" Type="nvarchar(max)" />
+          <Property Name="RegionID" Type="int" />
+          <Property Name="province_code" Type="nvarchar(max)" />
+          <Property Name="province_code_excel" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegionName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Access" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="students">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentName" Type="varchar(max)" />
+          <Property Name="TotalMarks" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="MiddleName" Type="nvarchar(max)" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Password" Type="nvarchar(max)" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="Password2" Type="varbinary(max)" />
+          <Property Name="salt" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Vaccination">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PriorityGroupID" Type="int" Nullable="false" />
+          <Property Name="Comorbidity" Type="nvarchar(max)" />
+          <Property Name="PersonID" Type="int" Nullable="false" />
+          <Property Name="DeferralID" Type="int" />
+          <Property Name="VaccinationDate" Type="datetime" />
+          <Property Name="VaccineID" Type="int" Nullable="false" />
+          <Property Name="BatchNumber" Type="nvarchar(max)" />
+          <Property Name="LotNumber" Type="nvarchar(max)" />
+          <Property Name="BakunaCenterCBCRID" Type="nvarchar(max)" />
+          <Property Name="VaccinatorName" Type="nvarchar(max)" />
+          <Property Name="DoseID" Type="int" Nullable="false" />
+          <Property Name="AdverseID" Type="int" />
+          <Property Name="DateCreate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
+        <EntityType Name="Vaccine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VaccineManufacturer" Type="nvarchar(max)" />
+          <Property Name="VaccineBrand" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_dbo_Barangay_dbo_CityMunicipality_city_municipality_id">
+          <End Role="CityMunicipality" Type="Self.CityMunicipality" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Barangay" Type="Self.Barangay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CityMunicipality">
+              <PropertyRef Name="city_municipality_id" />
+            </Principal>
+            <Dependent Role="Barangay">
+              <PropertyRef Name="city_municipality_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CityMunicipality_dbo_Province_province_id">
+          <End Role="Province" Type="Self.Province" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CityMunicipality" Type="Self.CityMunicipality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="province_id" />
+            </Principal>
+            <Dependent Role="CityMunicipality">
+              <PropertyRef Name="province_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Person_dbo_Barangay_BarangayID">
+          <End Role="Barangay" Type="Self.Barangay" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Barangay">
+              <PropertyRef Name="barangay_id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="BarangayID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Person_dbo_CityMunicipality_CityMunicipalityID">
+          <End Role="CityMunicipality" Type="Self.CityMunicipality" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CityMunicipality">
+              <PropertyRef Name="city_municipality_id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="CityMunicipalityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Person_dbo_EthnicGroup_EthnicGroupID">
+          <End Role="EthnicGroup" Type="Self.EthnicGroup" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EthnicGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="EthnicGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Person_dbo_Province_ProvinceID">
+          <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="province_id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="ProvinceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Province_dbo_Region_RegionID">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="Province" Type="Self.Province" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Province">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_User_dbo_Role_RoleID">
+          <End Role="Role" Type="Self.Role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_Adverse_AdverseID">
+          <End Role="Adverse" Type="Self.Adverse" Multiplicity="0..1" />
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adverse">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="AdverseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_Deferral_DeferralID">
+          <End Role="Deferral" Type="Self.Deferral" Multiplicity="0..1" />
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deferral">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="DeferralID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_Dose_DoseID">
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dose">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="DoseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_Person_PersonID">
+          <End Role="Person" Type="Self.Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_PriorityGroup_PriorityGroupID">
+          <End Role="PriorityGroup" Type="Self.PriorityGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriorityGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="PriorityGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_User_UserID">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_Vaccine_VaccineID">
+          <End Role="Vaccine" Type="Self.Vaccine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vaccine">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="VaccineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="GetPieChartData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dose_id" Type="int" Mode="In" />
+          <Parameter Name="prioritygroup_id" Type="int" Mode="In" />
+          <Parameter Name="vaccine_ids" Type="varchar(max)" Mode="In" />
+          <Parameter Name="province_id" Type="int" Mode="In" />
+          <Parameter Name="citymun_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spRegisterUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="varchar(max)" Mode="In" />
+          <Parameter Name="password" Type="varbinary(max)" Mode="In" />
+          <Parameter Name="roleid" Type="int" Mode="In" />
+          <Parameter Name="isactive" Type="bit" Mode="In" />
+          <Parameter Name="salt" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="DbR12VISModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Adverse" EntityType="Self.Adverse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Barangay" EntityType="Self.Barangay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CityMunicipality" EntityType="Self.CityMunicipality" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deferral" EntityType="Self.Deferral" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dose" EntityType="Self.Dose" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EthnicGroup" EntityType="Self.EthnicGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PatientInformation" EntityType="Self.PatientInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PriorityGroup" EntityType="Self.PriorityGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="students" EntityType="Self.students" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vaccination" EntityType="Self.Vaccination" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vaccine" EntityType="Self.Vaccine" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Barangay_dbo_CityMunicipality_city_municipality_id" Association="Self.FK_dbo_Barangay_dbo_CityMunicipality_city_municipality_id">
+            <End Role="CityMunicipality" EntitySet="CityMunicipality" />
+            <End Role="Barangay" EntitySet="Barangay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CityMunicipality_dbo_Province_province_id" Association="Self.FK_dbo_CityMunicipality_dbo_Province_province_id">
+            <End Role="Province" EntitySet="Province" />
+            <End Role="CityMunicipality" EntitySet="CityMunicipality" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Person_dbo_Barangay_BarangayID" Association="Self.FK_dbo_Person_dbo_Barangay_BarangayID">
+            <End Role="Barangay" EntitySet="Barangay" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Person_dbo_CityMunicipality_CityMunicipalityID" Association="Self.FK_dbo_Person_dbo_CityMunicipality_CityMunicipalityID">
+            <End Role="CityMunicipality" EntitySet="CityMunicipality" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Person_dbo_EthnicGroup_EthnicGroupID" Association="Self.FK_dbo_Person_dbo_EthnicGroup_EthnicGroupID">
+            <End Role="EthnicGroup" EntitySet="EthnicGroup" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Person_dbo_Province_ProvinceID" Association="Self.FK_dbo_Person_dbo_Province_ProvinceID">
+            <End Role="Province" EntitySet="Province" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Province_dbo_Region_RegionID" Association="Self.FK_dbo_Province_dbo_Region_RegionID">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Province" EntitySet="Province" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_User_dbo_Role_RoleID" Association="Self.FK_dbo_User_dbo_Role_RoleID">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_Adverse_AdverseID" Association="Self.FK_dbo_Vaccination_dbo_Adverse_AdverseID">
+            <End Role="Adverse" EntitySet="Adverse" />
+            <End Role="Vaccination" EntitySet="Vaccination" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_Deferral_DeferralID" Association="Self.FK_dbo_Vaccination_dbo_Deferral_DeferralID">
+            <End Role="Deferral" EntitySet="Deferral" />
+            <End Role="Vaccination" EntitySet="Vaccination" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_Dose_DoseID" Association="Self.FK_dbo_Vaccination_dbo_Dose_DoseID">
+            <End Role="Dose" EntitySet="Dose" />
+            <End Role="Vaccination" EntitySet="Vaccination" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_Person_PersonID" Association="Self.FK_dbo_Vaccination_dbo_Person_PersonID">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Vaccination" EntitySet="Vaccination" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_PriorityGroup_PriorityGroupID" Association="Self.FK_dbo_Vaccination_dbo_PriorityGroup_PriorityGroupID">
+            <End Role="PriorityGroup" EntitySet="PriorityGroup" />
+            <End Role="Vaccination" EntitySet="Vaccination" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_User_UserID" Association="Self.FK_dbo_Vaccination_dbo_User_UserID">
+            <End Role="User" EntitySet="User" />
+            <End Role="Vaccination" EntitySet="Vaccination" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_Vaccine_VaccineID" Association="Self.FK_dbo_Vaccination_dbo_Vaccine_VaccineID">
+            <End Role="Vaccine" EntitySet="Vaccine" />
+            <End Role="Vaccination" EntitySet="Vaccination" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbR12VISModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Adverse">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Event" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Condition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vaccinations" Relationship="Self.FK_dbo_Vaccination_dbo_Adverse_AdverseID" FromRole="Adverse" ToRole="Vaccination" />
+        </EntityType>
+        <EntityType Name="Barangay">
+          <Key>
+            <PropertyRef Name="barangay_id" />
+          </Key>
+          <Property Name="barangay_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="city_municipality_id" Type="Int32" Nullable="false" />
+          <Property Name="barangay_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="province_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="city_municipality_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="barangay_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CityMunicipality" Relationship="Self.FK_dbo_Barangay_dbo_CityMunicipality_city_municipality_id" FromRole="Barangay" ToRole="CityMunicipality" />
+          <NavigationProperty Name="People" Relationship="Self.FK_dbo_Person_dbo_Barangay_BarangayID" FromRole="Barangay" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="CityMunicipality">
+          <Key>
+            <PropertyRef Name="city_municipality_id" />
+          </Key>
+          <Property Name="city_municipality_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="province_id" Type="Int32" Nullable="false" />
+          <Property Name="CityMunicipalityName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProvinceCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CityMunicipalityCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ZipCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CityMunicipalityCodeExcel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Barangays" Relationship="Self.FK_dbo_Barangay_dbo_CityMunicipality_city_municipality_id" FromRole="CityMunicipality" ToRole="Barangay" />
+          <NavigationProperty Name="Province" Relationship="Self.FK_dbo_CityMunicipality_dbo_Province_province_id" FromRole="CityMunicipality" ToRole="Province" />
+          <NavigationProperty Name="People" Relationship="Self.FK_dbo_Person_dbo_CityMunicipality_CityMunicipalityID" FromRole="CityMunicipality" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="Deferral">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vaccinations" Relationship="Self.FK_dbo_Vaccination_dbo_Deferral_DeferralID" FromRole="Deferral" ToRole="Vaccination" />
+        </EntityType>
+        <EntityType Name="Dose">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VaccineDose" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vaccinations" Relationship="Self.FK_dbo_Vaccination_dbo_Dose_DoseID" FromRole="Dose" ToRole="Vaccination" />
+        </EntityType>
+        <EntityType Name="EthnicGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IndigenousMember" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="People" Relationship="Self.FK_dbo_Person_dbo_EthnicGroup_EthnicGroupID" FromRole="EthnicGroup" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="PatientInformation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fullname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UniquePersonID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Suffix" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GuardianName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isPWD" Type="Boolean" Nullable="false" />
+          <Property Name="EthnicGroupID" Type="Int32" />
+          <Property Name="BirthDate" Type="DateTime" Precision="3" />
+          <Property Name="ProvinceID" Type="Int32" />
+          <Property Name="CityMunicipalityID" Type="Int32" />
+          <Property Name="BarangayID" Type="Int32" />
+          <NavigationProperty Name="Barangay" Relationship="Self.FK_dbo_Person_dbo_Barangay_BarangayID" FromRole="Person" ToRole="Barangay" />
+          <NavigationProperty Name="CityMunicipality" Relationship="Self.FK_dbo_Person_dbo_CityMunicipality_CityMunicipalityID" FromRole="Person" ToRole="CityMunicipality" />
+          <NavigationProperty Name="EthnicGroup" Relationship="Self.FK_dbo_Person_dbo_EthnicGroup_EthnicGroupID" FromRole="Person" ToRole="EthnicGroup" />
+          <NavigationProperty Name="Province" Relationship="Self.FK_dbo_Person_dbo_Province_ProvinceID" FromRole="Person" ToRole="Province" />
+          <NavigationProperty Name="Vaccinations" Relationship="Self.FK_dbo_Vaccination_dbo_Person_PersonID" FromRole="Person" ToRole="Vaccination" />
+        </EntityType>
+        <EntityType Name="PriorityGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vaccinations" Relationship="Self.FK_dbo_Vaccination_dbo_PriorityGroup_PriorityGroupID" FromRole="PriorityGroup" ToRole="Vaccination" />
+        </EntityType>
+        <EntityType Name="Province">
+          <Key>
+            <PropertyRef Name="province_id" />
+          </Key>
+          <Property Name="province_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="province_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegionID" Type="Int32" />
+          <Property Name="province_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="province_code_excel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CityMunicipalities" Relationship="Self.FK_dbo_CityMunicipality_dbo_Province_province_id" FromRole="Province" ToRole="CityMunicipality" />
+          <NavigationProperty Name="People" Relationship="Self.FK_dbo_Person_dbo_Province_ProvinceID" FromRole="Province" ToRole="Person" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_dbo_Province_dbo_Region_RegionID" FromRole="Province" ToRole="Region" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Provinces" Relationship="Self.FK_dbo_Province_dbo_Region_RegionID" FromRole="Region" ToRole="Province" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Access" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_dbo_User_dbo_Role_RoleID" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="student">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TotalMarks" Type="Int32" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="Password2" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="salt" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_dbo_User_dbo_Role_RoleID" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Vaccinations" Relationship="Self.FK_dbo_Vaccination_dbo_User_UserID" FromRole="User" ToRole="Vaccination" />
+        </EntityType>
+        <EntityType Name="Vaccination">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PriorityGroupID" Type="Int32" Nullable="false" />
+          <Property Name="Comorbidity" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PersonID" Type="Int32" Nullable="false" />
+          <Property Name="DeferralID" Type="Int32" />
+          <Property Name="VaccinationDate" Type="DateTime" Precision="3" />
+          <Property Name="VaccineID" Type="Int32" Nullable="false" />
+          <Property Name="BatchNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LotNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BakunaCenterCBCRID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VaccinatorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DoseID" Type="Int32" Nullable="false" />
+          <Property Name="AdverseID" Type="Int32" />
+          <Property Name="DateCreate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="Adverse" Relationship="Self.FK_dbo_Vaccination_dbo_Adverse_AdverseID" FromRole="Vaccination" ToRole="Adverse" />
+          <NavigationProperty Name="Deferral" Relationship="Self.FK_dbo_Vaccination_dbo_Deferral_DeferralID" FromRole="Vaccination" ToRole="Deferral" />
+          <NavigationProperty Name="Dose" Relationship="Self.FK_dbo_Vaccination_dbo_Dose_DoseID" FromRole="Vaccination" ToRole="Dose" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_dbo_Vaccination_dbo_Person_PersonID" FromRole="Vaccination" ToRole="Person" />
+          <NavigationProperty Name="PriorityGroup" Relationship="Self.FK_dbo_Vaccination_dbo_PriorityGroup_PriorityGroupID" FromRole="Vaccination" ToRole="PriorityGroup" />
+          <NavigationProperty Name="User" Relationship="Self.FK_dbo_Vaccination_dbo_User_UserID" FromRole="Vaccination" ToRole="User" />
+          <NavigationProperty Name="Vaccine" Relationship="Self.FK_dbo_Vaccination_dbo_Vaccine_VaccineID" FromRole="Vaccination" ToRole="Vaccine" />
+        </EntityType>
+        <EntityType Name="Vaccine">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VaccineManufacturer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VaccineBrand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vaccinations" Relationship="Self.FK_dbo_Vaccination_dbo_Vaccine_VaccineID" FromRole="Vaccine" ToRole="Vaccination" />
+        </EntityType>
+        <Association Name="FK_dbo_Vaccination_dbo_Adverse_AdverseID">
+          <End Role="Adverse" Type="Self.Adverse" Multiplicity="0..1" />
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adverse">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="AdverseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Barangay_dbo_CityMunicipality_city_municipality_id">
+          <End Role="CityMunicipality" Type="Self.CityMunicipality" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Barangay" Type="Self.Barangay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CityMunicipality">
+              <PropertyRef Name="city_municipality_id" />
+            </Principal>
+            <Dependent Role="Barangay">
+              <PropertyRef Name="city_municipality_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Person_dbo_Barangay_BarangayID">
+          <End Role="Barangay" Type="Self.Barangay" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Barangay">
+              <PropertyRef Name="barangay_id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="BarangayID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CityMunicipality_dbo_Province_province_id">
+          <End Role="Province" Type="Self.Province" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CityMunicipality" Type="Self.CityMunicipality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="province_id" />
+            </Principal>
+            <Dependent Role="CityMunicipality">
+              <PropertyRef Name="province_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Person_dbo_CityMunicipality_CityMunicipalityID">
+          <End Role="CityMunicipality" Type="Self.CityMunicipality" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CityMunicipality">
+              <PropertyRef Name="city_municipality_id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="CityMunicipalityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_Deferral_DeferralID">
+          <End Role="Deferral" Type="Self.Deferral" Multiplicity="0..1" />
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deferral">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="DeferralID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_Dose_DoseID">
+          <End Role="Dose" Type="Self.Dose" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dose">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="DoseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Person_dbo_EthnicGroup_EthnicGroupID">
+          <End Role="EthnicGroup" Type="Self.EthnicGroup" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EthnicGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="EthnicGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Person_dbo_Province_ProvinceID">
+          <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="province_id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="ProvinceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_Person_PersonID">
+          <End Role="Person" Type="Self.Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_PriorityGroup_PriorityGroupID">
+          <End Role="PriorityGroup" Type="Self.PriorityGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriorityGroup">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="PriorityGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Province_dbo_Region_RegionID">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="Province" Type="Self.Province" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Province">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_User_dbo_Role_RoleID">
+          <End Role="Role" Type="Self.Role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_User_UserID">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Vaccination_dbo_Vaccine_VaccineID">
+          <End Role="Vaccine" Type="Self.Vaccine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Vaccination" Type="Self.Vaccination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vaccine">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vaccination">
+              <PropertyRef Name="VaccineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbR12VISEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="Adverses" EntityType="Self.Adverse" />
+          <EntitySet Name="Barangays" EntityType="Self.Barangay" />
+          <EntitySet Name="CityMunicipalities" EntityType="Self.CityMunicipality" />
+          <EntitySet Name="Deferrals" EntityType="Self.Deferral" />
+          <EntitySet Name="Doses" EntityType="Self.Dose" />
+          <EntitySet Name="EthnicGroups" EntityType="Self.EthnicGroup" />
+          <EntitySet Name="PatientInformations" EntityType="Self.PatientInformation" />
+          <EntitySet Name="People" EntityType="Self.Person" />
+          <EntitySet Name="PriorityGroups" EntityType="Self.PriorityGroup" />
+          <EntitySet Name="Provinces" EntityType="Self.Province" />
+          <EntitySet Name="Regions" EntityType="Self.Region" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="students" EntityType="Self.student" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Vaccinations" EntityType="Self.Vaccination" />
+          <EntitySet Name="Vaccines" EntityType="Self.Vaccine" />
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_Adverse_AdverseID" Association="Self.FK_dbo_Vaccination_dbo_Adverse_AdverseID">
+            <End Role="Adverse" EntitySet="Adverses" />
+            <End Role="Vaccination" EntitySet="Vaccinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Barangay_dbo_CityMunicipality_city_municipality_id" Association="Self.FK_dbo_Barangay_dbo_CityMunicipality_city_municipality_id">
+            <End Role="CityMunicipality" EntitySet="CityMunicipalities" />
+            <End Role="Barangay" EntitySet="Barangays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Person_dbo_Barangay_BarangayID" Association="Self.FK_dbo_Person_dbo_Barangay_BarangayID">
+            <End Role="Barangay" EntitySet="Barangays" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CityMunicipality_dbo_Province_province_id" Association="Self.FK_dbo_CityMunicipality_dbo_Province_province_id">
+            <End Role="Province" EntitySet="Provinces" />
+            <End Role="CityMunicipality" EntitySet="CityMunicipalities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Person_dbo_CityMunicipality_CityMunicipalityID" Association="Self.FK_dbo_Person_dbo_CityMunicipality_CityMunicipalityID">
+            <End Role="CityMunicipality" EntitySet="CityMunicipalities" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_Deferral_DeferralID" Association="Self.FK_dbo_Vaccination_dbo_Deferral_DeferralID">
+            <End Role="Deferral" EntitySet="Deferrals" />
+            <End Role="Vaccination" EntitySet="Vaccinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_Dose_DoseID" Association="Self.FK_dbo_Vaccination_dbo_Dose_DoseID">
+            <End Role="Dose" EntitySet="Doses" />
+            <End Role="Vaccination" EntitySet="Vaccinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Person_dbo_EthnicGroup_EthnicGroupID" Association="Self.FK_dbo_Person_dbo_EthnicGroup_EthnicGroupID">
+            <End Role="EthnicGroup" EntitySet="EthnicGroups" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Person_dbo_Province_ProvinceID" Association="Self.FK_dbo_Person_dbo_Province_ProvinceID">
+            <End Role="Province" EntitySet="Provinces" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_Person_PersonID" Association="Self.FK_dbo_Vaccination_dbo_Person_PersonID">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Vaccination" EntitySet="Vaccinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_PriorityGroup_PriorityGroupID" Association="Self.FK_dbo_Vaccination_dbo_PriorityGroup_PriorityGroupID">
+            <End Role="PriorityGroup" EntitySet="PriorityGroups" />
+            <End Role="Vaccination" EntitySet="Vaccinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Province_dbo_Region_RegionID" Association="Self.FK_dbo_Province_dbo_Region_RegionID">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="Province" EntitySet="Provinces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_User_dbo_Role_RoleID" Association="Self.FK_dbo_User_dbo_Role_RoleID">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_User_UserID" Association="Self.FK_dbo_Vaccination_dbo_User_UserID">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Vaccination" EntitySet="Vaccinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Vaccination_dbo_Vaccine_VaccineID" Association="Self.FK_dbo_Vaccination_dbo_Vaccine_VaccineID">
+            <End Role="Vaccine" EntitySet="Vaccines" />
+            <End Role="Vaccination" EntitySet="Vaccinations" />
+          </AssociationSet>
+          <FunctionImport Name="GetPieChartData">
+            <Parameter Name="dose_id" Mode="In" Type="Int32" />
+            <Parameter Name="prioritygroup_id" Mode="In" Type="Int32" />
+            <Parameter Name="vaccine_ids" Mode="In" Type="String" />
+            <Parameter Name="province_id" Mode="In" Type="Int32" />
+            <Parameter Name="citymun_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="spRegisterUser" ReturnType="Collection(Int32)">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="Binary" />
+            <Parameter Name="roleid" Mode="In" Type="Int32" />
+            <Parameter Name="isactive" Mode="In" Type="Boolean" />
+            <Parameter Name="salt" Mode="In" Type="Binary" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbR12VISModelStoreContainer" CdmEntityContainer="DbR12VISEntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="DbR12VISModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Adverses">
+            <EntityTypeMapping TypeName="DbR12VISModel.Adverse">
+              <MappingFragment StoreEntitySet="Adverse">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Event" ColumnName="Event" />
+                <ScalarProperty Name="Condition" ColumnName="Condition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Barangays">
+            <EntityTypeMapping TypeName="DbR12VISModel.Barangay">
+              <MappingFragment StoreEntitySet="Barangay">
+                <ScalarProperty Name="barangay_id" ColumnName="barangay_id" />
+                <ScalarProperty Name="city_municipality_id" ColumnName="city_municipality_id" />
+                <ScalarProperty Name="barangay_name" ColumnName="barangay_name" />
+                <ScalarProperty Name="province_code" ColumnName="province_code" />
+                <ScalarProperty Name="city_municipality_code" ColumnName="city_municipality_code" />
+                <ScalarProperty Name="barangay_code" ColumnName="barangay_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CityMunicipalities">
+            <EntityTypeMapping TypeName="DbR12VISModel.CityMunicipality">
+              <MappingFragment StoreEntitySet="CityMunicipality">
+                <ScalarProperty Name="city_municipality_id" ColumnName="city_municipality_id" />
+                <ScalarProperty Name="province_id" ColumnName="province_id" />
+                <ScalarProperty Name="CityMunicipalityName" ColumnName="CityMunicipalityName" />
+                <ScalarProperty Name="ProvinceCode" ColumnName="ProvinceCode" />
+                <ScalarProperty Name="CityMunicipalityCode" ColumnName="CityMunicipalityCode" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="CityMunicipalityCodeExcel" ColumnName="CityMunicipalityCodeExcel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Deferrals">
+            <EntityTypeMapping TypeName="DbR12VISModel.Deferral">
+              <MappingFragment StoreEntitySet="Deferral">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doses">
+            <EntityTypeMapping TypeName="DbR12VISModel.Dose">
+              <MappingFragment StoreEntitySet="Dose">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="VaccineDose" ColumnName="VaccineDose" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EthnicGroups">
+            <EntityTypeMapping TypeName="DbR12VISModel.EthnicGroup">
+              <MappingFragment StoreEntitySet="EthnicGroup">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IndigenousMember" ColumnName="IndigenousMember" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientInformations">
+            <EntityTypeMapping TypeName="DbR12VISModel.PatientInformation">
+              <MappingFragment StoreEntitySet="PatientInformation">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="DbR12VISModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UniquePersonID" ColumnName="UniquePersonID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Suffix" ColumnName="Suffix" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="GuardianName" ColumnName="GuardianName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="isPWD" ColumnName="isPWD" />
+                <ScalarProperty Name="EthnicGroupID" ColumnName="EthnicGroupID" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+                <ScalarProperty Name="CityMunicipalityID" ColumnName="CityMunicipalityID" />
+                <ScalarProperty Name="BarangayID" ColumnName="BarangayID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PriorityGroups">
+            <EntityTypeMapping TypeName="DbR12VISModel.PriorityGroup">
+              <MappingFragment StoreEntitySet="PriorityGroup">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provinces">
+            <EntityTypeMapping TypeName="DbR12VISModel.Province">
+              <MappingFragment StoreEntitySet="Province">
+                <ScalarProperty Name="province_id" ColumnName="province_id" />
+                <ScalarProperty Name="province_name" ColumnName="province_name" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="province_code" ColumnName="province_code" />
+                <ScalarProperty Name="province_code_excel" ColumnName="province_code_excel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Regions">
+            <EntityTypeMapping TypeName="DbR12VISModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="DbR12VISModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Access" ColumnName="Access" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="students">
+            <EntityTypeMapping TypeName="DbR12VISModel.student">
+              <MappingFragment StoreEntitySet="students">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="TotalMarks" ColumnName="TotalMarks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DbR12VISModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DbR12VISModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Password2" ColumnName="Password2" />
+                <ScalarProperty Name="salt" ColumnName="salt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vaccinations">
+            <EntityTypeMapping TypeName="DbR12VISModel.Vaccination">
+              <MappingFragment StoreEntitySet="Vaccination">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PriorityGroupID" ColumnName="PriorityGroupID" />
+                <ScalarProperty Name="Comorbidity" ColumnName="Comorbidity" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="DeferralID" ColumnName="DeferralID" />
+                <ScalarProperty Name="VaccinationDate" ColumnName="VaccinationDate" />
+                <ScalarProperty Name="VaccineID" ColumnName="VaccineID" />
+                <ScalarProperty Name="BatchNumber" ColumnName="BatchNumber" />
+                <ScalarProperty Name="LotNumber" ColumnName="LotNumber" />
+                <ScalarProperty Name="BakunaCenterCBCRID" ColumnName="BakunaCenterCBCRID" />
+                <ScalarProperty Name="VaccinatorName" ColumnName="VaccinatorName" />
+                <ScalarProperty Name="DoseID" ColumnName="DoseID" />
+                <ScalarProperty Name="AdverseID" ColumnName="AdverseID" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vaccines">
+            <EntityTypeMapping TypeName="DbR12VISModel.Vaccine">
+              <MappingFragment StoreEntitySet="Vaccine">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="VaccineManufacturer" ColumnName="VaccineManufacturer" />
+                <ScalarProperty Name="VaccineBrand" ColumnName="VaccineBrand" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetPieChartData" FunctionName="DbR12VISModel.Store.GetPieChartData" />
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="DbR12VISModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="DbR12VISModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="DbR12VISModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="DbR12VISModel.Store.sp_helpdiagramdefinition" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="DbR12VISModel.Store.sp_helpdiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="DbR12VISModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="DbR12VISModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="spRegisterUser" FunctionName="DbR12VISModel.Store.spRegisterUser" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
