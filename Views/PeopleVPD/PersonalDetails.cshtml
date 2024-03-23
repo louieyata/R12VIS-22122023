@@ -1,0 +1,136 @@
+﻿@model R12VIS.Models.ViewModel._PersonVPDProfile
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<script>
+    var navItem = document.getElementById('nav-item-individual');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('individual-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-individual-vpd');
+    navLinkChild.classList.remove('collapsed');
+</script>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Citizen Personal Profile</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","PeopleVPD")">Individual</a></li>
+                <li class="breadcrumb-item active">Profile</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+
+        <div class="card">
+            <div class="card-body">
+                <!-- Personal Profile Section -->
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h5 class="card-title">
+                            @Model.Person.person_first_name @Model.Person.person_middle_name @Model.Person.person_last_name
+                            @if (!string.IsNullOrWhiteSpace(Model.Person.person_suffix) && Model.Person.person_suffix != "N/A")
+                            {
+                                <text>@Model.Person.person_suffix</text>
+                            }
+                            <span>@Model.Province, @Model.CityMunicipality</span>
+                        </h5>
+                        <div class="card-body">
+                            <div class="card mb-3" style="margin-left:-16px">
+                                <div class="card-body" style="padding:16px">
+                                    <p>
+                                        @if (Model.Person.person_birth_date.HasValue)
+                                        {
+                                            <strong>Date of Birth:</strong> @Model.Person.person_birth_date.Value.ToString("MMMM dd, yyyy");
+                                        }
+                                    </p>
+                                    <p>
+                                        <strong>Sex:</strong>
+                                        @if (Model.Person.person_sex.ToLower() == "m")
+                                        {
+                                            <text>Male</text>
+                                        }
+                                        else
+                                        {
+                                            <text>Female</text>
+                                        }
+                                    </p>
+                                    <p>
+                                        <strong>PWD?:</strong>
+                                        @if ((bool)Model.Person.person_is_pwd)
+                                        {
+                                            <text>Yes</text>
+                                        }
+                                        else
+                                        {
+                                            <text>No</text>
+                                        }
+                                    </p>
+                                    <p><strong>Parents Religion:</strong> @(Model.Religion ?? "Not Specified")</p>
+                                    <p><strong>Parents Occupation:</strong> @(Model.Occupation ?? "Not Specified")</p>
+                                    <p><strong>Educational Attainment:</strong> @(Model.EducationalAttainment ?? "Not Specified")</p>
+                                    <p><strong>Income Class:</strong> @(Model.IncomeClass ?? "Not Specified")</p>
+                                    <p><strong>Sibling Rank:</strong> @(GetSiblingRankWord(Model.Person.person_sibling_rank) ?? "Not Specified")</p>
+                                    <!-- Add more details as needed -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Vaccination Details Section -->
+                    <div class="col-md-6">
+                        <h5 class="card-title">Vaccination Details</h5>
+
+                        <!-- Render each vaccination detail using a partial view -->
+                        @foreach (var vaccination in Model.Vaccinations)
+                        {
+                            @Html.Partial("_VaccinationDetail", vaccination)
+                        }
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col text-end pt-3">
+                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+@functions {
+    string GetSiblingRankWord(int? siblingRank)
+    {
+        switch (siblingRank)
+        {
+            case 1:
+                return "First Born Child";
+            case 2:
+                return "Second Born Child";
+            case 3:
+                return "Third Born Child";
+            case 4:
+                return "Fourth Born Child";
+            case 5:
+                return "Fifth Born Child";
+            case 6:
+                return "Sixth Born Child";
+            case 7:
+                return "Seventh Born Child";
+            case 8:
+                return "Eighth Born Child";
+            case 9:
+                return "Nineth  Born Child";
+            // Add more cases as needed
+            default:
+                return null;
+        }
+    }
+}

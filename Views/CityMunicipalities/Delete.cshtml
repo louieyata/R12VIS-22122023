@@ -4,69 +4,104 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<script>
+    var navItem = document.getElementById('nav-item-file-maintenance');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('file-maintenance-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-file-maintenance-citumun');
+    navLinkChild.classList.remove('collapsed');
+</script>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>CityMunicipality</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Province.province_name)
-        </dt>
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>City/Munivipality</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">City/Munivipality</li>
+                <li class="breadcrumb-item active">Delete</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Delete</h5>
+                        <div>
+                            <h4>Are you sure you want to delete this City / Municipality?</h4>
+                            <div>
+                                <hr />
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Province.province_name)
+                                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Province.province_name)
-        </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Province.province_name)
+                                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CityMunicipalityName)
-        </dt>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.CityMunicipalityName)
+                                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CityMunicipalityName)
-        </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.CityMunicipalityName)
+                                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ProvinceCode)
-        </dt>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ProvinceCode)
+                                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ProvinceCode)
-        </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ProvinceCode)
+                                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CityMunicipalityCode)
-        </dt>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.CityMunicipalityCode)
+                                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CityMunicipalityCode)
-        </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.CityMunicipalityCode)
+                                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ZipCode)
-        </dt>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ZipCode)
+                                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ZipCode)
-        </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ZipCode)
+                                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CityMunicipalityCodeExcel)
-        </dt>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.CityMunicipalityCodeExcel)
+                                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CityMunicipalityCodeExcel)
-        </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.CityMunicipalityCodeExcel)
+                                    </dd>
 
-    </dl>
+                                </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="row">
+                                        <div class="col text-end pt-3">
+                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Back to List</a>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
         </div>
-    }
-</div>
+    </section>
+</main>

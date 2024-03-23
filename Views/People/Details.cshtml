@@ -5,6 +5,10 @@
     ViewBag.Title = "Details";
 }
 
+<script>
+    var navLink = document.getElementById('nav-item-link-individuals');
+    navLink.classList.remove('collapsed');
+</script>
 
 <main id="main" class="main">
 
@@ -27,7 +31,11 @@
                 <h5 class="card-title">@Model.Person.FirstName @Model.Person.MiddleName @Model.Person.LastName  <span>@Model.Person.Province.province_name, @Model.Person.CityMunicipality.CityMunicipalityName</span></h5>
                 @Html.Partial("_VaccineRecord", Model)
 
-
+                <div class="row">
+                    <div class="col text-end pt-3">
+                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Back to List</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

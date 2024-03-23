@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DbSeniorCitizenVacsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SeniorCitizen_details">
+          <Key>
+            <PropertyRef Name="sc_id" />
+          </Key>
+          <Property Name="sc_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sc_person_id" Type="int" />
+          <Property Name="sc_is_sc_member" Type="bit" />
+          <Property Name="sc_sc_organization" Type="varchar(max)" />
+          <Property Name="sc_previous_occupation" Type="varchar(max)" />
+          <Property Name="sc_contact_person_name" Type="varchar(max)" />
+          <Property Name="sc_contact_person_relationship" Type="varchar(max)" />
+          <Property Name="sc_contact_person_contact_number" Type="varchar" MaxLength="50" />
+          <Property Name="sc_physician" Type="varchar(max)" />
+          <Property Name="sc_physician_contact_number" Type="varchar" MaxLength="50" />
+          <Property Name="sc_living_arragement" Type="varchar(max)" />
+          <Property Name="sc_blood_type" Type="varchar" MaxLength="20" />
+          <Property Name="sc_disablity" Type="varchar(max)" />
+          <Property Name="sc_medical_alerts" Type="varchar(max)" />
+          <Property Name="sc_poverty_reduction_member_id_number" Type="varchar(max)" />
+          <Property Name="sc_is_pensioner" Type="bit" />
+          <Property Name="sc_pensioner" Type="varchar(max)" />
+          <Property Name="sc_philhealth_pin" Type="varchar" MaxLength="50" />
+          <Property Name="sc_sss_gsis_id_number" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Vaccination_SC">
+          <Key>
+            <PropertyRef Name="vaccination_id" />
+          </Key>
+          <Property Name="vaccination_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vaccination_person_id" Type="int" />
+          <Property Name="vaccination_region_id" Type="int" />
+          <Property Name="vaccination_provcine_id" Type="int" />
+          <Property Name="vaccination_city_municipality_id" Type="int" />
+          <Property Name="vaccination_barangay_id" Type="int" />
+          <Property Name="vaccination_vaccine_id" Type="int" />
+          <Property Name="vaccination_date" Type="datetime" />
+          <Property Name="vaccination_vaccinator" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Vaccine_SC">
+          <Key>
+            <PropertyRef Name="vaccine_id" />
+          </Key>
+          <Property Name="vaccine_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vaccine_description" Type="varchar(max)" />
+          <Property Name="vaccine_created_by" Type="int" />
+          <Property Name="vaccine_date_created" Type="datetime" />
+          <Property Name="vaccine_last_update_by" Type="int" />
+          <Property Name="vaccine_date_last_updated" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Vaccinati__vacci__4D94879B">
+          <End Role="Vaccine_SC" Type="Self.Vaccine_SC" Multiplicity="0..1" />
+          <End Role="Vaccination_SC" Type="Self.Vaccination_SC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vaccine_SC">
+              <PropertyRef Name="vaccine_id" />
+            </Principal>
+            <Dependent Role="Vaccination_SC">
+              <PropertyRef Name="vaccination_vaccine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbSeniorCitizenVacsModelStoreContainer">
+          <EntitySet Name="SeniorCitizen_details" EntityType="Self.SeniorCitizen_details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vaccination_SC" EntityType="Self.Vaccination_SC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vaccine_SC" EntityType="Self.Vaccine_SC" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Vaccinati__vacci__4D94879B" Association="Self.FK__Vaccinati__vacci__4D94879B">
+            <End Role="Vaccine_SC" EntitySet="Vaccine_SC" />
+            <End Role="Vaccination_SC" EntitySet="Vaccination_SC" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbSeniorCitizenVacsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DbSeniorCitizenVacsEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="SeniorCitizen_details" EntityType="DbSeniorCitizenVacsModel.SeniorCitizen_details" />
+          <EntitySet Name="Vaccination_SC" EntityType="DbSeniorCitizenVacsModel.Vaccination_SC" />
+          <EntitySet Name="Vaccine_SC" EntityType="DbSeniorCitizenVacsModel.Vaccine_SC" />
+          <AssociationSet Name="FK__Vaccinati__vacci__4D94879B" Association="DbSeniorCitizenVacsModel.FK__Vaccinati__vacci__4D94879B">
+            <End Role="Vaccine_SC" EntitySet="Vaccine_SC" />
+            <End Role="Vaccination_SC" EntitySet="Vaccination_SC" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="SeniorCitizen_details">
+          <Key>
+            <PropertyRef Name="sc_id" />
+          </Key>
+          <Property Name="sc_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sc_person_id" Type="Int32" />
+          <Property Name="sc_is_sc_member" Type="Boolean" />
+          <Property Name="sc_sc_organization" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sc_previous_occupation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sc_contact_person_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sc_contact_person_relationship" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sc_contact_person_contact_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sc_physician" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sc_physician_contact_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sc_living_arragement" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sc_blood_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="sc_disablity" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sc_medical_alerts" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sc_poverty_reduction_member_id_number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sc_is_pensioner" Type="Boolean" />
+          <Property Name="sc_pensioner" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sc_philhealth_pin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sc_sss_gsis_id_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Vaccination_SC">
+          <Key>
+            <PropertyRef Name="vaccination_id" />
+          </Key>
+          <Property Name="vaccination_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vaccination_person_id" Type="Int32" />
+          <Property Name="vaccination_region_id" Type="Int32" />
+          <Property Name="vaccination_city_municipality_id" Type="Int32" />
+          <Property Name="vaccination_barangay_id" Type="Int32" />
+          <Property Name="vaccination_vaccine_id" Type="Int32" />
+          <Property Name="vaccination_date" Type="DateTime" Precision="3" />
+          <Property Name="vaccination_vaccinator" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Vaccine_SC" Relationship="DbSeniorCitizenVacsModel.FK__Vaccinati__vacci__4D94879B" FromRole="Vaccination_SC" ToRole="Vaccine_SC" />
+          <Property Name="vaccination_provcine_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Vaccine_SC">
+          <Key>
+            <PropertyRef Name="vaccine_id" />
+          </Key>
+          <Property Name="vaccine_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vaccine_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="vaccine_created_by" Type="Int32" />
+          <Property Name="vaccine_date_created" Type="DateTime" Precision="3" />
+          <Property Name="vaccine_last_update_by" Type="Int32" />
+          <Property Name="vaccine_date_last_updated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Vaccination_SC" Relationship="DbSeniorCitizenVacsModel.FK__Vaccinati__vacci__4D94879B" FromRole="Vaccine_SC" ToRole="Vaccination_SC" />
+        </EntityType>
+        <Association Name="FK__Vaccinati__vacci__4D94879B">
+          <End Type="DbSeniorCitizenVacsModel.Vaccine_SC" Role="Vaccine_SC" Multiplicity="0..1" />
+          <End Type="DbSeniorCitizenVacsModel.Vaccination_SC" Role="Vaccination_SC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vaccine_SC">
+              <PropertyRef Name="vaccine_id" />
+            </Principal>
+            <Dependent Role="Vaccination_SC">
+              <PropertyRef Name="vaccination_vaccine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbSeniorCitizenVacsModelStoreContainer" CdmEntityContainer="DbSeniorCitizenVacsEntities" >
+          <EntitySetMapping Name="SeniorCitizen_details">
+            <EntityTypeMapping TypeName="DbSeniorCitizenVacsModel.SeniorCitizen_details">
+              <MappingFragment StoreEntitySet="SeniorCitizen_details">
+                <ScalarProperty Name="sc_sss_gsis_id_number" ColumnName="sc_sss_gsis_id_number" />
+                <ScalarProperty Name="sc_philhealth_pin" ColumnName="sc_philhealth_pin" />
+                <ScalarProperty Name="sc_pensioner" ColumnName="sc_pensioner" />
+                <ScalarProperty Name="sc_is_pensioner" ColumnName="sc_is_pensioner" />
+                <ScalarProperty Name="sc_poverty_reduction_member_id_number" ColumnName="sc_poverty_reduction_member_id_number" />
+                <ScalarProperty Name="sc_medical_alerts" ColumnName="sc_medical_alerts" />
+                <ScalarProperty Name="sc_disablity" ColumnName="sc_disablity" />
+                <ScalarProperty Name="sc_blood_type" ColumnName="sc_blood_type" />
+                <ScalarProperty Name="sc_living_arragement" ColumnName="sc_living_arragement" />
+                <ScalarProperty Name="sc_physician_contact_number" ColumnName="sc_physician_contact_number" />
+                <ScalarProperty Name="sc_physician" ColumnName="sc_physician" />
+                <ScalarProperty Name="sc_contact_person_contact_number" ColumnName="sc_contact_person_contact_number" />
+                <ScalarProperty Name="sc_contact_person_relationship" ColumnName="sc_contact_person_relationship" />
+                <ScalarProperty Name="sc_contact_person_name" ColumnName="sc_contact_person_name" />
+                <ScalarProperty Name="sc_previous_occupation" ColumnName="sc_previous_occupation" />
+                <ScalarProperty Name="sc_sc_organization" ColumnName="sc_sc_organization" />
+                <ScalarProperty Name="sc_is_sc_member" ColumnName="sc_is_sc_member" />
+                <ScalarProperty Name="sc_person_id" ColumnName="sc_person_id" />
+                <ScalarProperty Name="sc_id" ColumnName="sc_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vaccination_SC">
+            <EntityTypeMapping TypeName="DbSeniorCitizenVacsModel.Vaccination_SC">
+              <MappingFragment StoreEntitySet="Vaccination_SC">
+                <ScalarProperty Name="vaccination_provcine_id" ColumnName="vaccination_provcine_id" />
+                <ScalarProperty Name="vaccination_vaccinator" ColumnName="vaccination_vaccinator" />
+                <ScalarProperty Name="vaccination_date" ColumnName="vaccination_date" />
+                <ScalarProperty Name="vaccination_vaccine_id" ColumnName="vaccination_vaccine_id" />
+                <ScalarProperty Name="vaccination_barangay_id" ColumnName="vaccination_barangay_id" />
+                <ScalarProperty Name="vaccination_city_municipality_id" ColumnName="vaccination_city_municipality_id" />
+                <ScalarProperty Name="vaccination_region_id" ColumnName="vaccination_region_id" />
+                <ScalarProperty Name="vaccination_person_id" ColumnName="vaccination_person_id" />
+                <ScalarProperty Name="vaccination_id" ColumnName="vaccination_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vaccine_SC">
+            <EntityTypeMapping TypeName="DbSeniorCitizenVacsModel.Vaccine_SC">
+              <MappingFragment StoreEntitySet="Vaccine_SC">
+                <ScalarProperty Name="vaccine_date_last_updated" ColumnName="vaccine_date_last_updated" />
+                <ScalarProperty Name="vaccine_last_update_by" ColumnName="vaccine_last_update_by" />
+                <ScalarProperty Name="vaccine_date_created" ColumnName="vaccine_date_created" />
+                <ScalarProperty Name="vaccine_created_by" ColumnName="vaccine_created_by" />
+                <ScalarProperty Name="vaccine_description" ColumnName="vaccine_description" />
+                <ScalarProperty Name="vaccine_id" ColumnName="vaccine_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

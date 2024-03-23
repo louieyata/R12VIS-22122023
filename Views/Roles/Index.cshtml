@@ -4,15 +4,23 @@
     ViewBag.Title = "Index";
 }
 
+<script>
+    var navItem = document.getElementById('nav-item-file-maintenance');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('file-maintenance-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-file-maintenance-user-role');
+    navLinkChild.classList.remove('collapsed');
+</script>
 
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Add</h1>
+        <h1>Role</h1>
         <nav>
             <ol class="breadcrumb">
                 @*<li class="breadcrumb-item"><a href="index.html">Home</a></li>*@
-                <li class="breadcrumb-item">Roles</li>
+                <li class="breadcrumb-item">Role</li>
                 <li class="breadcrumb-item active">Index</li>
             </ol>
         </nav>
@@ -22,21 +30,21 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Default Card</h5>
+                <h5 class="card-title">Role List</h5>
                 <p>
                     @*@Html.ActionLink("Create New", "Create")*@
                     <a href="@Url.Action("Create")" class="btn btn-primary"><i class="bi bi-person-add"></i> Create New</a>
                 </p>
-                <table class="table">
+                <table class="table table-bordered" id="myTable">
                     <thead>
                         <tr>
-                            <th>
+                            <th style="width:60%">
                                 @Html.DisplayNameFor(model => model.Title)
                             </th>
-                            <th>
+                            <th style="width:34%">
                                 @Html.DisplayNameFor(model => model.Access)
                             </th>
-                            <th></th>
+                            <th style="width:6%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,9 +58,8 @@
                                     @Html.DisplayFor(modelItem => item.Access)
                                 </td>
                                 <td>
-                                    <a class="link-dark" href="@Url.Action("Edit","Roles", new { id = item.Id })"><i class="bi bi-pencil-square"></i></a>|
-                                    <a class="link-dark" href="@Url.Action("Details","Roles", new { id=item.Id})"><i class="bi bi-filter-square"></i></a>
-
+                                    <a class="link-primary" href="@Url.Action("Edit","Roles", new { id = item.Id })"><i class="bi bi-pencil-square"></i></a>
+                                    <a class="link-secondary" href="@Url.Action("Details","Roles", new { id=item.Id})"><i class="bi bi-filter-square"></i></a>
                                 </td>
                             </tr>
                         }
@@ -63,3 +70,13 @@
     </section>
 
 </main><!-- End #main -->
+@section scripts
+{
+    <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
+    <script src="~/Content/DataTable2/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+}

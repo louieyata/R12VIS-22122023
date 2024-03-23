@@ -1,34 +1,19 @@
-﻿
-using DocumentFormat.OpenXml.Spreadsheet;
-using Irony.Parsing;
-using Microsoft.Ajax.Utilities;
+﻿using ClosedXML.Excel;
 using R12VIS.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Globalization;
-
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 
-using System.IO;
-using ClosedXML.Excel;
-using static ClosedXML.Excel.XLPredefinedFormat;
-
-using OfficeOpenXml;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
-using System.Runtime.InteropServices.ComTypes;
-using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml.Drawing;
-using WebGrease.Css.Ast;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR;
-using System.Text.RegularExpressions;
-using System.ComponentModel.DataAnnotations;
-
 namespace R12VIS.Controllers
 {
+    //[UserAuthenticationFilter]
     public class UploaderController : Controller
     {
         private DbContextR12 db = new DbContextR12();
@@ -93,9 +78,8 @@ namespace R12VIS.Controllers
 
 
 
-
         //async Task<ActionResult>
-        public ActionResult Uploader(HttpPostedFileBase myExcelData, string selectedValue) 
+        public ActionResult Uploader(HttpPostedFileBase myExcelData, string selectedValue)
         {
             // MAIN PROCESS
             int result;
@@ -134,6 +118,14 @@ namespace R12VIS.Controllers
 
                             // get total excel rows
                             pb.TotalExcelRows = xlworkbook.Worksheet(pb.worksheet).LastRowUsed().RowNumber() - 1;
+
+                            #region Mark - Set total excel rows
+                            // Check if the number of rows exceeds 5000
+                            if (pb.TotalExcelRows > 5000)
+                            {
+                                return Json(new { success = false, message = "Excel file contains too many rows (exceeds 5000)." });
+                            }
+                            #endregion Mark - Set total excel rows
 
                             // from VAS Excel
                             if (pb.SheetCount == 1 && result != 1)
@@ -483,7 +475,7 @@ namespace R12VIS.Controllers
                                     // check if value is already in date format
                                     if (System.DateTime.TryParse(pb.birthdate, out pb.parsedDate))
                                     {
-                                        
+
                                         // PASS DATE TO DATETIME VARIABLE FOR QUERY
                                         pb.birthdateForQry = pb.birthdate.AsDateTime();
 
@@ -979,8 +971,6 @@ namespace R12VIS.Controllers
             return Json(new { success = false, message = "Excel File encoundered an error during uploading. Either excel rows is more than 10k or incorrect foramt. Please double check the Excel File or contact your administrator." });
         }
 
-
-
         private int CalculateProgress()
         {
             // Calculate the progress percentage here based on your task
@@ -988,9 +978,6 @@ namespace R12VIS.Controllers
             Random random = new Random();
             return random.Next(0, 101);
         }
-
-
-
 
         // FUNCTIONING EXCEL DOWNLOAD
         [HttpGet]
@@ -1050,7 +1037,7 @@ namespace R12VIS.Controllers
 
             pb.GuardianIsRequired = false;
 
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
 
 

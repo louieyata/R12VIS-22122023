@@ -4,30 +4,78 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<script>
+    var navItem = document.getElementById('nav-item-file-maintenance');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('file-maintenance-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-file-maintenance-deferral');
+    navLinkChild.classList.remove('collapsed');
+</script>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Reason)
-        </th>
-        <th></th>
-    </tr>
+<main id="main" class="main">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Reason)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+    <div class="pagetitle">
+        <h1>Deferral</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Deferral</a></li>
+                <li class="breadcrumb-item">Index</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Deferral List</h5>
+                <p>
+                    <a class="btn btn-primary" href="@Url.Action("Create", "Deferrals")"><i class="bi bi-person-add"></i> New </a>
+                </p>
+                <table class="table table-bordered" id="myTable">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reason)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="width:90%">
+                                @Html.DisplayFor(modelItem => item.Reason)
+                            </td>
+                            <td style="width:10%">
+                                <a class="link-primary" href="@Url.Action("Edit", "Deferrals", new { id = item.Id })"><i class="bi bi-pencil-square"></i></a>
+                                <a class="link-secondary" href="@Url.Action("Details", "Deferrals", new { id = item.Id })"><i class="bi bi-filter-square"></i></a>
+                                <a class="link-danger" href="@Url.Action("Delete", "Deferrals", new { id = item.Id })"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+
+@section scripts
+{
+    <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
+    @*<script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_dataTables.bootstrap5.min.js"></script>*@
+    <script src="~/Content/DataTable2/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "bordered": true,
+                "columns": [
+                    { "title": "Deferral Name" },
+                    { "title": "" }
+                ]
+            });
+        });
+    </script>
 }
-
-</table>

@@ -4,6 +4,15 @@
     ViewBag.Title = "Index";
 }
 
+<script>
+    var navItem = document.getElementById('nav-item-file-maintenance');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('file-maintenance-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-file-maintenance-citumun');
+    navLinkChild.classList.remove('collapsed');
+</script>
+
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -21,7 +30,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Default Card</h5>
+                <h5 class="card-title">City / Munucipality List</h5>
                 <p>
                     <a class="btn btn-primary" href="@Url.Action("Create", "CityMunicipalities")"><i class="bi bi-person-add"></i> New </a>
                 </p>
@@ -35,16 +44,16 @@
                                 @Html.DisplayNameFor(model => model.CityMunicipalityName)
                             </th>
                             @*<th>
-                        @Html.DisplayNameFor(model => model.ProvinceCode)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CityMunicipalityCode)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ZipCode)
-                    </th>*@
+                                    @Html.DisplayNameFor(model => model.ProvinceCode)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CityMunicipalityCode)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ZipCode)
+                                </th>*@
                             <th>
-                                @Html.DisplayNameFor(model => model.CityMunicipalityCodeExcel)
+                                Excel Code
                             </th>
                             <th></th>
                         </tr>
@@ -60,40 +69,31 @@
                                     @Html.DisplayFor(modelItem => item.CityMunicipalityName)
                                 </td>
                                 @*<td>
-                            @Html.DisplayFor(modelItem => item.ProvinceCode)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CityMunicipalityCode)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ZipCode)
-                        </td>*@
+                                        @Html.DisplayFor(modelItem => item.ProvinceCode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CityMunicipalityCode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ZipCode)
+                                    </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CityMunicipalityCodeExcel)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.city_municipality_id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.city_municipality_id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.city_municipality_id })
+                                    <a class="link-primary" href="@Url.Action("Edit", "CityMunicipalities", new { id = item.province_id })"><i class="bi bi-pencil-square"></i></a>
+                                    <a class="link-secondary" href="@Url.Action("Details", "CityMunicipalities", new { id = item.province_id })"><i class="bi bi-filter-square"></i></a>
+                                    <a class="link-danger" href="@Url.Action("Delete", "CityMunicipalities", new { id = item.province_id })"><i class="bi bi-trash"></i></a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-                <p>
-                    @Html.ActionLink("Create New", "Create")
-                </p>
-
             </div>
         </div>
     </section>
 
 </main><!-- End #main -->
-
-
-
-
-
 @section scripts
 {
     <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
@@ -102,10 +102,6 @@
     <script>
         $(document).ready(function () {
             $('#myTable').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'excel', 'pdf'
-                ]
             });
         });
     </script>

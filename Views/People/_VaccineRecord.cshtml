@@ -1,5 +1,10 @@
 ﻿@model R12VIS.Models.ViewModel._PersonProfile
 
+<script>
+    var navLink = document.getElementById('nav-item-link-individuals');
+    navLink.classList.remove('collapsed');
+</script>
+
 @if (Model.Vaccinations.Count() > 0)
 {
     <table class="table table-striped table-sm" id="myTable">

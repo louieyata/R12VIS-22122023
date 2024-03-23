@@ -4,26 +4,34 @@
     ViewBag.Title = "Details";
 }
 
+<script>
+    var navItem = document.getElementById('nav-item-file-maintenance');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('file-maintenance-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-file-maintenance-user-user');
+    navLinkChild.classList.remove('collapsed');
+</script>
 
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Blank Page</h1>
+        <h1>User</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item">Pages</li>
-                <li class="breadcrumb-item active">Blank</li>
+                <li class="breadcrumb-item">User</li>
+                <li class="breadcrumb-item active">Roles</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-8">
+
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Details</h5>
+                        <h5 class="card-title">User Details</h5>
 
                         <div class="row mb-3">
                             <div class="col-lg-3 col-md-4 label ">Full Name</div>
@@ -43,10 +51,12 @@
                         </div>
 
 
-                        <p>
-                            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-                            @Html.ActionLink("Back to List", "Index")
-                        </p>
+                        <div class="row">
+                            <div class="col text-end pt-3">
+                                <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-primary">Edit</a>
+                                <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Back to List</a>
+                            </div>
+                        </div>
 
                     </div>
                 </div>

@@ -1,13 +1,5 @@
-﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using Microsoft.Ajax.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.WebPages;
 
 
 
@@ -168,7 +160,7 @@ namespace R12VIS.Models
                             "dddd, dd MMMM yyyy HH:mm:ss",
                             "MMMM dd, yyyy HH:mm:ss",
                             "MM/dd/yyyy h:mm:ss tt"
-                        }; 
+                        };
 
         // Excel Fields
         public string category;
@@ -213,6 +205,7 @@ namespace R12VIS.Models
         public string seconddose;
         public string additionalboosterdose;
         public string secondadditionalboosterdose;
+        public string thirdadditionalboosterdose;
         public int DoseId;
 
         public string adverseevent;

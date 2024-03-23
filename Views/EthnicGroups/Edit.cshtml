@@ -4,34 +4,67 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<script>
+    var navItem = document.getElementById('nav-item-file-maintenance');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('file-maintenance-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-file-maintenance-ethnic-group');
+    navLinkChild.classList.remove('collapsed');
+</script>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>EthnicGroup</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+<main id="main" class="main">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IndigenousMember, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IndigenousMember, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IndigenousMember, "", new { @class = "text-danger" })
+    <div class="pagetitle">
+        <h1>Ethnic Group</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Ethnic Group</li>
+                <li class="breadcrumb-item active">Edit</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Update Ethnic Group Details</h5>
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.Id)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IndigenousMember, "Indigenous Name", htmlAttributes: new { @class = "control-label" })
+                                    <div class="col-md-12">
+                                        @Html.EditorFor(model => model.IndigenousMember, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.IndigenousMember, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col text-end pt-3">
+                                        <input type="submit" value="Update" class="btn btn-primary" />
+                                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Back to List</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
+</main><!-- End #main -->
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

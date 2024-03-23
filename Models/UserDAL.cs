@@ -8,12 +8,7 @@ namespace R12VIS.Models
 {
     public class UserDAL
     {
-        private DbContextR12 db;
-
-        public UserDAL()
-        {
-            db = new DbContextR12();
-        }
+        private DbContextR12 db = new DbContextR12();
         public List<User> GetUsers()
         {
             var users = db.Users.Include(u => u.Role);

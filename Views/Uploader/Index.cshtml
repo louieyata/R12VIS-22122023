@@ -2,10 +2,161 @@
 @{
     ViewBag.Title = "Index";
 }
+<script>
+    var navItem = document.getElementById('nav-item-uploader');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('uploader-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-uploader-covid');
+    navLinkChild.classList.remove('collapsed');
+</script>
 
+
+<main id="main" class="main">
+
+    <section>
+
+
+        <div class="row" style="padding-bottom: 130px; padding-top: 70px;">
+
+            <div class="row">
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <br />
+                            <h2>Excel File Uploader</h2>
+
+                            @*<div class="row">
+                                    <form method="post" enctype="multipart/form-data">
+                                        <input type="file" id="files_input_field" name="files" style="visibility:hidden;height:0px;width:0px;" onchange="upload_files();" />
+
+                                        <input type="button" id="select_and_upload_button" value="Upload Photos..." />
+
+                                    </form>
+                                    <progress id="ctlProgress" value="0" max="100"></progress>
+                                </div>*@
+
+                            <div class="row shadow mt-2 rounded">
+                                @*SELECT DROP DOWN LIST*@
+                                <div class=" col p-3 bg-white text-black">
+
+                                    <select id="selectElement" class="form-select" aria-label="Default select example">
+                                        <option selected>-Select Excel Format-</option>
+                                        <option value="1">Downloaded from VAS Line List Database</option>
+                                        <option value="2">Excel Templete</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row shadow mt-2 rounded">
+                                @*FILE SELECTOR*@
+                                <div class=" col p-3 bg-white text-black">
+                                    <input class="form-control" type="file" id="fuExcel" />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3 mt-2 shadow rounded">
+                                @*UPLOADER*@
+                                <div class=" col p-3 bg-light">
+                                    <button id="btnClear" class="btn btn-m btn-outline-success float-left shadow-sm mt-2" style="display:none;">Clear and Upload another Excel File</button>
+                                    <button id="btnUploader" class="btn btn-m btn-success float-end shadow-sm mt-1">Upload File</button>
+                                </div>
+                            </div>
+
+                            @*MODAL*@
+                            <div class="modal modal-dialog-scrollable fade modal-xl" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="overflow-y:auto">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="staticBackdropLabel"> Error List</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body overflow-y-scroll" style="max-height:500px">
+
+                                            <table id="listtable" class="table table-bordered table-condensed table-hover table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="color:red; width:40%;">Error Details</th>
+                                                        <th style="width:30%;">First Name</th>
+                                                        <th style="width:30%;">Last Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="btnDownloadExcelErrors" class="btn btn-danger">Download Excel Errors</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+            </div>
+
+
+            <div class="row" id="rowtoggle" style="display:none;">
+
+                @*style="display:none"*@
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="row p-3 m-1 shadow-sm rounded-1">
+
+                        @*CARD - UPLOADED*@
+                        <div class="col-lg-4  bg-light">
+                            <button id="btnuploaded" type="button" class="btn btn-m btn-primary btn-md mt-2" style="width:100%">
+                                Uploaded <span id="vaccineuploaded" class="badge badge-light ">0</span>
+                            </button>
+                        </div>
+
+                        @*CARD - DUPLICATE*@
+                        <div class="col-lg-4 bg-light">
+                            <button id="btnduplicate" type="button" class="btn btn-m btn-warning btn-md mt-2" style="width:100%">
+                                Duplicates <span id="vaccineduplicates" class="badge badge-info">0</span>
+                            </button>
+                        </div>
+
+                        @*CARD - ERRORS*@
+                        <div class="col-lg-4  bg-light">
+                            <button id="btnerror" type="button" class="btn btn-m btn-danger btn-md mt-2" style="width:100%">
+                                Errors<span id="vaccineerrors" class="badge badge-light ">0</span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
 
 @section Scripts{
-
     <script>
 
 
@@ -222,7 +373,7 @@
                     success: function (result) {
 
                         // enable the button
-                        buttonupload.prop('disabled', false);
+                        $("#buttonupload").prop('disabled', false);
 
                         //// disable file select button
                         document.getElementById("fuExcel").disabled = false;
@@ -235,148 +386,3 @@
     </script>
 
 }
-
-
-<main id="main" class="main">
-
-    <section>
-
-
-        <div class="row" style="padding-bottom: 130px; padding-top: 70px;">
-
-            <div class="row">
-                <div class="col-md-3">
-                    @*SPACE*@
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <br />
-                            <h2>Excel File Uploader</h2>
-
-                            @*<div class="row">
-                                <form method="post" enctype="multipart/form-data">
-                                    <input type="file" id="files_input_field" name="files" style="visibility:hidden;height:0px;width:0px;" onchange="upload_files();" /> 
-
-                                    <input type="button" id="select_and_upload_button" value="Upload Photos..." />
-
-                                </form>
-                                <progress id="ctlProgress" value="0" max="100"></progress>
-                            </div>*@
-
-                            <div class="row shadow mt-2 rounded">
-                                @*SELECT DROP DOWN LIST*@
-                                <div class=" col p-3 bg-white text-black">
-
-                                    <select id="selectElement" class="form-select" aria-label="Default select example">
-                                        <option selected>-Select Excel Format-</option>
-                                        <option value="1">Downloaded from VAS Line List Database</option>
-                                        <option value="2">Excel Templete</option>
-                                    </select>
-
-                                </div>
-
-                            </div>
-
-                            <div class="row shadow mt-2 rounded">
-                                @*FILE SELECTOR*@
-                                <div class=" col p-3 bg-white text-black">
-                                    <input class="form-control" type="file" id="fuExcel" />
-                                </div>
-                            </div>
-
-                            <div class="row mb-3 mt-2 shadow rounded">
-                                @*UPLOADER*@
-                                <div class=" col p-3 bg-light">
-                                    <button id="btnClear" class="btn btn-m btn-outline-success float-left shadow-sm mt-2" style="display:none;">Clear and Upload another Excel File</button>
-                                    <button id="btnUploader" class="btn btn-m btn-success float-end shadow-sm mt-1">Upload File</button>
-                                </div>
-                            </div>
-
-                            @*MODAL*@
-                            <div class="modal modal-dialog-scrollable fade modal-xl" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content" style="overflow-y:auto">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="staticBackdropLabel"> Error List</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body overflow-y-scroll" style="max-height:500px">
-
-                                            <table id="listtable" class="table table-bordered table-condensed table-hover table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="color:red; width:40%;">Error Details</th>
-                                                        <th style="width:30%;">First Name</th>
-                                                        <th style="width:30%;">Last Name</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" id="btnDownloadExcelErrors" class="btn btn-danger">Download Excel Errors</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    @*SPACE*@
-                </div>
-
-            </div>
-
-
-            <div class="row" id="rowtoggle" style="display:none;">
-
-                @*style="display:none"*@
-                <div class="col-md-3">
-                    @*SPACE*@
-                </div>
-
-                <div class="col-md-6">
-
-                    <div class="row p-3 m-1 shadow-sm rounded-1">
-
-                        @*CARD - UPLOADED*@
-                        <div class="col-lg-4  bg-light">
-                            <button id="btnuploaded" type="button" class="btn btn-m btn-primary btn-md mt-2" style="width:100%">
-                                Uploaded <span id="vaccineuploaded" class="badge badge-light ">0</span>
-                            </button>
-                        </div>
-
-                        @*CARD - DUPLICATE*@
-                        <div class="col-lg-4 bg-light">
-                            <button id="btnduplicate" type="button" class="btn btn-m btn-warning btn-md mt-2" style="width:100%">
-                                Duplicates <span id="vaccineduplicates" class="badge badge-info">0</span>
-                            </button>
-                        </div>
-
-                        @*CARD - ERRORS*@
-                        <div class="col-lg-4  bg-light">
-                            <button id="btnerror" type="button" class="btn btn-m btn-danger btn-md mt-2" style="width:100%">
-                                Errors<span id="vaccineerrors" class="badge badge-light ">0</span>
-                            </button>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-3">
-                    @*SPACE*@
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-</main>

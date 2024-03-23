@@ -4,31 +4,61 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<script>
+    var navItem = document.getElementById('nav-item-file-maintenance');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('file-maintenance-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-file-maintenance-priority-group');
+    navLinkChild.classList.remove('collapsed');
+</script>
 
-<div>
-    <h4>PriorityGroup</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Priority Group</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Priority Group</li>
+                <li class="breadcrumb-item"> active>Details</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Priority Group Details</h5>
+                        <div>
+                            <hr />
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Category)
+                                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Category)
-        </dd>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Category)
+                                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Description)
+                                </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                            </dl>
+                        </div>
+                        <div class="row">
+                            <div class="col text-end pt-3">
+                                <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-outline-primary">Edit</a>
+                                <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->

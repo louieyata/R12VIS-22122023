@@ -87,9 +87,10 @@
         </div>
     </div>
 
-
     @*<script src="~/Scripts/bootstrap.bundle.min.js"></script>*@
     @Scripts.Render("~/bundles/bootstrap")
+    
+    
     <script>
         const toastLiveExample = document.getElementById('liveToast');
         document.getElementById("loginForm").addEventListener("submit", function (event) {
@@ -106,7 +107,7 @@
                 if (data.success) {
                     const user = data.user;
                     //console.log(user);
-                    window.location.href = "/AdminPanel/Home";
+                    window.location.href = "/Dashboard/Routine";
                 } else {
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                         toastBootstrap.show();

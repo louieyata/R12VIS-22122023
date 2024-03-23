@@ -4,17 +4,23 @@
     ViewBag.Title = "Index";
 }
 
-
+<script>
+    var navItem = document.getElementById('nav-item-file-maintenance');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('file-maintenance-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-file-maintenance-user-user');
+    navLinkChild.classList.remove('collapsed');
+</script>
 
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Index</h1>
+        <h1>User</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Users</a></li>
+                <li class="breadcrumb-item"><a href="index.html">User</a></li>
                 <li class="breadcrumb-item">Index</li>
-                @*<li class="breadcrumb-item active">Blank</li>*@
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -24,12 +30,12 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Users List</h5>
+
                 <p>
-                    
                     <a class="btn btn-primary" href="@Url.Action("Create", "Users")"><i class="bi bi-person-add"></i> New </a>
                 </p>
 
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="myTable">
                     <thead>
                         <tr>
                             <th>
@@ -77,18 +83,26 @@
                                     }
                                 </td>
                                 <td>
-                                    <a class="link-dark" href="@Url.Action("Edit","Users", new { id=item.ID})"><i class="bi bi-pencil-square"></i></a> |
+                                    <a class="link-primary" href="@Url.Action("Edit","Users", new { id=item.ID})"><i class="bi bi-pencil-square"></i></a>
                                     @*@Html.ActionLink("Edit", "Edit", new { id = item.ID })*@
-                                    <a class="link-dark" href="@Url.Action("Details","Users", new { id=item.ID})"><i class="bi bi-filter-square"></i></a>                                    @*@Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
+                                    <a class="link-secondary" href="@Url.Action("Details","Users", new { id=item.ID})"><i class="bi bi-filter-square"></i></a>                                    @*@Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
                                 </td>
                             </tr>
                         }
 
                     </tbody>
                 </table>
-
             </div>
         </div>
     </section>
-
 </main><!-- End #main -->
+@section scripts
+{
+    <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
+    <script src="~/Content/DataTable2/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+}

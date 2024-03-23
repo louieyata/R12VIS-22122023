@@ -3,7 +3,14 @@
 @{
     ViewBag.Title = "Index";
 }
-
+<script>
+    var navItem = document.getElementById('nav-item-file-maintenance');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('file-maintenance-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-file-maintenance-province');
+    navLinkChild.classList.remove('collapsed');
+</script>
 
 <main id="main" class="main">
 
@@ -21,7 +28,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Index</h5>
+                <h5 class="card-title">Province List</h5>
 
                 <p>
                     <a class="btn btn-primary" href="@Url.Action("Create", "Provinces")"><i class="bi bi-person-add"></i> New </a>
@@ -39,7 +46,7 @@
                                 @Html.DisplayNameFor(model => model.province_code)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.province_code_excel)
+                                Excel Code
                             </th>
                             <th></th>
                         </tr>
@@ -62,9 +69,9 @@
                                     @Html.DisplayFor(modelItem => item.province_code_excel)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.province_id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.province_id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.province_id })
+                                    <a class="link-primary" href="@Url.Action("Edit", "Provinces", new { id = item.province_id })"><i class="bi bi-pencil-square"></i></a>
+                                    <a class="link-secondary" href="@Url.Action("Details", "Provinces", new { id = item.province_id })"><i class="bi bi-filter-square"></i></a>
+                                    <a class="link-danger" href="@Url.Action("Delete", "Provinces", new { id = item.province_id })"><i class="bi bi-trash"></i></a>
                                 </td>
                             </tr>
                         }

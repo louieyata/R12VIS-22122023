@@ -4,47 +4,87 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<script>
+    var navItem = document.getElementById('nav-item-file-maintenance');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('file-maintenance-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-file-maintenance-province');
+    navLinkChild.classList.remove('collapsed');
+</script>
 
-<div>
-    <h4>Province</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Region.RegionName)
-        </dt>
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Province</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Province</li>
+                <li class="breadcrumb-item active">Details</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
 
-        <dd>
-            @Html.DisplayFor(model => model.Region.RegionName)
-        </dd>
+    <section class="section">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Province Details</h5>
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
 
-        <dt>
-            @Html.DisplayNameFor(model => model.province_name)
-        </dt>
+                            <div class="form-horizontal">
+                                <div>
+                                    <h4>Province</h4>
+                                    <hr />
+                                    <dl class="dl-horizontal">
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Region.RegionName)
+                                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.province_name)
-        </dd>
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Region.RegionName)
+                                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.province_code)
-        </dt>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.province_name)
+                                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.province_code)
-        </dd>
+                                        <dd>
+                                            @Html.DisplayFor(model => model.province_name)
+                                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.province_code_excel)
-        </dt>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.province_code)
+                                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.province_code_excel)
-        </dd>
+                                        <dd>
+                                            @Html.DisplayFor(model => model.province_code)
+                                        </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.province_id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.province_code_excel)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.province_code_excel)
+                                        </dd>
+
+                                    </dl>
+                                </div>
+                                <div class="row">
+                                    <div class="col text-end pt-3">
+                                        <a href="@Url.Action("Edit", new { id = Model.province_id })" class="btn btn-outline-primary">Edit</a>
+                                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Back to List</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>

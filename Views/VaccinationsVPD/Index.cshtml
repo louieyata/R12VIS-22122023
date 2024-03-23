@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    var navItem = document.getElementById('nav-item-linelist');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('linelist-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-linelist-vpd');
+    navLinkChild.classList.remove('collapsed');
+</script>
+
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Master List</h1>
+        <nav>
+            <ol class="breadcrumb">
+                @*<li class="breadcrumb-item"><a href="index.html">Home</a></li>*@
+                <li class="breadcrumb-item">Vaccination</li>
+                <li class="breadcrumb-item active">Index</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Default Card</h5>
+                <p>
+                    <a class="btn btn-primary" href="@Url.Action("PreVaccinationVPD", "VaccinationsVPD")"><i class="bi bi-pencil-square"></i>&nbsp;New Vaccination</a>
+                </p>
+                <table id="tbl-vaccinations" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th hidden>Vaccination ID</th>
+                            <th style="width:30%">Person Name</th>
+                            <th style="width:33%">Vaccine</th>
+                            <th style="width:15%">Date of Vaccination</th>
+                            <th style="width:22%">Vaccinator name</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+@section scripts
+{
+    <!-- -------------------------------------------------------------------------------------- -->
+    <!-- JavaScript Imports -->
+    <script src="~/Content/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/Content/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Content/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="~/Content/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <!-- Toastr -->
+    <script src="~/Content/plugins/toastr/toastr.min.js"></script>
+    <!-- Moment -->
+    <script src="~/Content/plugins/moment/moment.min.js"></script>
+    <!-- InputMask -->
+    <script src="~/Content/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- Select2 -->
+    <script src="~/Content/plugins/select2/js/select2.full.min.js"></script>
+    <!-- DataTables & Plugins -->
+    <script src="~/Content/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/datatables-select/js/dataTables.select.min.js"></script>
+    <!--  date-range-picker-->
+    <script src="~/Content/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- BS-Stepper-->
+    <script src="~/Content/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+    <!-- Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Page -->
+    <script src="~/Scripts/Custom/common.js"></script>
+    <script>
+        $(document).ready(function () {
+            populateVaccinationTable();
+        });
+
+        function populateVaccinationTable() {
+            tblPayrolls = $('#tbl-vaccinations').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "type": "POST",
+                    "url": dir + "/VaccinationsVPD/VaccinationsDataTable",
+                    "data": {},
+                    "datatype": "json"
+                },
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "searching": true, // Enable global searching
+                "ordering": false,
+                "select": { style: 'single' },
+                "columnDefs": [
+                    {
+                        "targets": [0],
+                        "visible": false
+                    },
+                    {
+                        render: function (data) {
+                            return (moment(data).format('MMMM DD, YYYY'));
+                            console.log(data)
+                        },
+                        targets: [3],
+                        className: "text-nowrap"
+                    },
+                ],
+                "columns": [
+                    { "name": "vaccination_id", "data": "vaccination_id" },
+                    { "name": "Person", "data": "Person", "width": "30%" },
+                    { "name": "Vaccine", "data": "Vaccine", "width": "33%" },
+                    { "name": "VaccineDate", "data": "VaccineDate", "width": "15%" },
+                    { "name": "Vaccinator", "data": "Vaccinator", "width": "22%" }
+                ]
+            });
+        }
+    </script>
+}

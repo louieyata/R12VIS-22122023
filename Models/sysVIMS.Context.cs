@@ -27,34 +27,77 @@ namespace R12VIS.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<Adverse> Adverses { get; set; }
-        public virtual DbSet<Barangay> Barangays { get; set; }
-        public virtual DbSet<CityMunicipality> CityMunicipalities { get; set; }
-        public virtual DbSet<Deferral> Deferrals { get; set; }
-        public virtual DbSet<Dose> Doses { get; set; }
-        public virtual DbSet<EthnicGroup> EthnicGroups { get; set; }
-        public virtual DbSet<PatientInformation> PatientInformations { get; set; }
-        public virtual DbSet<Person> People { get; set; }
-        public virtual DbSet<PriorityGroup> PriorityGroups { get; set; }
-        public virtual DbSet<Province> Provinces { get; set; }
-        public virtual DbSet<Region> Regions { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<student> students { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Vaccination> Vaccinations { get; set; }
-        public virtual DbSet<Vaccine> Vaccines { get; set; }
+        public virtual DbSet<People> People { get; set; }
+        public virtual DbSet<Suffix> Suffixes { get; set; }
     
-        public virtual int GetPieChartData(Nullable<int> dose_id, Nullable<int> prioritygroup_id, string vaccine_ids, Nullable<int> province_id, Nullable<int> citymun_id)
+        [DbFunction("DbR12VISEntities", "SplitString")]
+        public virtual IQueryable<SplitString_Result> SplitString(string @string, string delimiter)
+        {
+            var stringParameter = @string != null ?
+                new ObjectParameter("String", @string) :
+                new ObjectParameter("String", typeof(string));
+    
+            var delimiterParameter = delimiter != null ?
+                new ObjectParameter("Delimiter", delimiter) :
+                new ObjectParameter("Delimiter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<SplitString_Result>("[DbR12VISEntities].[SplitString](@String, @Delimiter)", stringParameter, delimiterParameter);
+        }
+    
+        [DbFunction("DbR12VISEntities", "GetDashboardData")]
+        public virtual IQueryable<GetDashboardData_Result> GetDashboardData(string vaccine_ids, Nullable<int> province_id, Nullable<int> citymun_id, Nullable<int> barangay_id)
+        {
+            var vaccine_idsParameter = vaccine_ids != null ?
+                new ObjectParameter("vaccine_ids", vaccine_ids) :
+                new ObjectParameter("vaccine_ids", typeof(string));
+    
+            var province_idParameter = province_id.HasValue ?
+                new ObjectParameter("province_id", province_id) :
+                new ObjectParameter("province_id", typeof(int));
+    
+            var citymun_idParameter = citymun_id.HasValue ?
+                new ObjectParameter("citymun_id", citymun_id) :
+                new ObjectParameter("citymun_id", typeof(int));
+    
+            var barangay_idParameter = barangay_id.HasValue ?
+                new ObjectParameter("barangay_id", barangay_id) :
+                new ObjectParameter("barangay_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetDashboardData_Result>("[DbR12VISEntities].[GetDashboardData](@vaccine_ids, @province_id, @citymun_id, @barangay_id)", vaccine_idsParameter, province_idParameter, citymun_idParameter, barangay_idParameter);
+        }
+    
+        [DbFunction("DbR12VISEntities", "GetBarChartDataFunction")]
+        public virtual IQueryable<GetBarChartDataFunction_Result> GetBarChartDataFunction(Nullable<int> dose_id, Nullable<int> province_id, Nullable<int> citymun_id, Nullable<int> barangay_id)
         {
             var dose_idParameter = dose_id.HasValue ?
                 new ObjectParameter("dose_id", dose_id) :
                 new ObjectParameter("dose_id", typeof(int));
     
-            var prioritygroup_idParameter = prioritygroup_id.HasValue ?
+            var province_idParameter = province_id.HasValue ?
+                new ObjectParameter("province_id", province_id) :
+                new ObjectParameter("province_id", typeof(int));
+    
+            var citymun_idParameter = citymun_id.HasValue ?
+                new ObjectParameter("citymun_id", citymun_id) :
+                new ObjectParameter("citymun_id", typeof(int));
+    
+            var barangay_idParameter = barangay_id.HasValue ?
+                new ObjectParameter("barangay_id", barangay_id) :
+                new ObjectParameter("barangay_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetBarChartDataFunction_Result>("[DbR12VISEntities].[GetBarChartDataFunction](@dose_id, @province_id, @citymun_id, @barangay_id)", dose_idParameter, province_idParameter, citymun_idParameter, barangay_idParameter);
+        }
+    
+        [DbFunction("DbR12VISEntities", "GetPieChartDataFunction")]
+        public virtual IQueryable<GetPieChartDataFunction_Result> GetPieChartDataFunction(Nullable<int> dose_id, string prioritygroup_id, string vaccine_ids, Nullable<int> province_id, Nullable<int> citymun_id, Nullable<int> barangay_id)
+        {
+            var dose_idParameter = dose_id.HasValue ?
+                new ObjectParameter("dose_id", dose_id) :
+                new ObjectParameter("dose_id", typeof(int));
+    
+            var prioritygroup_idParameter = prioritygroup_id != null ?
                 new ObjectParameter("prioritygroup_id", prioritygroup_id) :
-                new ObjectParameter("prioritygroup_id", typeof(int));
+                new ObjectParameter("prioritygroup_id", typeof(string));
     
             var vaccine_idsParameter = vaccine_ids != null ?
                 new ObjectParameter("vaccine_ids", vaccine_ids) :
@@ -68,135 +111,33 @@ namespace R12VIS.Models
                 new ObjectParameter("citymun_id", citymun_id) :
                 new ObjectParameter("citymun_id", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetPieChartData", dose_idParameter, prioritygroup_idParameter, vaccine_idsParameter, province_idParameter, citymun_idParameter);
+            var barangay_idParameter = barangay_id.HasValue ?
+                new ObjectParameter("barangay_id", barangay_id) :
+                new ObjectParameter("barangay_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetPieChartDataFunction_Result>("[DbR12VISEntities].[GetPieChartDataFunction](@dose_id, @prioritygroup_id, @vaccine_ids, @province_id, @citymun_id, @barangay_id)", dose_idParameter, prioritygroup_idParameter, vaccine_idsParameter, province_idParameter, citymun_idParameter, barangay_idParameter);
         }
     
-        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        [DbFunction("DbR12VISEntities", "PriorityGroupDashboardData")]
+        public virtual IQueryable<PriorityGroupDashboardData_Result> PriorityGroupDashboardData(string vaccine_ids, Nullable<int> province_id, Nullable<int> citymun_id, Nullable<int> barangay_id)
         {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
+            var vaccine_idsParameter = vaccine_ids != null ?
+                new ObjectParameter("vaccine_ids", vaccine_ids) :
+                new ObjectParameter("vaccine_ids", typeof(string));
     
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
+            var province_idParameter = province_id.HasValue ?
+                new ObjectParameter("province_id", province_id) :
+                new ObjectParameter("province_id", typeof(int));
     
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
+            var citymun_idParameter = citymun_id.HasValue ?
+                new ObjectParameter("citymun_id", citymun_id) :
+                new ObjectParameter("citymun_id", typeof(int));
     
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
+            var barangay_idParameter = barangay_id.HasValue ?
+                new ObjectParameter("barangay_id", barangay_id) :
+                new ObjectParameter("barangay_id", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
-    
-        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
-    
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
-    
-        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual int sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_helpdiagramdefinition", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual int sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var new_diagramnameParameter = new_diagramname != null ?
-                new ObjectParameter("new_diagramname", new_diagramname) :
-                new ObjectParameter("new_diagramname", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
-        }
-    
-        public virtual int sp_upgraddiagrams()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
-        }
-    
-        public virtual ObjectResult<Nullable<int>> spRegisterUser(string email, byte[] password, Nullable<int> roleid, Nullable<bool> isactive, byte[] salt)
-        {
-            var emailParameter = email != null ?
-                new ObjectParameter("email", email) :
-                new ObjectParameter("email", typeof(string));
-    
-            var passwordParameter = password != null ?
-                new ObjectParameter("password", password) :
-                new ObjectParameter("password", typeof(byte[]));
-    
-            var roleidParameter = roleid.HasValue ?
-                new ObjectParameter("roleid", roleid) :
-                new ObjectParameter("roleid", typeof(int));
-    
-            var isactiveParameter = isactive.HasValue ?
-                new ObjectParameter("isactive", isactive) :
-                new ObjectParameter("isactive", typeof(bool));
-    
-            var saltParameter = salt != null ?
-                new ObjectParameter("salt", salt) :
-                new ObjectParameter("salt", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spRegisterUser", emailParameter, passwordParameter, roleidParameter, isactiveParameter, saltParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<PriorityGroupDashboardData_Result>("[DbR12VISEntities].[PriorityGroupDashboardData](@vaccine_ids, @province_id, @citymun_id, @barangay_id)", vaccine_idsParameter, province_idParameter, citymun_idParameter, barangay_idParameter);
         }
     }
 }

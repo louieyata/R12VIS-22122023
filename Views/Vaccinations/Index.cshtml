@@ -1,19 +1,25 @@
-﻿@model IEnumerable<R12VIS.Models.Vaccination>
-
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
+<script>
+    var navItem = document.getElementById('nav-item-linelist');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('linelist-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-linelist-covid');
+    navLinkChild.classList.remove('collapsed');
+</script>
 
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Master List</h1>
+        <h1>COVID Linelist</h1>
         <nav>
             <ol class="breadcrumb">
                 @*<li class="breadcrumb-item"><a href="index.html">Home</a></li>*@
                 <li class="breadcrumb-item">Vaccination</li>
-                <li class="breadcrumb-item active">Index</li>
+                <li class="breadcrumb-item active">Linelist</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -22,93 +28,23 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Default Card</h5>
+                <h5 class="card-title">COVID Vaccination list</h5>
 
                 <p>
-                    <a class="btn btn-primary" href="@Url.Action("PreVaccination", "Vaccinations")"><i class="bi bi-pencil-square"></i>New Vaccination</a>
+                    <a class="btn btn-primary" href="@Url.Action("PreVaccination", "Vaccinations")"><i class="bi bi-pencil-square"></i>&nbsp;New Vaccination</a>
                 </p>
-
-                <table class="table table-bordered display nowrap dataTable no-footer" id="myTable">
+                <table id="tbl-vaccinations" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>
-                                Name
-                            </th>
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.Dose.VaccineDose)
-                            </th>
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.PriorityGroup.Category)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Vaccine.VaccineManufacturer)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Person.Province.province_name)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Person.CityMunicipality.CityMunicipalityName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Person.Barangay.barangay_name)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.VaccinationDate)
-                            </th>
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.BakunaCenterCBCRID)
-                            </th>
-
-                            <th></th>
+                            <th>ID</th>
+                            <th style="width:31%">Person Name</th>
+                            <th style="width:17%">Vaccine Brand</th>
+                            <th style="width:22%">Dose No.</th>
+                            <th style="width:20%">Priority Group</th>
+                            <th style="width:10%">Ethnic Group</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("Details","People", new {id = item.PersonID})">@item.Person.LastName, @item.Person.FirstName</a>
-                                </td>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Dose.VaccineDose)
-                                </td>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.PriorityGroup.Category)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Vaccine.VaccineManufacturer)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Person.Province.province_name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Person.CityMunicipality.CityMunicipalityName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Person.Barangay.barangay_name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.VaccinationDate)
-                                </td>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.BakunaCenterCBCRID)
-                                </td>
-
-                                <td>
-                                    <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("PreVaccination","Vaccinations", new { id = item.PersonID } )"><i class="bi bi-bandaid-fill"></i></a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-
                 </table>
-
             </div>
         </div>
     </section>
@@ -119,12 +55,46 @@
 {
     <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
     <script src="~/Content/DataTable2/datatables.min.js"></script>
+    <script src="~/Scripts/Custom/common.js"></script>
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable(
-                {
-                    scrollX: true
-                });
+            populateVaccinationTable();
         });
+
+        function populateVaccinationTable() {
+            tblPayrolls = $('#tbl-vaccinations').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "type": "POST",
+                    "url": dir + "/Vaccinations/VaccinationsDataTable",
+                    "data": {},
+                    "datatype": "json"
+                },
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "searching": true, // Enable global searching
+                "ordering": false,
+                "select": { style: 'single' },
+                "columnDefs": [
+                    {
+                        "targets": [0],
+                        "visible": false
+                    },
+                    {
+                        "targets": [1], // Index of the "Person" column
+                        "searchable": true, // Enable searching for this column
+                    }
+                ],
+                "columns": [
+                    { "name": "ID", "data": "ID" },
+                    { "name": "Person", "data": "Person", "width": "31%" },
+                    { "name": "Vaccine", "data": "Vaccine", "width": "17%" },
+                    { "name": "Dose", "data": "Dose", "width": "22%" },
+                    { "name": "Priority", "data": "Priority", "width": "20%" },
+                    { "name": "Ethnic", "data": "Ethnic", "width": "10%" }
+                ]
+            });
+        }
     </script>
 }

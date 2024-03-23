@@ -1,0 +1,36 @@
+﻿@model R12VIS.Models.Vaccination_VPD
+
+<script>
+    var navItem = document.getElementById('nav-item-individual');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('individual-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-individual-vpd');
+    navLinkChild.classList.remove('collapsed');
+</script>
+
+<!-- _VaccinationDetail.cshtml -->
+<div class="card mb-3">
+    <div class="card-body" style="padding:16px">
+        <h6 class="card-subtitle text-muted">
+        </h6>
+        <div class="row clearfix">
+            <div class="col-6">
+                <p>
+                    <strong>Vaccination Date:</strong>
+                    @if (Model.vaccination_date!=null)
+                    {
+                        @Model.vaccination_date.ToString("MMMM dd, yyyy")
+                    }
+                </p>
+                <p><strong>Vaccine:</strong> @Model.Vaccine_VPD.vaccine_description</p>
+            </div>
+            @*<div class="col-6">
+                <p><strong>Dose:</strong> @Model.Dose.VaccineDose</p>
+                <p><strong>CBCR ID:</strong> @Model.BakunaCenterCBCRID</p>
+            </div>*@
+        </div>
+        <!-- Add more details as needed -->
+    </div>
+</div>
+

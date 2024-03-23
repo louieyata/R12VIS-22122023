@@ -46,7 +46,7 @@ namespace R12VIS.Controllers
         {
             if (ModelState.IsValid)
             {
-                role.ToUpper();
+                role.ToString().ToUpper();
                 db.Roles.Add(role);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -1,0 +1,461 @@
+﻿@model List<R12VIS.Models.PublicVariablesVPD>
+@{
+    ViewBag.Title = "Index";
+}
+<script>
+    var navItem = document.getElementById('nav-item-uploader');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('uploader-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-uploader-vpd');
+    navLinkChild.classList.remove('collapsed');
+</script>
+<!-- SweetAlert2 -->
+<link href="~/Content/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet" />
+
+<main id="main" class="main">
+
+    <section>
+
+
+        <div class="row" style="padding-bottom: 130px; padding-top: 70px;">
+
+            <div class="row">
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <br />
+                            <h2>Excel File Uploader</h2>
+
+                            @*<div class="row">
+                                    <form method="post" enctype="multipart/form-data">
+                                        <input type="file" id="files_input_field" name="files" style="visibility:hidden;height:0px;width:0px;" onchange="upload_files();" />
+
+                                        <input type="button" id="select_and_upload_button" value="Upload Photos..." />
+
+                                    </form>
+                                    <progress id="ctlProgress" value="0" max="100"></progress>
+                                </div>*@
+
+                            <div class="row shadow mt-2 rounded">
+                                @*SELECT DROP DOWN LIST*@
+                                <div class=" col p-3 bg-white text-black">
+
+                                    <select id="selectElement" class="form-select" aria-label="Default select example">
+                                        <option selected>- Select vaccination type -</option>
+                                        <option value="1">MRSIA</option>
+                                        <option value="2">Routine</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row shadow mt-2 rounded">
+                                @*FILE SELECTOR*@
+                                <div class=" col p-3 bg-white text-black">
+                                    <input class="form-control" type="file" id="fuExcel" />
+                                </div>
+                            </div>
+
+                            <div class="row mb-3 mt-2 shadow rounded">
+                                @*UPLOADER*@
+                                <div class=" col p-3 bg-light">
+                                    <button id="btnClear" class="btn btn-m btn-outline-success float-left shadow-sm mt-2" style="display:none;">Clear content</button>
+                                    <button id="btnUploader" class="btn btn-m btn-success float-end shadow-sm mt-1">Upload File</button>
+                                </div>
+                            </div>
+
+                            @*MODAL*@
+                            <div class="modal modal-dialog-scrollable fade modal-xl" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="overflow-y:auto">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="staticBackdropLabel"> Error List</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body overflow-y-scroll" style="max-height:500px">
+
+                                            <table id="listtable" class="table table-bordered table-condensed table-hover table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="color:red; width:40%;">Error Details</th>
+                                                        <th style="width:30%;">First Name</th>
+                                                        <th style="width:30%;">Last Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="btnDownloadExcelErrors" class="btn btn-danger">Download Excel Errors</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+            </div>
+
+
+            <div class="row" id="rowtoggle" style="display:none;">
+
+                @*style="display:none"*@
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="row p-3 m-1 shadow-sm rounded-1">
+
+                        @*CARD - UPLOADED*@
+                        <div class="col-lg-4  bg-light">
+                            <button id="btnuploaded" type="button" class="btn btn-m btn-primary btn-md mt-2" style="width:100%">
+                                Uploaded <span id="vaccineuploaded" class="badge badge-light ">0</span>
+                            </button>
+                        </div>
+
+                        @*CARD - DUPLICATE*@
+                        <div class="col-lg-4 bg-light">
+                            <button id="btnduplicate" type="button" class="btn btn-m btn-warning btn-md mt-2" style="width:100%">
+                                Duplicates <span id="vaccineduplicates" class="badge badge-info">0</span>
+                            </button>
+                        </div>
+
+                        @*CARD - ERRORS*@
+                        <div class="col-lg-4  bg-light">
+                            <button id="btnerror" type="button" class="btn btn-m btn-danger btn-md mt-2" style="width:100%">
+                                Errors<span id="vaccineerrors" class="badge badge-light ">0</span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+                    @*SPACE*@
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+@section Scripts{
+    <!-- -------------------------------------------------------------------------------------- -->
+    <!-- JavaScript Imports -->
+    <script src="~/Content/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/Content/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Content/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="~/Content/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <!-- Toastr -->
+    <script src="~/Content/plugins/toastr/toastr.min.js"></script>
+    <!-- Moment -->
+    <script src="~/Content/plugins/moment/moment.min.js"></script>
+    <!-- InputMask -->
+    <script src="~/Content/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- Select2 -->
+    <script src="~/Content/plugins/select2/js/select2.full.min.js"></script>
+    <!-- DataTables & Plugins -->
+    <script src="~/Content/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/datatables-select/js/dataTables.select.min.js"></script>
+    <!--  date-range-picker-->
+    <script src="~/Content/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- BS-Stepper-->
+    <script src="~/Content/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+    <!-- Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Page -->
+    <script src="~/Scripts/Custom/common.js"></script>
+    <script>
+        // Spinners Upload
+        var spinnerProcess = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Processing...Please Wait...';
+
+        // UPLOAD BUTTON
+        $(document).ready(function () {
+
+
+            // Function to handle the JSON response
+            function handleResponse(response) {
+                if (response.success === false) {
+                    // Display the error message in an alert or any other way you prefer
+                    alert(response.message);
+                }
+            }
+
+            // Store the default selected index when the page loads
+            var defaultSelectedIndex = $("#selectElement")[0].selectedIndex;
+
+            $("#btnUploader").click(function () {
+
+                // Show the spinner
+                $("#btnUploader").html(spinnerProcess);
+
+                // Create button variable
+                var buttonupload = $(this);
+
+                // Disable the button
+                buttonupload.prop('disabled', true);
+
+                var formData = new FormData();
+                var fuUploadFile = $("#fuExcel")[0];
+                var myfile = fuUploadFile.files[0];
+
+                // pass velected index to selected value variable
+                var selectedValue = $("#selectElement").val();
+
+                formData.append("file", myfile);
+                formData.append("vaccination_type", selectedValue);
+
+                // disable file select button
+                document.getElementById("fuExcel").disabled = true;
+
+                // Disable select list
+                $("#selectElement").prop("disabled", true);
+
+                //$.ajax({
+                //    type: "POST",
+                //    url: dir + "/UploaderVPD/UploadExcel",
+                //    data: { file: myfile, vaccination_type: selectedValue },
+                //    dataType: "json",
+                //    async: false,
+                //    success: function (data) {
+                //        if (data.isSuccess) {
+                //            toastr.success(data.message);
+
+                //            console.log("Upload success");
+                //        } else {
+                //            // enable file select button
+                //            document.getElementById("fuExcel").disabled = false;
+
+                //            // enable select list
+                //            $("#selectElement").prop("disabled", false);
+
+                //            // Reset the select list to the default selected index
+                //            $("#selectElement")[0].selectedIndex = defaultSelectedIndex;
+
+                //            // enable the button
+                //            $("#btnUploader").prop('disabled', false);
+
+                //            // show clear button
+                //            $("#btnClear").show();
+
+                //            toastr.error(data.message);
+                //            alert(data.message);
+                //        }
+                //    },
+                //    error: function () {
+
+                //        //// Hide the spinner
+                //        $("#btnUploader").text("Upload Excel");
+                //        // disable upload button
+                //        $("#btnuploaded").prop('disabled', true);
+                //        // disable duplicate button
+                //        $("#btnduplicate").prop('disabled', true);
+
+                //        // show clear button
+                //        $("#btnClear").show();
+
+                //        alert("An error occured during file upload!. Please contact your system administrator.");
+                //    }
+                //});
+
+                $.ajax({
+                        url: "/UploaderVPD/UploadExcel",
+                        type: "POST",
+                        data: formData,
+
+                        processData: false,
+                        contentType: false,
+
+                        success: function (data) {
+                            if (data.isSuccess) {
+                                console.log("Upload success");
+                                Swal.fire({
+                                    title: data.message,
+                                    icon: data.icon,
+                                    showCancelButton: false,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: data.buttonText
+                                }).then(async (result) => {
+                                    if (result.isConfirmed) {
+                                        //window.location.href = "/UploaderVPD/DownloadExistingExcel";
+                                        window.location.href = '/UploaderVPD/DownloadExistingExcel';
+                                        //location.reload();
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                // enable file select button
+                                document.getElementById("fuExcel").disabled = false;
+
+                                // enable select list
+                                $("#selectElement").prop("disabled", false);
+
+                                // Reset the select list to the default selected index
+                                $("#selectElement")[0].selectedIndex = defaultSelectedIndex;
+
+                                // enable the button
+                                $("#btnUploader").prop('disabled', false);
+
+                                // show clear button
+                                $("#btnClear").show();
+
+                                Swal.fire({
+                                    title: data.message,
+                                    icon: "error",
+                                    showCancelButton: false,
+                                    confirmButtonText: "Okay"
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                });
+                            }
+
+                            //// Hide the spinner
+                            $("#btnUploader").text("Upload Excel");
+
+                            // enable upload button
+                            $("#btnuploaded").prop('disabled', true);
+                            // enable duplicate button
+                            $("#btnduplicate").prop('disabled', true);
+
+                            // show clear button
+                            $("#btnClear").show();
+                        },
+                        error: function () {
+
+                            //// Hide the spinner
+                            $("#btnUploader").text("Upload Excel");
+                            // disable upload button
+                            $("#btnuploaded").prop('disabled', true);
+                            // disable duplicate button
+                            $("#btnduplicate").prop('disabled', true);
+
+                            // show clear button
+                            $("#btnClear").show();
+
+                            Swal.fire({
+                                title: "An error occured during file upload!. Please contact your system administrator.",
+                                icon: "error",
+                                showCancelButton: false,
+                                confirmButtonText: "Okay"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    });
+            });
+        });
+
+        // ERROR BUTTON
+        $(document).ready(function () {
+            $("#btnerror").click(function () {
+                // Show the modal
+                $('#staticBackdrop').modal('show');
+            })
+        })
+
+
+        // DOWNLOAD EXCEL BUTTON
+        $(document).ready(function () {
+            $("#btnDownloadExcelErrors").click(function () {
+                window.location.href = "/UploaderVPD/DownloadExistingExcel";
+            })
+        })
+
+
+        // CLEAR BUTTON
+        $(document).ready(function () {
+
+            // Store the default selected index when the page loads
+            var defaultSelectedIndex = $("#selectElement")[0].selectedIndex;
+
+            $("#btnClear").click(function () {
+
+                //// disable file select button
+                document.getElementById("fuExcel").disabled = false;
+
+                // enable the button
+                $("#btnUploader").prop('disabled', false);
+
+                // enable select list
+                $("#selectElement").prop("disabled", false);
+
+
+                // Reset the select list to the default selected index
+                $("#selectElement")[0].selectedIndex = defaultSelectedIndex;
+
+                // show process
+                $("#rowtoggle").hide();
+
+                // hide clear button
+                $("#btnClear").hide();
+
+                // pass result to view
+                $("#vaccineuploaded").text(0);
+                $("#vaccineerrors").text(0);
+                $("#vaccineduplicates").text(0);
+
+                /* $("#listtable").clear();*/
+
+
+                //Delete/ Clear all Table Rows
+                var table = document.getElementById("listtable");
+                var rowCount = table.rows.length; // Get the number of rows in the table
+
+                // Loop through each row starting from the last one and remove it
+                for (var i = rowCount - 1; i > 0; i--) {
+                    table.deleteRow(i);
+                }
+
+
+                // clear public variables
+                $.ajax
+                    ({
+                    url: '@Url.Action("ClearFields", "UploaderVPD")',
+                    type: 'POST',
+                    success: function (result) {
+
+                        // enable the button
+                        buttonupload.prop('disabled', false);
+
+                        //// disable file select button
+                        document.getElementById("fuExcel").disabled = false;
+
+                    }
+                });
+            })
+        })
+
+    </script>
+
+}

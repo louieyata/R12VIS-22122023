@@ -1,0 +1,351 @@
+﻿<!--removed code 3-->
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+
+<script>
+    var navItem = document.getElementById('nav-item-dashboard');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('dashboard-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-dashboard-vpd');
+    navLinkChild.classList.remove('collapsed');
+</script>
+
+<!-- Date Picker -->
+<link href="~/Content/plugins/bootstrap-datepicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet" href="~/Content/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="~/Content/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="~/Content/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="~/Content/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<!-- BS Stepper -->
+<link rel="stylesheet" href="~/Content/plugins/bs-stepper/css/bs-stepper.min.css">
+<!-- dropzonejs -->
+<link rel="stylesheet" href="~/Content/plugins/dropzone/min/dropzone.min.css">
+<!-- DataTables -->
+<link href="~/Content/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/plugins/datatables-select/css/select.bootstrap4.min.css" rel="stylesheet" />
+<!-- SweetAlert2 -->
+<link href="~/Content/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet" />
+<!-- Toastr -->
+<link href="~/Content/plugins/toastr/toastr.min.css" rel="stylesheet" />
+<!-- Theme style -->
+<link href="~/Content/plugins/admin-lte/css/adminlte.css" rel="stylesheet" />
+
+<style>
+    .pagination-button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+</style>
+
+<main id="main" class="main" style="background-image: url('../../content/image/bg.png'); background-size: cover; background-position: center">
+    <div class="form-group col-md-12" style="padding: 8px; background-color: #88CDF6">
+        <div class="row">
+            <div class="col-2">
+                <section style="height: 80px">
+                    <center style="color: black">
+                        <img style="height: 80px; width: 80px" src="~/Content/image/DOH LOGO.png" />
+                    </center>
+                </section>
+            </div>
+            <div class="col-8">
+                <center style="color: black; font-size: 20px; margin-bottom: -8px">
+                    <b>REPUBLIC OF THE PHILIPPINES</b>
+                </center>
+                <center style="color: black; font-size: 20px; margin-bottom: -8px">
+                    <b>DEPARTMENT OF HEALTH CENTER FOR HEALTH DEVELOPMENT</b>
+                </center>
+                <center style="color: black; font-size: 20px">
+                    <b>SOCCSKSARGEN REGION</b>
+                </center>
+            </div>
+            <div class="col-2">
+                <section style="height: 80px">
+                    <center style="color: black">
+                        <img style="height: 80px; width: 120px; margin-left: -20px; margin-top: -8px" src="~/Content/image/RESBAKUNA LOGO.png" />
+                    </center>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group col-md-12" style="padding-left: 16px; padding-right: 16px">
+        <div class="row" style="margin-top:8px">
+            <div class="col-6">
+                <div class="row">
+                    <div style="width:14%">
+                        <section style="height:80px">
+                            <center style="color:black">
+                                <img style="height:80px;width:80px" src="~/Content/image/vac.png" />
+                            </center>
+                        </section>
+                    </div>
+                    <div style="width:33%">
+                        <section style="padding: 4px; height: 80px">
+                            <center style="color:black; font-size:22px">
+                                <b>TOTAL DOSE</b>
+                            </center>
+                            <center style="color:black; font-size:22px">
+                                <b>ADMINISTERED</b>
+                            </center>
+                        </section>
+                    </div>
+                    <div style="width:36%">
+                        <section class="card" style="height: 80px; background-color:#BCE6FF">
+                            <center style="color: black; font-size: 43px; margin-top:4px">
+                                <p><b id="dashboard1total">TOTAL</b></p>
+                            </center>
+                        </section>
+                    </div>
+                    <div style="width:10%">
+                        <section style="height:80px">
+                            <center style="color:black">
+                                <img style="height:80px;width:80px" src="~/Content/image/loc.png" />
+                            </center>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5" style="margin-right:-10px">
+                <div class="row">
+                    <div class="col-6">
+                        <section class="card" style="padding: 4px">
+                            @Html.Label("province_id", "Province")
+                            @Html.DropDownList("province_id", ViewData["Province"] as SelectList, "- All -", new { @class = "form-control select2" })
+                        </section>
+                    </div>
+                    <div class="col-6">
+                        <section class="card" style="padding: 4px">
+                            @Html.Label("cm_id", "City/Municipality")
+                            @Html.DropDownList("cm_id", Enumerable.Empty<SelectListItem>(), "- Select City / Municipality -", new { @class = "form-control select2" })
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="col-12">
+                    <section class="card" style="height: 80px; width: 80px; cursor: pointer;" id="filter-button" title="Apply Filter">
+                        <center>
+                            <img style="height:80px" src="~/Content/image/search data fin.png" />
+                        </center>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <section class="card" style="padding: 8px">
+                            <div class="container-fluid">
+                                <table id="tbl-mr-opv-sia" class="table table-bordered table-striped" style="border: 1px solid #D3D3D3;">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="7" style="text-align: center; font-size: 24px; border: 1px solid #ccc; padding: 10px;">
+                                                Vaccination Campaign: MR-OPV SIA 2023
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 25%; border: 1px solid #ccc; text-align: center; vertical-align: middle; font-size: 18px; color: black;" rowspan="2">Geographic Area</th>
+                                            <th style="width: 15%; border: 1px solid #ccc; font-weight: bold; color: #FFFFFF; background-color: #3399FF; text-align: center; vertical-align: middle;" colspan="3">bOPV (Ages 0-59)</th>
+                                            <th style="width: 15%; border: 1px solid #ccc; font-weight: bold; color: #FFFFFF; background-color: #FF33A1; text-align: center; vertical-align: middle;" colspan="3">MR (Ages 9-59)</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:15%; border: 1px solid #ccc; padding: 8px;">TARGET</th>
+                                            <th style="width:15%; border: 1px solid #ccc; padding: 8px;">ACCOMPLISHMENT</th>
+                                            <th style="width:15%; border: 1px solid #ccc; padding: 8px;">PERCENT</th>
+                                            <th style="width:15%; border: 1px solid #ccc; padding: 8px;">TARGET</th>
+                                            <th style="width:15%; border: 1px solid #ccc; padding: 8px;">ACCOMPLISHMENT</th>
+                                            <th style="width:15%; border: 1px solid #ccc; padding: 8px;">PERCENT</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <section class="card" style="padding-left: 8px; padding-right: 8px; padding-bottom: 5px; padding-top: 20px ">
+                        <div class="col-12">
+                            <div class="row clearfix">
+                                <div class="col-6">
+                                    <div class="card" style="padding-left: 8px; padding-right: 8px; padding-bottom: 8px; padding-top: 4px ">
+                                        <div class="row clearfix">
+                                            <div class="col-6">
+                                                <h4>Vaccinated</h4>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas id="VaccinatedChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card" style="padding-left: 8px; padding-right: 8px; padding-bottom: 8px; padding-top: 4px ">
+                                        <div class="row clearfix">
+                                            <div class="col-6">
+                                                <h4>Parent Occupation</h4>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas id="vaccineChartParentOccupation"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row clearfix">
+                                <div class="col-6">
+                                    <div class="card" style="padding-left: 8px; padding-right: 8px; padding-bottom: 8px; padding-top: 4px ">
+                                        <div class="row clearfix">
+                                            <div class="col-6">
+                                                <h4>Income</h4>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas id="vaccineChartIncome"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card" style="padding-left: 8px; padding-right: 8px; padding-bottom: 8px; padding-top: 4px ">
+                                        <div class="row clearfix">
+                                            <div class="col-6">
+                                                <h4>Religion</h4>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas id="vaccineChartReligion"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row clearfix">
+                                <div class="col-6">
+                                    <div class="card" style="padding-left: 8px; padding-right: 8px; padding-bottom: 8px; padding-top: 4px ">
+                                        <div class="row clearfix">
+                                            <div class="col-6">
+                                                <h4>Siblings</h4>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas id="vaccineChartSiblings"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="col-12">
+        <div class="pagination d-flex justify-content-end">
+            <button style="margin-right: 8px;" class="pagination-button" id="prevButton">< Previous</button>
+            <span>Page 4 of 4</span>
+            @*<button style="margin-left: 8px;" class="pagination-button" id="nextButton">Next ></button>*@
+        </div>
+    </div>
+</main>
+
+@section scripts
+    {
+    <script>
+        const prevButton = document.getElementById('prevButton');
+        /*const nextButton = document.getElementById('nextButton');*/
+        const pageNumberSpan = document.querySelector('.pagination span');
+
+        let currentPage = 4;
+        const totalPages = 4;
+
+        function updatePageNumber() {
+            pageNumberSpan.textContent = `Page ${currentPage} of ${totalPages}`;
+        }
+
+        updatePageNumber();
+
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePageNumber();
+                navigateToPreviousPage(currentPage)
+            }
+        });
+
+        //nextButton.addEventListener('click', () => {
+        //    if (currentPage < totalPages) {
+        //        currentPage++;
+        //        updatePageNumber();
+        //        navigateToNextPage(currentPage); // Navigate to the next page
+        //    }
+        //});
+
+        //function navigateToNextPage(page) {
+        //    window.location.href = `Routine`.replace('.chtml', ''); // Replace with your page URL structure
+        //}
+        function navigateToPreviousPage(page) {
+            window.location.href = `Routine_2`.replace('.chtml', ''); // Replace with your page URL structure
+        }
+    </script>
+
+    <!-- -------------------------------------------------------------------------------------- -->
+    <!-- JavaScript Imports -->
+    <script src="~/Content/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/Content/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Content/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="~/Content/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <!-- Toastr -->
+    <script src="~/Content/plugins/toastr/toastr.min.js"></script>
+    <!-- Moment -->
+    <script src="~/Content/plugins/moment/moment.min.js"></script>
+    <!-- InputMask -->
+    <script src="~/Content/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- Select2 -->
+    <script src="~/Content/plugins/select2/js/select2.full.min.js"></script>
+    <!-- DataTables & Plugins -->
+    <script src="~/Content/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/datatables-select/js/dataTables.select.min.js"></script>
+    <!-- Date Picker -->
+    <script src="~/Content/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- BS-Stepper-->
+    <script src="~/Content/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+    <!-- Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Page -->
+    <script src="~/Scripts/Custom/common.js"></script>
+    <script src="~/Scripts/Custom/dashboardMRSIA.js"></script>
+    <!-- /.JavaScript Imports -->
+    <!-- -------------------------------------------------------------------------------------- -->
+}

@@ -1231,3 +1231,14 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+
+@keyframes wave {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}

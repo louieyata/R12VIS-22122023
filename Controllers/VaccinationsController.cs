@@ -2,7 +2,6 @@
 using R12VIS.Models.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -19,17 +18,22 @@ namespace R12VIS.Controllers
         // GET: Vaccinations
         public ActionResult Index()
         {
-            var vaccinations = db.Vaccinations.Include(v => v.Adverse)
-                .Include(v => v.Deferral)
-                .Include(v => v.Dose)
-                .Include(v => v.Person)
-                .Include(v => v.PriorityGroup)
-                .Include(v => v.Vaccine)
-                .Include(v => v.Person.EthnicGroup)
-                .Include(v => v.Person.Province)
-                .Include(v => v.Person.CityMunicipality)
-                .Include(v => v.Person.Barangay);
-            return View(vaccinations.ToList());
+
+            return View();
+
+            //var vaccinations = db.Vaccinations.Select(v => new {
+            //    v.Adverse,
+            //    v.Deferral,
+            //    v.Dose,
+            //    v.Person,
+            //    v.PriorityGroup,
+            //    v.Vaccine,
+            //    v.Person.EthnicGroup,
+            //    v.Person.Province,
+            //    v.Person.CityMunicipality,
+            //    v.Person.Barangay
+            //}).ToList();
+            //return View(vaccinations); /**/
         }
 
         // GET: Vaccinations/Details/5
@@ -101,19 +105,34 @@ namespace R12VIS.Controllers
             var ethnicGroups = db.EthnicGroups.ToList();
             ethnicGroups.Insert(0, new EthnicGroup { Id = 0, IndigenousMember = "" });
             ViewBag.EthnicGroupID = new SelectList(ethnicGroups, "Id", "IndigenousMember", vaccination.Person.EthnicGroupID);
-            ViewBag.ProvinceID = new SelectList(db.Provinces.OrderBy(p => p.province_name), "province_id", "province_name", vaccination.Person.ProvinceID);
+            ViewBag.ProvinceID = new SelectList(db.Provinces.Where(a => a.RegionID == 1).OrderBy(p => p.province_name), "province_id", "province_name", vaccination.Person.ProvinceID);
             ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName), "city_municipality_id", "CityMunicipalityName", vaccination.Person.CityMunicipalityID);
             ViewBag.BarangayID = new SelectList(db.Barangays.OrderBy(p => p.barangay_name).Take(100), "barangay_id", "barangay_name", vaccination.Person.BarangayID);
             ViewBag.DeferralID = new SelectList(db.Deferrals.OrderBy(p => p.Reason).Take(100), "Id", "Reason", vaccination.DeferralID);
             ViewBag.VaccineID = new SelectList(db.Vaccines.OrderBy(p => p.VaccineManufacturer), "ID", "VaccineManufacturer", vaccination.VaccineID);
             ViewBag.DoseID = new SelectList(db.Dose.OrderBy(p => p.ID), "ID", "VaccineDose", vaccination.DoseID);
             ViewBag.AdverseID = new SelectList(db.Adverses.OrderBy(p => p.ID), "ID", "Condition", vaccination.AdverseID);
+            ViewBag.Religion = new SelectList(db.Religions.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.ReligionID);
+            ViewBag.EducationalAttainment = new SelectList(db.EducationalAttainment.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.EducationalAttainment);
+            ViewBag.IncomeClass = new SelectList(db.IncomeClass.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.IncomeClass);
+            ViewBag.Occupation = new SelectList(db.Occupation.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.Occupation);
 
+            SelectList siblingRank = new SelectList(new[]
+            {
+                new { Value = 1, Text = "First Born Child"},
+                new { Value = 2, Text = "Second Born Child"},
+                new { Value = 3, Text = "Third Born Child"},
+                new { Value = 4, Text = "Fourth Born Child"},
+                new { Value = 5, Text = "Fifth Born Child"},
+                new { Value = 6, Text = "Sixth Born Child"},
+                new { Value = 7, Text = "Seventh Born Child"},
+            }, "Value", "Text", vaccination.Person.SiblingRank);
+            ViewBag.SiblingRank = siblingRank;
 
             SelectList gender = new SelectList(new[]
             {
-                new {Value = "Male", Text = "Male"},
-                new {Value = "Female", Text = "Female"}
+                new {Value = "M", Text = "Male"},
+                new {Value = "F", Text = "Female"}
             }, "Value", "Text", vaccination.Person.Gender);
 
             SelectList suffix = new SelectList(new[]
@@ -156,19 +175,34 @@ namespace R12VIS.Controllers
             var ethnicGroups = db.EthnicGroups.ToList();
             ethnicGroups.Insert(0, new EthnicGroup { Id = 0, IndigenousMember = "" });
             ViewBag.EthnicGroupID = new SelectList(db.EthnicGroups, "Id", "IndigenousMember", vaccination.Person.EthnicGroupID);
-            ViewBag.ProvinceID = new SelectList(db.Provinces.OrderBy(p => p.province_name), "province_id", "province_name", vaccination.Person.ProvinceID);
+            ViewBag.ProvinceID = new SelectList(db.Provinces.Where(a => a.RegionID == 1).OrderBy(p => p.province_name), "province_id", "province_name", vaccination.Person.ProvinceID);
             ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName), "city_municipality_id", "CityMunicipalityName", vaccination.Person.CityMunicipalityID);
             ViewBag.BarangayID = new SelectList(db.Barangays.OrderBy(p => p.barangay_name).Take(100), "barangay_id", "barangay_name", vaccination.Person.BarangayID);
             ViewBag.DeferralID = new SelectList(db.Deferrals.OrderBy(p => p.Reason).Take(100), "Id", "Reason", vaccination.DeferralID);
             ViewBag.VaccineID = new SelectList(db.Vaccines.OrderBy(p => p.VaccineManufacturer), "ID", "VaccineManufacturer", vaccination.VaccineID);
             ViewBag.DoseID = new SelectList(db.Dose.OrderBy(p => p.ID), "ID", "VaccineDose", vaccination.DoseID);
             ViewBag.AdverseID = new SelectList(db.Adverses.OrderBy(p => p.ID), "ID", "Condition", vaccination.AdverseID);
+            ViewBag.Religion = new SelectList(db.Religions.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.ReligionID);
+            ViewBag.EducationalAttainment = new SelectList(db.EducationalAttainment.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.EducationalAttainment);
+            ViewBag.IncomeClass = new SelectList(db.IncomeClass.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.IncomeClass);
+            ViewBag.Occupation = new SelectList(db.Occupation.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.Occupation);
 
+            SelectList siblingRank = new SelectList(new[]
+           {
+                new { Value = 1, Text = "First Born Child"},
+                new { Value = 2, Text = "Second Born Child"},
+                new { Value = 3, Text = "Third Born Child"},
+                new { Value = 4, Text = "Fourth Born Child"},
+                new { Value = 5, Text = "Fifth Born Child"},
+                new { Value = 6, Text = "Sixth Born Child"},
+                new { Value = 7, Text = "Seventh Born Child"},
+            }, "Value", "Text", vaccination.Person.SiblingRank);
+            ViewBag.SiblingRank = siblingRank;
 
             SelectList gender = new SelectList(new[]
             {
-                new {Value = "Male", Text = "Male"},
-                new {Value = "Female", Text = "Female"}
+                new {Value = "M", Text = "Male"},
+                new {Value = "F", Text = "Female"}
             }, "Value", "Text", vaccination.Person.Gender);
 
             SelectList suffix = new SelectList(new[]
@@ -217,8 +251,8 @@ namespace R12VIS.Controllers
         {
             SelectList gender = new SelectList(new[]
             {
-                new {Value = "Male", Text = "Male"},
-                new {Value = "Female", Text = "Female"}
+                new {Value = "M", Text = "Male"},
+                new {Value = "F", Text = "Female"}
             }, "Value", "Text");
             SelectList suffix = new SelectList(new[]
             {
@@ -229,6 +263,16 @@ namespace R12VIS.Controllers
                 new { Value = "V", Text = "V"},
                 new { Value = "SR.", Text = "SR."},
                 new { Value = "JR.", Text = "JR."},
+            }, "Value", "Text");
+            SelectList siblingRank = new SelectList(new[]
+           {
+                 new { Value = 1, Text = "First Born Child"},
+                new { Value = 2, Text = "Second Born Child"},
+                new { Value = 3, Text = "Third Born Child"},
+                new { Value = 4, Text = "Fourth Born Child"},
+                new { Value = 5, Text = "Fifth Born Child"},
+                new { Value = 6, Text = "Sixth Born Child"},
+                new { Value = 7, Text = "Seventh Born Child"},
             }, "Value", "Text");
 
             Person person = new Person();
@@ -242,21 +286,23 @@ namespace R12VIS.Controllers
                 }
                 else
                 {
-
                     ViewBag.EthnicGroupID = new SelectList(db.EthnicGroups.OrderBy(p => p.IndigenousMember).Where(x => x.Id == person.EthnicGroupID), "Id", "IndigenousMember");
-                    ViewBag.ProvinceID = new SelectList(db.Provinces.OrderBy(p => p.province_name).Where(x => x.province_id == person.ProvinceID), "province_id", "province_name");
+                    ViewBag.ProvinceID = new SelectList(db.Provinces.Where(a => a.RegionID == 1).OrderBy(p => p.province_name).Where(x => x.province_id == person.ProvinceID), "province_id", "province_name");
                     ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName).Where(x => x.city_municipality_id == person.CityMunicipalityID), "city_municipality_id", "CityMunicipalityName");
                     ViewBag.BarangayID = new SelectList(db.Barangays.OrderBy(p => p.barangay_name).Take(100).Where(x => x.barangay_id == person.BarangayID), "barangay_id", "barangay_name");
                     ViewBag.Gender = new SelectList(gender.Where(x => x.Value.ToLower() == person.Gender.ToLower()), "Value", "Text");
                     ViewBag.Suffix = new SelectList(suffix.Where(x => x.Value.ToLower() == person.Suffix?.ToLower()), "Value", "Text");
+                    ViewBag.SiblingRank = new SelectList(siblingRank.Where(x => x.Value == person.SiblingRank.ToString()), "Value", "Text");
+                    ViewBag.Religion = new SelectList(db.Religions.Where(a => a.ID == person.ReligionID), "ID", "Description"); ;
+                    ViewBag.EducationalAttainment = new SelectList(db.EducationalAttainment.Where(a => a.ID == person.EducationalAttainmentID), "ID", "Description"); ;
+                    ViewBag.IncomeClass = new SelectList(db.IncomeClass.Where(a => a.ID == person.IncomeClassID), "ID", "Description"); ;
+                    ViewBag.Occupation = new SelectList(db.Occupation.Where(a => a.ID == person.OccupationID), "ID", "Description"); ;
 
                     ViewBag.PriorityGroupID = new SelectList(db.PriorityGroups, "ID", "Category");
                     ViewBag.DeferralID = new SelectList(db.Deferrals.OrderBy(p => p.Reason).Take(100), "Id", "Reason");
                     ViewBag.VaccineID = new SelectList(db.Vaccines.OrderBy(p => p.VaccineManufacturer), "ID", "VaccineManufacturer");
                     ViewBag.DoseID = new SelectList(db.Dose.OrderBy(p => p.ID), "ID", "VaccineDose");
                     ViewBag.AdverseID = new SelectList(db.Adverses.OrderBy(p => p.ID), "ID", "Condition");
-
-
 
                     Vaccination vaccination1 = new Vaccination()
                     {
@@ -272,7 +318,7 @@ namespace R12VIS.Controllers
 
             ViewBag.PriorityGroupID = new SelectList(db.PriorityGroups, "ID", "Category");
             ViewBag.EthnicGroupID = new SelectList(db.EthnicGroups.OrderBy(p => p.IndigenousMember), "Id", "IndigenousMember");
-            ViewBag.ProvinceID = new SelectList(db.Provinces.OrderBy(p => p.province_name), "province_id", "province_name");
+            ViewBag.ProvinceID = new SelectList(db.Provinces.Where(a => a.RegionID == 1).OrderBy(p => p.province_name), "province_id", "province_name");
             ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName).Take(1), "city_municipality_id", "CityMunicipalityName");
             ViewBag.BarangayID = new SelectList(db.Barangays.OrderBy(p => p.barangay_name).Take(1), "barangay_id", "barangay_name");
             ViewBag.DeferralID = new SelectList(db.Deferrals.OrderBy(p => p.Reason).Take(100), "Id", "Reason");
@@ -281,9 +327,15 @@ namespace R12VIS.Controllers
             ViewBag.AdverseID = new SelectList(db.Adverses.OrderBy(p => p.ID), "ID", "Condition");
             ViewBag.Gender = gender;
             ViewBag.Suffix = suffix;
+            ViewBag.SiblingRank = siblingRank;
+            ViewBag.Religion = new SelectList(db.Religions.OrderBy(p => p.ID), "ID", "Description");
+            ViewBag.EducationalAttainment = new SelectList(db.EducationalAttainment.OrderBy(p => p.ID), "ID", "Description");
+            ViewBag.IncomeClass = new SelectList(db.IncomeClass.OrderBy(p => p.ID), "ID", "Description");
+            ViewBag.Occupation = new SelectList(db.Occupation.OrderBy(p => p.ID), "ID", "Description");
 
             return View(vaccination);
         }
+
         [HttpPost]
         public ActionResult PreVaccination(Vaccination vaccination)
         {
@@ -295,7 +347,6 @@ namespace R12VIS.Controllers
             }
             if (ModelState.IsValid)
             {
-
                 vaccination.VaccinatorName = vaccination.VaccinatorName?.ToUpper();
                 vaccination.Comorbidity = vaccination.Comorbidity?.ToUpper();
                 vaccination.CreatedBy = $"{user.FirstName} {user.LastName}";
@@ -312,15 +363,13 @@ namespace R12VIS.Controllers
                     TempData["ToastMessage"] = vaccination.Person.FirstName + " " + vaccination.Person.LastName + " is already vaccinated with selected Dose";
                     TempData["ToastClass"] = "text-bg-warning";
                 }
-                else
-                {
-                    vaccination.Person.FirstName = vaccination.Person.FirstName?.ToUpper();
-                    vaccination.Person.MiddleName = vaccination.Person.MiddleName?.ToUpper();
-                    vaccination.Person.LastName = vaccination.Person.LastName?.ToUpper();
-                    db.Vaccinations.Add(vaccination);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+
+                vaccination.Person.FirstName = vaccination.Person.FirstName?.ToUpper();
+                vaccination.Person.MiddleName = vaccination.Person.MiddleName?.ToUpper();
+                vaccination.Person.LastName = vaccination.Person.LastName?.ToUpper();
+                db.Vaccinations.Add(vaccination);
+                db.SaveChanges();
+                return RedirectToAction("Index");
 
             }
             ViewBag.PriorityGroupID = new SelectList(db.PriorityGroups, "ID", "Category", vaccination.PriorityGroupID);
@@ -334,12 +383,27 @@ namespace R12VIS.Controllers
             ViewBag.VaccineID = new SelectList(db.Vaccines.OrderBy(p => p.VaccineManufacturer), "ID", "VaccineManufacturer", vaccination.VaccineID);
             ViewBag.DoseID = new SelectList(db.Dose.OrderBy(p => p.VaccineDose), "ID", "VaccineDose", vaccination.DoseID);
             ViewBag.AdverseID = new SelectList(db.Adverses.OrderBy(p => p.ID), "ID", "Condition", vaccination.AdverseID);
+            ViewBag.Religion = new SelectList(db.Religions.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.ReligionID);
+            ViewBag.EducationalAttainment = new SelectList(db.EducationalAttainment.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.EducationalAttainment);
+            ViewBag.IncomeClass = new SelectList(db.IncomeClass.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.IncomeClass);
+            ViewBag.Occupation = new SelectList(db.Occupation.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.Occupation);
 
+            SelectList siblingRank = new SelectList(new[]
+            {
+                new { Value = 1, Text = "First Born Child"},
+                new { Value = 2, Text = "Second Born Child"},
+                new { Value = 3, Text = "Third Born Child"},
+                new { Value = 4, Text = "Fourth Born Child"},
+                new { Value = 5, Text = "Fifth Born Child"},
+                new { Value = 6, Text = "Sixth Born Child"},
+                new { Value = 7, Text = "Seventh Born Child"},
+                }, "Value", "Text", vaccination.Person.SiblingRank);
+            ViewBag.SiblingRank = siblingRank;
 
             SelectList gender = new SelectList(new[]
             {
-                new {Value = "Male", Text = "Male"},
-                new {Value = "Female", Text = "Female"}
+                new {Value = "M", Text = "Male"},
+                new {Value = "F", Text = "Female"}
             }, "Value", "Text", vaccination.Person.Gender);
             SelectList suffix = new SelectList(new[]
            {
@@ -357,6 +421,139 @@ namespace R12VIS.Controllers
             return View(vaccination);
         }
 
+
+        // MARK MODIFIED
+        //[HttpPost]
+        //public ActionResult PreVaccination(Vaccination vaccination)
+        //{
+        //    User user = Session["User"] as User;
+
+        //    if (user == null)
+        //    {
+        //        return RedirectToAction("Login", "Users");
+        //    }
+        //    if (ModelState.IsValid)
+        //    {
+        //        vaccination.VaccinatorName = vaccination.VaccinatorName?.ToUpper();
+        //        vaccination.Comorbidity = vaccination.Comorbidity?.ToUpper();
+        //        vaccination.CreatedBy = $"{user.FirstName} {user.LastName}";
+        //        vaccination.UserID = user.ID;
+
+        //        // Check if the person already exists
+        //        Person existingPerson = db.Persons.FirstOrDefault(p =>
+        //        p.FirstName == vaccination.Person.FirstName && p.LastName == vaccination.Person.LastName && p.BirthDate == vaccination.Person.BirthDate);
+
+        //        if (existingPerson != null)
+        //        {
+        //            // Update the existing person
+        //            existingPerson.FirstName = vaccination.Person.FirstName?.ToUpper();
+        //            existingPerson.MiddleName = vaccination.Person.MiddleName?.ToUpper();
+        //            existingPerson.LastName = vaccination.Person.LastName?.ToUpper();
+        //            existingPerson.Suffix = vaccination.Person.Suffix;
+        //            existingPerson.SiblingRank = vaccination.Person.SiblingRank; ;
+        //            existingPerson.ReligionID = vaccination.Person.ReligionID; ;
+        //            existingPerson.EducationalAttainmentID = vaccination.Person.EducationalAttainmentID; ;
+        //            existingPerson.IncomeClassID = vaccination.Person.IncomeClassID; ;
+        //            existingPerson.OccupationID = vaccination.Person.OccupationID; ;
+
+        //            // Update other properties as needed
+
+        //            db.Entry(existingPerson).State = EntityState.Modified;
+        //            db.SaveChanges();
+
+        //            vaccination.Person = existingPerson;
+        //        }
+        //        else
+        //        {
+        //            // Create a new person
+        //            vaccination.Person.FirstName = vaccination.Person.FirstName?.ToUpper();
+        //            vaccination.Person.MiddleName = vaccination.Person.MiddleName?.ToUpper();
+        //            vaccination.Person.LastName = vaccination.Person.LastName?.ToUpper();
+        //            vaccination.Person.Suffix = vaccination.Person.Suffix;
+        //            vaccination.Person.SiblingRank = vaccination.Person.SiblingRank; ;
+        //            vaccination.Person.ReligionID = vaccination.Person.ReligionID; ;
+        //            vaccination.Person.EducationalAttainmentID = vaccination.Person.EducationalAttainmentID; ;
+        //            vaccination.Person.IncomeClassID = vaccination.Person.IncomeClassID; ;
+        //            vaccination.Person.OccupationID = vaccination.Person.OccupationID; ;
+        //            // Set other properties for a new person
+
+        //            db.Persons.Add(vaccination.Person);
+        //            db.SaveChanges();
+        //        }
+
+        //        var isPersonHasTheSameVaccination = CheckVaccinationDuplicate(vaccination);
+
+        //        if (isPersonHasTheSameVaccination)
+        //        {
+        //            TempData["ToastMessage"] = $"{vaccination.Person.FirstName} {vaccination.Person.LastName} is already vaccinated with the selected Dose";
+        //            TempData["ToastClass"] = "text-bg-warning";
+        //        }
+        //        else
+        //        {
+
+        //            vaccination.Person.FirstName = vaccination.Person.FirstName?.ToUpper();
+        //            vaccination.Person.MiddleName = vaccination.Person.MiddleName?.ToUpper();
+        //            vaccination.Person.LastName = vaccination.Person.LastName?.ToUpper();
+        //            db.Vaccinations.Add(vaccination);
+        //            db.SaveChanges();
+
+        //            return RedirectToAction("Index");
+        //        }
+        //    }
+
+        //    // Populate ViewBag and return the view
+        //    PopulateDropdowns(vaccination);
+        //    return View(vaccination);
+        //}
+        private void PopulateDropdowns(Vaccination vaccination)
+        {
+            ViewBag.PriorityGroupID = new SelectList(db.PriorityGroups, "ID", "Category", vaccination.PriorityGroupID);
+            var ethnicGroups = db.EthnicGroups.ToList();
+            ethnicGroups.Insert(0, new EthnicGroup { Id = 0, IndigenousMember = "" });
+            ViewBag.EthnicGroupID = new SelectList(ethnicGroups, "Id", "IndigenousMember", vaccination.Person.EthnicGroupID);
+            ViewBag.ProvinceID = new SelectList(db.Provinces.OrderBy(p => p.province_name), "province_id", "province_name", vaccination.Person.ProvinceID);
+            ViewBag.CityMunicipalityID = new SelectList(db.CityMunicipalities.OrderBy(p => p.CityMunicipalityName), "city_municipality_id", "CityMunicipalityName", vaccination.Person.CityMunicipalityID);
+            ViewBag.BarangayID = new SelectList(db.Barangays.OrderBy(p => p.barangay_name).Take(100), "barangay_id", "barangay_name", vaccination.Person.BarangayID);
+            ViewBag.DeferralID = new SelectList(db.Deferrals.OrderBy(p => p.Reason).Take(100), "Id", "Reason", vaccination.DeferralID);
+            ViewBag.VaccineID = new SelectList(db.Vaccines.OrderBy(p => p.VaccineManufacturer), "ID", "VaccineManufacturer", vaccination.VaccineID);
+            ViewBag.DoseID = new SelectList(db.Dose.OrderBy(p => p.VaccineDose), "ID", "VaccineDose", vaccination.DoseID);
+            ViewBag.AdverseID = new SelectList(db.Adverses.OrderBy(p => p.ID), "ID", "Condition", vaccination.AdverseID);
+            ViewBag.Religion = new SelectList(db.Religions.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.ReligionID);
+            ViewBag.EducationalAttainment = new SelectList(db.EducationalAttainment.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.EducationalAttainment);
+            ViewBag.IncomeClass = new SelectList(db.IncomeClass.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.IncomeClass);
+            ViewBag.Occupation = new SelectList(db.Occupation.OrderBy(p => p.ID), "ID", "Description", vaccination.Person.Occupation);
+
+            SelectList siblingRank = new SelectList(new[]
+            {
+                    new { Value = 1, Text = "First Born Child"},
+                    new { Value = 2, Text = "Second Born Child"},
+                    new { Value = 3, Text = "Third Born Child"},
+                    new { Value = 4, Text = "Fourth Born Child"},
+                    new { Value = 5, Text = "Fifth Born Child"},
+                    new { Value = 6, Text = "Sixth Born Child"},
+                    new { Value = 7, Text = "Seventh Born Child"},
+                    }, "Value", "Text", vaccination.Person.SiblingRank);
+            ViewBag.SiblingRank = siblingRank;
+
+            SelectList gender = new SelectList(new[]
+            {
+                    new {Value = "M", Text = "Male"},
+                    new {Value = "F", Text = "Female"}
+                }, "Value", "Text", vaccination.Person.Gender);
+            SelectList suffix = new SelectList(new[]
+           {
+                    new {Value =String.Empty, Text ="NA"},
+                    new { Value = "II", Text = "II"},
+                    new { Value = "III", Text = "III"},
+                    new { Value = "IV", Text = "IV"},
+                    new { Value = "V", Text = "V"},
+                    new { Value = "SR.", Text = "SR."},
+                    new { Value = "JR.", Text = "JR."},
+                }, "Value", "Text", vaccination.Person.Suffix);
+            ViewBag.Suffix = suffix;
+            ViewBag.Gender = gender;
+            // Populate other ViewBag properties for dropdowns
+        }
         private bool CheckVaccinationDuplicate(Vaccination vaccination)
         {
 
@@ -432,6 +629,31 @@ namespace R12VIS.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public JsonResult VaccinationsDataTable()
+        {
+            try
+            {
+                var vaccinations = db.Vaccinations.Select(v => new
+                {
+                    v.ID,
+                    Person = v.Person.LastName + ", " + v.Person.FirstName + (v.Person.MiddleName != "" || v.Person.MiddleName != "NONE" || v.Person.MiddleName != null ? (" " + v.Person.MiddleName) : ""),
+                    Vaccine = v.Vaccine.VaccineBrand,
+                    Dose = v.Dose.VaccineDose,
+                    Priority = v.PriorityGroup.Category,
+                    Ethnic = v.Person.EthnicGroup.IndigenousMember
+                }).ToList();
+
+                var jsonResult = Json(new { data = vaccinations }, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }

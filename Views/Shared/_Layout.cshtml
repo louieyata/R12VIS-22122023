@@ -96,149 +96,274 @@
 
         <ul class="sidebar-nav" id="sidebar-nav">
 
+            <li class="nav-heading">Dashboard</li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.html">
-                    <i class="bi bi-grid"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <!--User Management-->
-                <a class="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>User Management</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="users-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="@Url.Action("Index", "Users")" class="nav-link">
-                            <i class="bi bi-circle"></i><span>Index</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul id="users-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="@Url.Action("Index", "Roles")">
-                            <i class="bi bi-circle"></i><span>Roles</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item">
-                <!--Province Management-->
-                <a class="nav-link collapsed" data-bs-target="#Province-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Province Management</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="Province-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="@Url.Action("Index", "Provinces")">
-                            <i class="bi bi-circle"></i><span>Index</span>
-                        </a>
-                    </li>
-                </ul>
-
-            </li>
-            <li class="nav-item">
-                <!--City Management-->
-                <a class="nav-link collapsed" data-bs-target="#City-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>City/Municipality Management</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="City-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="@Url.Action("Index", "CityMunicipalities")">
-                            <i class="bi bi-circle"></i><span>Index</span>
-                        </a>
-                    </li>
-                </ul>
-
-            </li>
-
-            <li class="nav-item">
-                <!--Priority Group Management-->
-                <a class="nav-link collapsed" data-bs-target="#Category-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-collection"></i><span>Priority Group</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="Category-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="@Url.Action("Index", "PriorityGroups")">
-                            <i class="bi bi-circle"></i><span>Index</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="nav-item">
-                <!--Ethnic Group-->
-                <a class="nav-link collapsed" data-bs-target="#ethnic-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-people"></i><span>Ethnic Group</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="ethnic-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="@Url.Action("Index", "EthnicGroups")">
-                            <i class="bi bi-circle"></i><span>Index</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#Deferral-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-bar-chart"></i><span>Deferral</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="Deferral-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="@Url.Action("Index", "Deferrals")">
-                            <i class="bi bi-circle"></i><span>Index</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#vaccine-nav" data-bs-toggle="collapse" href="#">
-                    <i class="ri-syringe-fill"></i><span>Vaccines</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="vaccine-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="@Url.Action("Index", "Vaccines")">
-                            <i class="bi bi-circle"></i><span>Index</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="nav-heading">Go to</li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="@Url.Action("Index","People")">
-                    <i class="bi bi-people"></i>
-                    <span>Individuals</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="@Url.Action("Instructions", "Uploader")">
-                    <i class="bi bi-upload"></i>
-                    <span>Import Data</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="@Url.Action("PreVaccination", "Vaccinations")">
-                    <i class="bi bi-bandaid"></i>
-                    <span>Vaccination</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="@Url.Action("Index", "Vaccinations")">
-                    <i class="bi bi-bandaid"></i>
-                    <span>Line List</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="pages-register.html">
+                <a id="nav-item-dashboard" class="nav-link collapsed" data-bs-toggle="collapse" href="#dashboard-nav">
                     <i class="bi bi-clipboard-data"></i>
-                    <span>Reports</span>
+                    <span>
+                        Dashboard
+                    </span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
+                <ul id="dashboard-nav" class="nav-content collapse">
+                    <li>
+                        <a href="@Url.Action("Index", "Dashboard")" class="nav-link collapsed" id="nav-item-link-dashboard-covid">
+                            <i class="bi bi-clipboard-data"></i>
+                            <span>
+                                COVID Dashboard
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="nav-item-dashboard-vpd" class="nav-link collapsed" data-bs-toggle="collapse" href="#nav-item-mr-opv-sia">
+                            <i class="bi bi-clipboard-data"></i>
+                            <span>
+                                VPD Dashboard
+                            </span>
+                        </a>
+                        <ul class="dropdown-submenu">
+                            <li>
+                                <a href="@Url.Action("DashboardMRSIA", "Dashboard")" class="nav-link collapsed" id="nav-item-mr-opv-sia">
+                                    MR-OPV-SIA
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Routine", "Dashboard")" class="nav-link collapsed" id="nav-item-routine">
+                                    ROUTINE
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-heading">Individuals</li>
+            <li class="nav-item">
+                <a id="nav-item-individual" class="nav-link collapsed" data-bs-toggle="collapse" href="#individual-nav">
+                    <i class="bi bi-people"></i>
+                    <span>
+                        Individuals
+                    </span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="individual-nav" class="nav-content collapse">
+                    <li>
+                        <a href="@Url.Action("Index", "People")" class="nav-link collapsed" id="nav-item-link-individual-covid">
+                            <i class="bi bi-people"></i>
+                            <span>
+                                Covid Individuals
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "PeopleVPD")" class="nav-link collapsed" id="nav-item-link-individual-vpd">
+                            <i class="bi bi-people"></i>
+                            <span>
+                                VPD Individuals
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            @*<li class="nav-item">
+            <a class="nav-link collapsed" id="nav-item-link-uploader" href="@Url.Action("Instructions", "Uploader")">
+                <i class="bi bi-upload"></i>
+                <span>Import Data</span>
+            </a>
+        </li>*@
+
+            <li class="nav-heading">Uploader</li>
+            <li class="nav-item">
+                <a id="nav-item-uploader" class="nav-link collapsed" data-bs-toggle="collapse" href="#uploader-nav">
+                    <i class="bi bi-upload"></i>
+                    <span>
+                        Uploader
+                    </span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="uploader-nav" class="nav-content collapse">
+                    <li>
+                        <a href="@Url.Action("Instructions", "Uploader")" class="nav-link collapsed" id="nav-item-link-uploader-covid">
+                            <i class="bi bi-upload"></i>
+                            <span>
+                                Covid Uploader
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Instructions", "UploaderVPD")" class="nav-link collapsed" id="nav-item-link-uploader-vpd">
+                            <i class="bi bi-upload"></i>
+                            <span>
+                                VPD Uploader
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+            <li class="nav-heading">Vaccination</li>
+            <li class="nav-item">
+                <a id="nav-item-vaccination" class="nav-link collapsed" data-bs-toggle="collapse" href="#vaccinations-nav">
+                    <i class="bi bi-bandaid"></i>
+                    <span>
+                        Vaccinations
+                    </span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="vaccinations-nav" class="nav-content collapse">
+                    <li>
+                        <a href="@Url.Action("PreVaccination", "Vaccinations")" class="nav-link collapsed" id="nav-item-link-vaccinations-covid">
+                            <i class="bi bi-bandaid"></i>
+                            <span>
+                                Covid Vaccinations
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("PreVaccinationVPD", "VaccinationsVPD")" class="nav-link collapsed" id="nav-item-link-vaccinations-vpd">
+                            <i class="bi bi-bandaid"></i>
+                            <span>
+                                VPD Vaccinations
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("PreVaccinationCS", "VaccinationsCS")" class="nav-link collapsed" id="nav-item-link-vaccinations-cs">
+                            <i class="bi bi-bandaid"></i>
+                            <span>
+                                Senior Citizen Vaccinations
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-heading">Linelist</li>
+            <li class="nav-item">
+                <a id="nav-item-linelist" class="nav-link collapsed" data-bs-toggle="collapse" href="#linelist-nav">
+                    <i class="bi bi-list"></i>
+                    <span>
+                        Linelist
+                    </span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="linelist-nav" class="nav-content collapse">
+                    <li>
+                        <a href="@Url.Action("Index", "Vaccinations")" class="nav-link collapsed" id="nav-item-link-linelist-covid">
+                            <i class="bi bi-list"></i>
+                            <span>
+                                Covid Linelist
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "VaccinationsVPD")" class="nav-link collapsed" id="nav-item-link-linelist-vpd">
+                            <i class="bi bi-list"></i>
+                            <span>
+                                VPD Linelist
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "VaccinationsCS")" class="nav-link collapsed" id="nav-item-link-linelist-cs">
+                            <i class="bi bi-list"></i>
+                            <span>
+                                Senior Citizen Linelist
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            @*<li class="nav-item">
+            <a class="nav-link collapsed" id="nav-item-link-vaccinations" href="@Url.Action("PreVaccination", "Vaccinations")">
+                <i class="bi bi-bandaid"></i>
+                <span>Vaccination</span>
+            </a>
+        </li>*@
+            @*<li class="nav-item">
+            <a class="nav-link collapsed" id="nav-item-link-linelist" href="@Url.Action("Index", "Vaccinations")">
+                <i class="bi bi-list"></i>
+                <span>Linelist</span>
+            </a>
+        </li>*@
+            <li class="nav-heading">Maintenance</li>
+            <li class="nav-item">
+                <a id="nav-item-file-maintenance" class="nav-link collapsed" data-bs-toggle="collapse" href="#file-maintenance-nav">
+                    <i class="bi bi-menu-button-wide"></i>
+                    <span>
+                        File Maintenance
+                    </span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="file-maintenance-nav" class="nav-content collapse">
+                    <li>
+                        <a href="@Url.Action("Index", "Users")" class="nav-link collapsed" id="nav-item-link-file-maintenance-user-user">
+                            <i class="bi bi-person"></i>
+                            <span>
+                                User
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Roles")" class="nav-link collapsed" id="nav-item-link-file-maintenance-user-role">
+                            <i class="bi bi-person-fill-gear"></i>
+                            <span>
+                                Roles
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Provinces")" class="nav-link collapsed" id="nav-item-link-file-maintenance-province">
+                            <i class="bi bi-menu-button-wide"></i>
+                            <span>
+                                Provinces
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "CityMunicipalities")" class="nav-link collapsed" id="nav-item-link-file-maintenance-citumun">
+                            <i class="bi bi-menu-button-wide"></i>
+                            <span>
+                                Cities / Municipalities
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "PriorityGroups")" class="nav-link collapsed" id="nav-item-link-file-maintenance-priority-group">
+                            <i class="bi bi-collection"></i>
+                            <span>
+                                Priority Group
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "EthnicGroups")" class="nav-link collapsed" id="nav-item-link-file-maintenance-ethnic-group">
+                            <i class="bi bi-people"></i>
+                            <span>
+                                Ethnic Group
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Deferrals")" class="nav-link collapsed" id="nav-item-link-file-maintenance-deferral">
+                            <i class="bi bi-pie-chart"></i>
+                            <span>
+                                Deferrals
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Vaccines")" class="nav-link collapsed" id="nav-item-link-file-maintenance-vaccine">
+                            <i class="ri-syringe-fill"></i>
+                            <span>
+                                Vaccine
+                            </span>
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </aside><!-- End Sidebar-->
@@ -308,7 +433,12 @@
                 const toastLiveExample = document.getElementById('liveToast')
                 const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                 toastBootstrap.show()
-                
+
+            });
+
+            document.getElementById('nav-item-dashboard-vpd').addEventListener('click', function () {
+                const arrowIcon = this.querySelector('.bi-chevron-down');
+                arrowIcon.classList.toggle('bi-chevron-up');
             });
         </script>
         TempData.Clear();
@@ -316,3 +446,4 @@
 </body>
 
 </html>
+

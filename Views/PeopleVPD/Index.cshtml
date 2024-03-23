@@ -1,0 +1,265 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    var navItem = document.getElementById('nav-item-individual');
+    navItem.classList.remove('collapsed');
+    var navLink = document.getElementById('individual-nav');
+    navLink.classList.remove('collapse');
+    var navLinkChild = document.getElementById('nav-item-link-individual-vpd');
+    navLinkChild.classList.remove('collapsed');
+</script>
+
+<!-- Date Picker -->
+<link href="~/Content/plugins/bootstrap-datepicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet" href="~/Content/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="~/Content/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="~/Content/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="~/Content/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<!-- BS Stepper -->
+<link rel="stylesheet" href="~/Content/plugins/bs-stepper/css/bs-stepper.min.css">
+<!-- dropzonejs -->
+<link href="~/Assets/vendor/simple-datatables/style.css" rel="stylesheet">>
+<!-- DataTables -->
+<!-- SweetAlert2 -->
+<link href="~/Content/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet" />
+<!-- Toastr -->
+<link href="~/Content/plugins/toastr/toastr.min.css" rel="stylesheet" />
+
+@*capitalize first letter for name*@
+<style>
+    .capitalize-first {
+        text-transform: capitalize;
+    }
+</style>
+
+<main id="main" class="main" style="margin-top:36px">
+
+    <div class="pagetitle">
+        <h1>Individuals</h1>
+        <nav>
+            <ol class="breadcrumb">
+                @*<li class="breadcrumb-item"><a href="index.html">Home</a></li>*@
+                <li class="breadcrumb-item">Individuals</li>
+                <li class="breadcrumb-item active">Index</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Individuals</h5>
+                <p>
+                    <a class="btn btn-primary" href="" data-toggle="modal" data-target="#modal-edit-person" id="individual-add-person"><i class="bi bi-pencil-square"></i>&nbsp;Add Person</a>
+                </p>
+                <table id="tbl-people" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th style="width:25%">Last Name</th>
+                            <th style="width:25%">First Name</th>
+                            <th style="width:40%">Address</th>
+                            <th style="width:5%">Sex</th>
+                            <th style="width:5%"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal-edit-person" data-backdrop="static">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <!-- modal header & close button here -->
+                <!-- form start -->
+                <form id="form-individual-vpd">
+                    <div class="modal-body">
+                        <div class="card" style="padding-left:16px">
+                            <h5 class="card-title" id="individual-modal-header">Update</h5>
+                        </div>
+                        <div class="card" style="padding:4px; padding-top:12px; padding-bottom:12px">
+                            <div class="col-12" style="padding:8px">
+                                <div class="row clearfix">
+                                    @Html.Hidden("hidPersonId")
+                                    <div class="col-12" style="margin-bottom: 16px">
+                                        <div class="row clearfix">
+                                            <div class="col-3">
+                                                <label for="individual_first_name">First Name</label>
+                                                <input type="text" class="form-control capitalize-first" id="individual_first_name" pattern="[A-Za-z\s]+" name="individual_first_name">
+                                            </div>
+                                            <div class="col-3">
+                                                <label for="individual_middle_name">Middle Name</label>
+                                                <input type="text" class="form-control capitalize-first" id="individual_middle_name" pattern="[A-Za-z\s]+" name="individual_middle_name">
+                                            </div>
+                                            <div class="col-3">
+                                                <label for="individual_last_name">Last Name</label>
+                                                <input type="text" class="form-control capitalize-first" id="individual_last_name" pattern="[A-Za-z\s]+" name="individual_last_name">
+                                            </div>
+                                            <div class="col-1">
+                                                @Html.Label("individual_suffix", "Suffix ")
+                                                @Html.DropDownList("individual_suffix", ViewData["SuffixList"] as SelectList, new { @class = "form-control select2", name = "ethnic_group_list" })
+                                            </div>
+                                            <div class="col-2">
+                                                <p for="radio-sex" sty>Sex</p>
+                                                <div class="col-12" style="margin-top:-8px;margin-bottom:8px">
+                                                    <div class="row clearfix">
+                                                        <div class="col-6">
+                                                            <div style="width:90%">
+                                                                <input type="radio" id="individual_sex_male" name="radio-sex" value="m" checked>
+                                                                <label for="individual_sex_male">Male</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div style="width:110%; margin-left:-8px">
+                                                                <input type="radio" id="individual_sex_female" name="radio-sex" value="f">
+                                                                <label for="individual_sex_female">Female</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" style="margin-bottom:8px">
+                                        <div class="row clearfix">
+                                            <div class="col-5">
+                                                <div class="form-group">
+                                                    @Html.Label("ethnic_group_list", "Ethnic Group ")
+                                                    @Html.DropDownList("ethnic_group_list", ViewData["EthnicGroupList"] as SelectList, "- Select Ethnic Group -", new { @class = "form-control select2", name = "ethnic_group_list" })
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <label class="text-muted" for="individual_date_of_birth" sty>Date of Birth</label>
+                                                <input id="individual_date_of_birth" type="text" data-provider="datepicker" class="form-control col-12" name="individual_date_of_birth" autocomplete="off">
+                                            </div>
+                                            <div class="col-1">
+                                                <p for="pwd-status" sty>PWD</p>
+                                                <div style="margin-top: 6px; margin-left:4px">
+                                                    <input type="checkbox" id="individual_pwd" checked="checked" name="pwd-status" style="transform: scale(1.5); margin-right: 5px;">
+                                                    <label class="text-muted" for="individual_pwd" sty style="font-size: 16px;">Yes</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 mb-3">
+                                                @Html.Label("sibling_rank_list", "Sibling Rank")
+                                                @Html.DropDownList("sibling_rank_list", ViewData["SiblingRankList"] as SelectList, new { @class = "form-control select2", name = "sibling_rank_list" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row clearfix">
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    @Html.Label("region_id", "Region Address")
+                                                    @Html.DropDownList("region_id", ViewData["Region"] as SelectList, "- Region -", new { @class = "form-control select2", name = "region_id", @disabled = "disabled" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    @Html.Label("province_id", "Province Address")
+                                                    @Html.DropDownList("province_id", ViewData["Province"] as SelectList, "- Province -", new { @class = "form-control select2", name = "province_id" })
+                                                </div>
+                                            </div>
+                                            <div class="col-3" style="height:80px">
+                                                <div class="form-group">
+                                                    @Html.Label("cm_id", "City/Municipality Address")
+                                                    @Html.DropDownList("cm_id", Enumerable.Empty<SelectListItem>(), "- City / Municipality -", new { @class = "form-control select2", name = "cm_id" })
+                                                </div>
+                                            </div>
+                                            <div class="col-3" style="height:80px">
+                                                <div class="form-group">
+                                                    @Html.Label("barangay_id", "Barangay Address")
+                                                    @Html.DropDownList("barangay_id", Enumerable.Empty<SelectListItem>(), "- Barangay -", new { @class = "form-control select2", name = "barangay_id" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" style="margin-bottom:16px">
+                                        <div class="row clearfix">
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    @Html.Label("religion_list", "Parents' Religion")
+                                                    @Html.DropDownList("religion_list", ViewData["ReligionList"] as SelectList, "- Select Religion -", new { @class = "form-control select2", name = "religion_list" })
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    @Html.Label("educational_attainment_list", "Parents' Educational Attainment")
+                                                    @Html.DropDownList("educational_attainment_list", ViewData["EducationalAttainmentList"] as SelectList, "- Educational Attainment -", new { @class = "form-control select2", name = "educational_attainment_list" })
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    @Html.Label("income_class_list", "Parents' Income Class")
+                                                    @Html.DropDownList("income_class_list", ViewData["IncomeClassList"] as SelectList, "- Select Income Class -", new { @class = "form-control select2", name = "income_class_list" })
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    @Html.Label("mrsia_occupation_list", "Parents' Occupation")
+                                                    @Html.DropDownList("mrsia_occupation_list", ViewData["OccupationList"] as SelectList, "- Select Occupation -", new { @class = "form-control select2", name = "occupation_list" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:-16px">
+                            <div class="modal-footer text-end">
+                                <button type="button" id="individual-cancel-button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="submit" id="individual-save-button" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- modal footer here -->
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</main><!-- End #main -->
+
+@section scripts
+{
+    <!-- -------------------------------------------------------------------------------------- -->
+    <!-- jQuery -->
+    <script src="~/Content/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/Content/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Content/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="~/Content/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <!-- Toastr -->
+    <script src="~/Content/plugins/toastr/toastr.min.js"></script>
+    <!-- Moment -->
+    <script src="~/Content/plugins/moment/moment.min.js"></script>
+    <!-- InputMask -->
+    <script src="~/Content/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- Select2 -->
+    <script src="~/Content/plugins/select2/js/select2.full.min.js"></script>
+    <!-- Date Picker -->
+    <script src="~/Content/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- jquery-validation -->
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <!-- DataTables & Plugins -->
+    <script src="~/Content/DataTable/cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js"></script>
+    <script src="~/Content/DataTable2/datatables.min.js"></script>
+    <!-- custom -->
+    <script src="~/Scripts/Custom/common.js"></script>
+    <script src="~/Scripts/Custom/people_vpd.js"></script>
+}

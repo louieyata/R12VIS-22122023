@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
-using System.Security.Cryptography.X509Certificates;
 
 namespace R12VIS.Models
 {
-    public class DbContextR12: DbContext
+    public class DbContextR12 : DbContext
     {
         public DbContextR12() : base("DbContextR12")
         {
-            
+
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
@@ -27,12 +22,11 @@ namespace R12VIS.Models
         public DbSet<Deferral> Deferrals { get; set; }
         public DbSet<Dose> Dose { get; set; }
         public DbSet<PriorityGroup> PriorityGroups { get; set; }
-        public DbSet<Vaccination>  Vaccinations { get; set; }
-
-
-
-
-
+        public DbSet<Vaccination> Vaccinations { get; set; }
+        public DbSet<Religion> Religions { get; set; }
+        public DbSet<EducationalAttainment> EducationalAttainment { get; set; }
+        public DbSet<IncomeClass> IncomeClass { get; set; }
+        public DbSet<Occupation> Occupation { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

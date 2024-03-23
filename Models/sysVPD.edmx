@@ -1,0 +1,1038 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DbMRSpecialVacsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MR_TARGETS">
+          <Key>
+            <PropertyRef Name="target_id" />
+          </Key>
+          <Property Name="target_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="province_id" Type="int" />
+          <Property Name="city_municipality_id" Type="int" />
+          <Property Name="barangay_id" Type="int" />
+          <Property Name="target_quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="OPV_TARGETS">
+          <Key>
+            <PropertyRef Name="target_id" />
+          </Key>
+          <Property Name="target_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="province_id" Type="int" />
+          <Property Name="city_municipality_id" Type="int" />
+          <Property Name="barangay_id" Type="int" />
+          <Property Name="target_quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="Person_VPD">
+          <Key>
+            <PropertyRef Name="person_id" />
+          </Key>
+          <Property Name="person_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="person_ethnic_group_id" Type="int" />
+          <Property Name="person_first_name" Type="varchar(max)" />
+          <Property Name="person_middle_name" Type="varchar(max)" />
+          <Property Name="person_last_name" Type="varchar(max)" />
+          <Property Name="person_suffix" Type="varchar" MaxLength="10" />
+          <Property Name="person_sex" Type="varchar" MaxLength="6" />
+          <Property Name="person_birth_date" Type="datetime" />
+          <Property Name="person_address" Type="varchar(max)" />
+          <Property Name="person_region_address" Type="int" />
+          <Property Name="person_province_address" Type="int" />
+          <Property Name="person_city_municipality_address" Type="int" />
+          <Property Name="person_barangay_address" Type="int" />
+          <Property Name="person_religion_id" Type="int" />
+          <Property Name="person_parent_occupation_id" Type="int" />
+          <Property Name="person_parent_educational_attainment_id" Type="int" />
+          <Property Name="person_parent_income_class_id" Type="int" />
+          <Property Name="person_sibling_rank" Type="int" />
+          <Property Name="person_is_pwd" Type="bit" />
+        </EntityType>
+        <EntityType Name="Vaccination_VPD">
+          <Key>
+            <PropertyRef Name="vaccination_id" />
+          </Key>
+          <Property Name="vaccination_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vaccination_person_id" Type="int" Nullable="false" />
+          <Property Name="vaccination_region_id" Type="int" Nullable="false" />
+          <Property Name="vaccination_province_id" Type="int" Nullable="false" />
+          <Property Name="vaccination_city_municipality_id" Type="int" Nullable="false" />
+          <Property Name="vaccination_barangay_id" Type="int" Nullable="false" />
+          <Property Name="vaccination_vaccine_id" Type="int" Nullable="false" />
+          <Property Name="vaccination_date" Type="datetime" Nullable="false" />
+          <Property Name="vaccination_vaccinator" Type="varchar(max)" Nullable="false" />
+          <Property Name="vaccination_type_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Vaccine_VPD">
+          <Key>
+            <PropertyRef Name="vaccine_id" />
+          </Key>
+          <Property Name="vaccine_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vaccine_description" Type="varchar(max)" Nullable="false" />
+          <Property Name="vaccine_created_by" Type="int" />
+          <Property Name="vaccine_date_created" Type="datetime" />
+          <Property Name="vaccine_last_updated_by" Type="int" />
+          <Property Name="vaccine_date_last_updated" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Vaccinati__vacci__06CD04F7">
+          <End Role="Person_VPD" Type="Self.Person_VPD" Multiplicity="1" />
+          <End Role="Vaccination_VPD" Type="Self.Vaccination_VPD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person_VPD">
+              <PropertyRef Name="person_id" />
+            </Principal>
+            <Dependent Role="Vaccination_VPD">
+              <PropertyRef Name="vaccination_person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vaccinati__vacci__07C12930">
+          <End Role="Vaccine_VPD" Type="Self.Vaccine_VPD" Multiplicity="1" />
+          <End Role="Vaccination_VPD" Type="Self.Vaccination_VPD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vaccine_VPD">
+              <PropertyRef Name="vaccine_id" />
+            </Principal>
+            <Dependent Role="Vaccination_VPD">
+              <PropertyRef Name="vaccination_vaccine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetBarChartIncomeClassData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="region_id" Type="int" Mode="In" />
+          <Parameter Name="province_id" Type="int" Mode="In" />
+          <Parameter Name="cm_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="descriptionName" Type="nvarchar(max)" />
+                <Property Name="OPV" Type="int" />
+                <Property Name="MRV" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetBarChartOccupationData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="region_id" Type="int" Mode="In" />
+          <Parameter Name="province_id" Type="int" Mode="In" />
+          <Parameter Name="cm_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="descriptionName" Type="nvarchar(max)" />
+                <Property Name="OPV" Type="int" />
+                <Property Name="MRV" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetBarChartPersonRankData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="region_id" Type="int" Mode="In" />
+          <Parameter Name="province_id" Type="int" Mode="In" />
+          <Parameter Name="cm_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="SiblingRank" Type="int" />
+                <Property Name="OPV" Type="int" />
+                <Property Name="MRV" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetBarChartReligionData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="region_id" Type="int" Mode="In" />
+          <Parameter Name="province_id" Type="int" Mode="In" />
+          <Parameter Name="cm_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="descriptionName" Type="nvarchar(max)" />
+                <Property Name="OPV" Type="int" />
+                <Property Name="MRV" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetDashboardMRSIAData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="region_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Province" Type="nvarchar(max)" />
+                <Property Name="TARGET1" Type="int" />
+                <Property Name="OPV" Type="int" />
+                <Property Name="PERCENT1" Type="numeric" Precision="28" Scale="12" />
+                <Property Name="TARGET2" Type="int" />
+                <Property Name="MRV" Type="int" />
+                <Property Name="PERCENT2" Type="numeric" Precision="28" Scale="12" />
+                <Property Name="VitaminA" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetDashboardMRSIADataBarangay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cm_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="BarangayName" Type="nvarchar(max)" />
+                <Property Name="TARGET1" Type="int" />
+                <Property Name="OPV" Type="int" />
+                <Property Name="PERCENT1" Type="numeric" Precision="28" Scale="12" />
+                <Property Name="TARGET2" Type="int" />
+                <Property Name="MRV" Type="int" />
+                <Property Name="PERCENT2" Type="numeric" Precision="28" Scale="12" />
+                <Property Name="VitaminA" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetDashboardMRSIADataCityMun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="province_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="CityMunName" Type="nvarchar(max)" />
+                <Property Name="TARGET1" Type="int" />
+                <Property Name="OPV" Type="int" />
+                <Property Name="PERCENT1" Type="numeric" Precision="28" Scale="12" />
+                <Property Name="TARGET2" Type="int" />
+                <Property Name="MRV" Type="int" />
+                <Property Name="PERCENT2" Type="numeric" Precision="28" Scale="12" />
+                <Property Name="VitaminA" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetDashboardRoutineBarangayData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cm_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="BarangayName" Type="nvarchar(max)" />
+                <Property Name="TOTAL" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetDashboardRoutineCityMunData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="province_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="CityMun" Type="nvarchar(max)" />
+                <Property Name="TOTAL" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetDashboardRoutineProvinceData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="region_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Province" Type="nvarchar(max)" />
+                <Property Name="TOTAL" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetLineChartVPDVaccinationBarangayData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="citymun_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="VM" Type="nvarchar" MaxLength="35" />
+                <Property Name="NoV" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetLineChartVPDVaccinationCityMunData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="province_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="VM" Type="nvarchar" MaxLength="35" />
+                <Property Name="NoV" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetLineChartVPDVaccinationProvinceData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="region_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="VM" Type="nvarchar" MaxLength="35" />
+                <Property Name="NoV" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetRoutineCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="vaccine_type_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Vaccine" Type="varchar" MaxLength="37" />
+                <Property Name="AT BIRTH" Type="int" />
+                <Property Name="1ST VISIT" Type="int" />
+                <Property Name="2ND VISIT" Type="int" />
+                <Property Name="3RD VISIT" Type="int" />
+                <Property Name="4TH VISIT" Type="int" />
+                <Property Name="5TH VISIT" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetRoutineVaccinesBarangayData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="citymun_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="BarangayName" Type="nvarchar(max)" />
+                <Property Name="BCG" Type="int" />
+                <Property Name="Hepatitis B" Type="int" />
+                <Property Name="PVI" Type="int" />
+                <Property Name="PVII" Type="int" />
+                <Property Name="PVIII" Type="int" />
+                <Property Name="OPVI" Type="int" />
+                <Property Name="OPVII" Type="int" />
+                <Property Name="OPVIII" Type="int" />
+                <Property Name="IPVI" Type="int" />
+                <Property Name="IPVII" Type="int" />
+                <Property Name="PCVI" Type="int" />
+                <Property Name="PCVII" Type="int" />
+                <Property Name="PCVIII" Type="int" />
+                <Property Name="MMRI" Type="int" />
+                <Property Name="MMRII" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetRoutineVaccinesCityMunData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="province_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="CityMunName" Type="nvarchar(max)" />
+                <Property Name="BCG" Type="int" />
+                <Property Name="Hepatitis B" Type="int" />
+                <Property Name="PVI" Type="int" />
+                <Property Name="PVII" Type="int" />
+                <Property Name="PVIII" Type="int" />
+                <Property Name="OPVI" Type="int" />
+                <Property Name="OPVII" Type="int" />
+                <Property Name="OPVIII" Type="int" />
+                <Property Name="IPVI" Type="int" />
+                <Property Name="IPVII" Type="int" />
+                <Property Name="PCVI" Type="int" />
+                <Property Name="PCVII" Type="int" />
+                <Property Name="PCVIII" Type="int" />
+                <Property Name="MMRI" Type="int" />
+                <Property Name="MMRII" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetRoutineVaccinesProvinceData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="region_id" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ProvinceName" Type="nvarchar(max)" />
+                <Property Name="BCG" Type="int" />
+                <Property Name="Hepatitis B" Type="int" />
+                <Property Name="PVI" Type="int" />
+                <Property Name="PVII" Type="int" />
+                <Property Name="PVIII" Type="int" />
+                <Property Name="OPVI" Type="int" />
+                <Property Name="OPVII" Type="int" />
+                <Property Name="OPVIII" Type="int" />
+                <Property Name="IPVI" Type="int" />
+                <Property Name="IPVII" Type="int" />
+                <Property Name="PCVI" Type="int" />
+                <Property Name="PCVII" Type="int" />
+                <Property Name="PCVIII" Type="int" />
+                <Property Name="MMRI" Type="int" />
+                <Property Name="MMRII" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetScheduleData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="schedule_is_active" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="No." Type="bigint" />
+                <Property Name="First Name" Type="varchar(max)" />
+                <Property Name="Last Name" Type="varchar(max)" />
+                <Property Name="Vaccine Dose" Type="varchar(max)" Nullable="false" />
+                <Property Name="Schedule" Type="datetime" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <EntityContainer Name="DbMRSpecialVacsModelStoreContainer">
+          <EntitySet Name="MR_TARGETS" EntityType="Self.MR_TARGETS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OPV_TARGETS" EntityType="Self.OPV_TARGETS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person_VPD" EntityType="Self.Person_VPD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vaccination_VPD" EntityType="Self.Vaccination_VPD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vaccine_VPD" EntityType="Self.Vaccine_VPD" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Vaccinati__vacci__06CD04F7" Association="Self.FK__Vaccinati__vacci__06CD04F7">
+            <End Role="Person_VPD" EntitySet="Person_VPD" />
+            <End Role="Vaccination_VPD" EntitySet="Vaccination_VPD" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vaccinati__vacci__07C12930" Association="Self.FK__Vaccinati__vacci__07C12930">
+            <End Role="Vaccine_VPD" EntitySet="Vaccine_VPD" />
+            <End Role="Vaccination_VPD" EntitySet="Vaccination_VPD" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbMRSpecialVacsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Person_VPD">
+          <Key>
+            <PropertyRef Name="person_id" />
+          </Key>
+          <Property Name="person_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="person_ethnic_group_id" Type="Int32" />
+          <Property Name="person_first_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="person_middle_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="person_last_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="person_suffix" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="person_sex" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="person_address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="person_region_address" Type="Int32" />
+          <Property Name="person_province_address" Type="Int32" />
+          <Property Name="person_city_municipality_address" Type="Int32" />
+          <Property Name="person_barangay_address" Type="Int32" />
+          <Property Name="person_religion_id" Type="Int32" />
+          <Property Name="person_parent_occupation_id" Type="Int32" />
+          <Property Name="person_parent_educational_attainment_id" Type="Int32" />
+          <Property Name="person_parent_income_class_id" Type="Int32" />
+          <Property Name="person_sibling_rank" Type="Int32" />
+          <Property Name="person_birth_date" Type="DateTime" Precision="3" />
+          <Property Name="person_is_pwd" Type="Boolean" />
+          <NavigationProperty Name="Vaccination_VPD" Relationship="DbMRSpecialVacsModel.FK__Vaccinati__vacci__06CD04F7" FromRole="Person_VPD" ToRole="Vaccination_VPD" />
+        </EntityType>
+        <EntityType Name="Vaccine_VPD">
+          <Key>
+            <PropertyRef Name="vaccine_id" />
+          </Key>
+          <Property Name="vaccine_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vaccine_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="vaccine_created_by" Type="Int32" />
+          <Property Name="vaccine_date_created" Type="DateTime" Precision="3" />
+          <Property Name="vaccine_last_updated_by" Type="Int32" />
+          <Property Name="vaccine_date_last_updated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Vaccination_VPD" Relationship="DbMRSpecialVacsModel.FK__Vaccinati__vacci__07C12930" FromRole="Vaccine_VPD" ToRole="Vaccination_VPD" />
+        </EntityType>
+        <EntityContainer Name="DbMRSpecialVacsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Person_VPD" EntityType="Self.Person_VPD" />
+          <EntitySet Name="Vaccine_VPD" EntityType="Self.Vaccine_VPD" />
+          <EntitySet Name="MR_TARGETS" EntityType="DbMRSpecialVacsModel.MR_TARGETS" />
+          <EntitySet Name="OPV_TARGETS" EntityType="DbMRSpecialVacsModel.OPV_TARGETS" />
+          <EntitySet Name="Vaccination_VPD" EntityType="DbMRSpecialVacsModel.Vaccination_VPD" />
+          <AssociationSet Name="FK__Vaccinati__vacci__06CD04F7" Association="DbMRSpecialVacsModel.FK__Vaccinati__vacci__06CD04F7">
+            <End Role="Person_VPD" EntitySet="Person_VPD" />
+            <End Role="Vaccination_VPD" EntitySet="Vaccination_VPD" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vaccinati__vacci__07C12930" Association="DbMRSpecialVacsModel.FK__Vaccinati__vacci__07C12930">
+            <End Role="Vaccine_VPD" EntitySet="Vaccine_VPD" />
+            <End Role="Vaccination_VPD" EntitySet="Vaccination_VPD" />
+          </AssociationSet>
+          <FunctionImport Name="GetBarChartIncomeClassData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetBarChartIncomeClassData_Result)">
+            <Parameter Name="region_id" Mode="In" Type="Int32" />
+            <Parameter Name="province_id" Mode="In" Type="Int32" />
+            <Parameter Name="cm_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetBarChartOccupationData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetBarChartOccupationData_Result)">
+            <Parameter Name="region_id" Mode="In" Type="Int32" />
+            <Parameter Name="province_id" Mode="In" Type="Int32" />
+            <Parameter Name="cm_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetBarChartPersonRankData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetBarChartPersonRankData_Result)">
+            <Parameter Name="region_id" Mode="In" Type="Int32" />
+            <Parameter Name="province_id" Mode="In" Type="Int32" />
+            <Parameter Name="cm_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetBarChartReligionData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetBarChartReligionData_Result)">
+            <Parameter Name="region_id" Mode="In" Type="Int32" />
+            <Parameter Name="province_id" Mode="In" Type="Int32" />
+            <Parameter Name="cm_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetDashboardMRSIAData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetDashboardMRSIAData_Result)">
+          <Parameter Name="region_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetDashboardMRSIADataBarangay" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetDashboardMRSIADataBarangay_Result)">
+          <Parameter Name="cm_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetDashboardMRSIADataCityMun" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetDashboardMRSIADataCityMun_Result)">
+          <Parameter Name="province_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetDashboardRoutineBarangayData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetDashboardRoutineBarangayData_Result)">
+          <Parameter Name="cm_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetDashboardRoutineCityMunData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetDashboardRoutineCityMunData_Result)">
+          <Parameter Name="province_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetDashboardRoutineProvinceData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetDashboardRoutineProvinceData_Result)">
+          <Parameter Name="region_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetScheduleData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetScheduleData_Result)">
+          <Parameter Name="schedule_is_active" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetRoutineCount" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetRoutineCount_Result)">
+          <Parameter Name="vaccine_type_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetRoutineVaccinesProvinceData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetRoutineVaccinesProvinceData_Result)">
+          <Parameter Name="region_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetRoutineVaccinesBarangayData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetRoutineVaccinesBarangayData_Result)">
+          <Parameter Name="citymun_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetRoutineVaccinesCityMunData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetRoutineVaccinesCityMunData_Result)">
+          <Parameter Name="province_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetLineChartVPDVaccinationBarangayData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetLineChartVPDVaccinationBarangayData_Result)">
+            <Parameter Name="citymun_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetLineChartVPDVaccinationCityMunData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetLineChartVPDVaccinationCityMunData_Result)">
+            <Parameter Name="province_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetLineChartVPDVaccinationProvinceData" IsComposable="true" ReturnType="Collection(DbMRSpecialVacsModel.GetLineChartVPDVaccinationProvinceData_Result)">
+            <Parameter Name="region_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          </EntityContainer>
+        <EntityType Name="MR_TARGETS">
+          <Key>
+            <PropertyRef Name="target_id" />
+          </Key>
+          <Property Name="target_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="province_id" Type="Int32" />
+          <Property Name="city_municipality_id" Type="Int32" />
+          <Property Name="target_quantity" Type="Int32" />
+          <Property Name="barangay_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="OPV_TARGETS">
+          <Key>
+            <PropertyRef Name="target_id" />
+          </Key>
+          <Property Name="target_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="province_id" Type="Int32" />
+          <Property Name="city_municipality_id" Type="Int32" />
+          <Property Name="target_quantity" Type="Int32" />
+          <Property Name="barangay_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Vaccination_VPD">
+          <Key>
+            <PropertyRef Name="vaccination_id" />
+          </Key>
+          <Property Name="vaccination_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vaccination_person_id" Type="Int32" Nullable="false" />
+          <Property Name="vaccination_region_id" Type="Int32" Nullable="false" />
+          <Property Name="vaccination_province_id" Type="Int32" Nullable="false" />
+          <Property Name="vaccination_city_municipality_id" Type="Int32" Nullable="false" />
+          <Property Name="vaccination_barangay_id" Type="Int32" Nullable="false" />
+          <Property Name="vaccination_vaccine_id" Type="Int32" Nullable="false" />
+          <Property Name="vaccination_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="vaccination_vaccinator" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="vaccination_type_id" Type="Int32" />
+          <NavigationProperty Name="Person_VPD" Relationship="DbMRSpecialVacsModel.FK__Vaccinati__vacci__06CD04F7" FromRole="Vaccination_VPD" ToRole="Person_VPD" />
+          <NavigationProperty Name="Vaccine_VPD" Relationship="DbMRSpecialVacsModel.FK__Vaccinati__vacci__07C12930" FromRole="Vaccination_VPD" ToRole="Vaccine_VPD" />
+        </EntityType>
+        <Association Name="FK__Vaccinati__vacci__06CD04F7">
+          <End Type="DbMRSpecialVacsModel.Person_VPD" Role="Person_VPD" Multiplicity="1" />
+          <End Type="DbMRSpecialVacsModel.Vaccination_VPD" Role="Vaccination_VPD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person_VPD">
+              <PropertyRef Name="person_id" />
+            </Principal>
+            <Dependent Role="Vaccination_VPD">
+              <PropertyRef Name="vaccination_person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vaccinati__vacci__07C12930">
+          <End Type="DbMRSpecialVacsModel.Vaccine_VPD" Role="Vaccine_VPD" Multiplicity="1" />
+          <End Type="DbMRSpecialVacsModel.Vaccination_VPD" Role="Vaccination_VPD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vaccine_VPD">
+              <PropertyRef Name="vaccine_id" />
+            </Principal>
+            <Dependent Role="Vaccination_VPD">
+              <PropertyRef Name="vaccination_vaccine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetBarChartIncomeClassData_Result">
+          <Property Type="String" Name="descriptionName" Nullable="true" />
+          <Property Type="Int32" Name="OPV" Nullable="true" />
+          <Property Type="Int32" Name="MRV" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetBarChartOccupationData_Result">
+          <Property Type="String" Name="descriptionName" Nullable="true" />
+          <Property Type="Int32" Name="OPV" Nullable="true" />
+          <Property Type="Int32" Name="MRV" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetBarChartPersonRankData_Result">
+          <Property Type="Int32" Name="SiblingRank" Nullable="true" />
+          <Property Type="Int32" Name="OPV" Nullable="true" />
+          <Property Type="Int32" Name="MRV" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetBarChartReligionData_Result">
+          <Property Type="String" Name="descriptionName" Nullable="true" />
+          <Property Type="Int32" Name="OPV" Nullable="true" />
+          <Property Type="Int32" Name="MRV" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetDashboardMRSIAData_Result">
+          <Property Type="String" Name="Province" Nullable="true" />
+          <Property Type="Int32" Name="TARGET1" Nullable="true" />
+          <Property Type="Int32" Name="OPV" Nullable="true" />
+          <Property Type="Decimal" Name="PERCENT1" Nullable="true" Precision="28" Scale="12" />
+          <Property Type="Int32" Name="TARGET2" Nullable="true" />
+          <Property Type="Int32" Name="MRV" Nullable="true" />
+          <Property Type="Decimal" Name="PERCENT2" Nullable="true" Precision="28" Scale="12" />
+          <Property Type="Int32" Name="VitaminA" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetDashboardMRSIADataBarangay_Result">
+          <Property Type="String" Name="BarangayName" Nullable="true" />
+          <Property Type="Int32" Name="TARGET1" Nullable="true" />
+          <Property Type="Int32" Name="OPV" Nullable="true" />
+          <Property Type="Decimal" Name="PERCENT1" Nullable="true" Precision="28" Scale="12" />
+          <Property Type="Int32" Name="TARGET2" Nullable="true" />
+          <Property Type="Int32" Name="MRV" Nullable="true" />
+          <Property Type="Decimal" Name="PERCENT2" Nullable="true" Precision="28" Scale="12" />
+          <Property Type="Int32" Name="VitaminA" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetDashboardMRSIADataCityMun_Result">
+          <Property Type="String" Name="CityMunName" Nullable="true" />
+          <Property Type="Int32" Name="TARGET1" Nullable="true" />
+          <Property Type="Int32" Name="OPV" Nullable="true" />
+          <Property Type="Decimal" Name="PERCENT1" Nullable="true" Precision="28" Scale="12" />
+          <Property Type="Int32" Name="TARGET2" Nullable="true" />
+          <Property Type="Int32" Name="MRV" Nullable="true" />
+          <Property Type="Decimal" Name="PERCENT2" Nullable="true" Precision="28" Scale="12" />
+          <Property Type="Int32" Name="VitaminA" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetDashboardRoutineBarangayData_Result">
+          <Property Type="String" Name="BarangayName" Nullable="true" />
+          <Property Type="Int32" Name="TOTAL" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetDashboardRoutineCityMunData_Result">
+          <Property Type="String" Name="CityMun" Nullable="true" />
+          <Property Type="Int32" Name="TOTAL" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetDashboardRoutineProvinceData_Result">
+          <Property Type="String" Name="Province" Nullable="true" />
+          <Property Type="Int32" Name="TOTAL" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetScheduleData_Result">
+          <Property Type="Int64" Name="No_" Nullable="true" />
+          <Property Type="String" Name="First_Name" Nullable="true" />
+          <Property Type="String" Name="Last_Name" Nullable="true" />
+          <Property Type="String" Name="Vaccine_Dose" Nullable="false" />
+          <Property Type="DateTime" Name="Schedule" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="GetRoutineCount_Result">
+          <Property Type="String" Name="Vaccine" Nullable="true" MaxLength="37" />
+          <Property Type="Int32" Name="AT_BIRTH" Nullable="true" />
+          <Property Type="Int32" Name="C1ST_VISIT" Nullable="true" />
+          <Property Type="Int32" Name="C2ND_VISIT" Nullable="true" />
+          <Property Type="Int32" Name="C3RD_VISIT" Nullable="true" />
+          <Property Type="Int32" Name="C4TH_VISIT" Nullable="true" />
+          <Property Type="Int32" Name="C5TH_VISIT" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetRoutineVaccinesProvinceData_Result">
+          <Property Type="String" Name="ProvinceName" Nullable="true" />
+          <Property Type="Int32" Name="BCG" Nullable="true" />
+          <Property Type="Int32" Name="Hepatitis_B" Nullable="true" />
+          <Property Type="Int32" Name="PVI" Nullable="true" />
+          <Property Type="Int32" Name="PVII" Nullable="true" />
+          <Property Type="Int32" Name="PVIII" Nullable="true" />
+          <Property Type="Int32" Name="OPVI" Nullable="true" />
+          <Property Type="Int32" Name="OPVII" Nullable="true" />
+          <Property Type="Int32" Name="OPVIII" Nullable="true" />
+          <Property Type="Int32" Name="IPVI" Nullable="true" />
+          <Property Type="Int32" Name="IPVII" Nullable="true" />
+          <Property Type="Int32" Name="PCVI" Nullable="true" />
+          <Property Type="Int32" Name="PCVII" Nullable="true" />
+          <Property Type="Int32" Name="PCVIII" Nullable="true" />
+          <Property Type="Int32" Name="MMRI" Nullable="true" />
+          <Property Type="Int32" Name="MMRII" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetRoutineVaccinesBarangayData_Result">
+          <Property Type="String" Name="BarangayName" Nullable="true" />
+          <Property Type="Int32" Name="BCG" Nullable="true" />
+          <Property Type="Int32" Name="Hepatitis_B" Nullable="true" />
+          <Property Type="Int32" Name="PVI" Nullable="true" />
+          <Property Type="Int32" Name="PVII" Nullable="true" />
+          <Property Type="Int32" Name="PVIII" Nullable="true" />
+          <Property Type="Int32" Name="OPVI" Nullable="true" />
+          <Property Type="Int32" Name="OPVII" Nullable="true" />
+          <Property Type="Int32" Name="OPVIII" Nullable="true" />
+          <Property Type="Int32" Name="IPVI" Nullable="true" />
+          <Property Type="Int32" Name="IPVII" Nullable="true" />
+          <Property Type="Int32" Name="PCVI" Nullable="true" />
+          <Property Type="Int32" Name="PCVII" Nullable="true" />
+          <Property Type="Int32" Name="PCVIII" Nullable="true" />
+          <Property Type="Int32" Name="MMRI" Nullable="true" />
+          <Property Type="Int32" Name="MMRII" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetRoutineVaccinesCityMunData_Result">
+          <Property Type="String" Name="CityMunName" Nullable="true" />
+          <Property Type="Int32" Name="BCG" Nullable="true" />
+          <Property Type="Int32" Name="Hepatitis_B" Nullable="true" />
+          <Property Type="Int32" Name="PVI" Nullable="true" />
+          <Property Type="Int32" Name="PVII" Nullable="true" />
+          <Property Type="Int32" Name="PVIII" Nullable="true" />
+          <Property Type="Int32" Name="OPVI" Nullable="true" />
+          <Property Type="Int32" Name="OPVII" Nullable="true" />
+          <Property Type="Int32" Name="OPVIII" Nullable="true" />
+          <Property Type="Int32" Name="IPVI" Nullable="true" />
+          <Property Type="Int32" Name="IPVII" Nullable="true" />
+          <Property Type="Int32" Name="PCVI" Nullable="true" />
+          <Property Type="Int32" Name="PCVII" Nullable="true" />
+          <Property Type="Int32" Name="PCVIII" Nullable="true" />
+          <Property Type="Int32" Name="MMRI" Nullable="true" />
+          <Property Type="Int32" Name="MMRII" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetLineChartVPDVaccinationBarangayData_Result">
+          <Property Type="String" Name="VM" Nullable="true" MaxLength="35" />
+          <Property Type="Int32" Name="NoV" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetLineChartVPDVaccinationCityMunData_Result">
+          <Property Type="String" Name="VM" Nullable="true" MaxLength="35" />
+          <Property Type="Int32" Name="NoV" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetLineChartVPDVaccinationProvinceData_Result">
+          <Property Type="String" Name="VM" Nullable="true" MaxLength="35" />
+          <Property Type="Int32" Name="NoV" Nullable="true" />
+        </ComplexType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbMRSpecialVacsModelStoreContainer" CdmEntityContainer="DbMRSpecialVacsEntities">
+          <EntitySetMapping Name="Person_VPD">
+            <EntityTypeMapping TypeName="DbMRSpecialVacsModel.Person_VPD">
+              <MappingFragment StoreEntitySet="Person_VPD">
+                <ScalarProperty Name="person_id" ColumnName="person_id" />
+                <ScalarProperty Name="person_ethnic_group_id" ColumnName="person_ethnic_group_id" />
+                <ScalarProperty Name="person_first_name" ColumnName="person_first_name" />
+                <ScalarProperty Name="person_middle_name" ColumnName="person_middle_name" />
+                <ScalarProperty Name="person_last_name" ColumnName="person_last_name" />
+                <ScalarProperty Name="person_suffix" ColumnName="person_suffix" />
+                <ScalarProperty Name="person_sex" ColumnName="person_sex" />
+                <ScalarProperty Name="person_address" ColumnName="person_address" />
+                <ScalarProperty Name="person_region_address" ColumnName="person_region_address" />
+                <ScalarProperty Name="person_province_address" ColumnName="person_province_address" />
+                <ScalarProperty Name="person_city_municipality_address" ColumnName="person_city_municipality_address" />
+                <ScalarProperty Name="person_barangay_address" ColumnName="person_barangay_address" />
+                <ScalarProperty Name="person_religion_id" ColumnName="person_religion_id" />
+                <ScalarProperty Name="person_parent_occupation_id" ColumnName="person_parent_occupation_id" />
+                <ScalarProperty Name="person_parent_educational_attainment_id" ColumnName="person_parent_educational_attainment_id" />
+                <ScalarProperty Name="person_parent_income_class_id" ColumnName="person_parent_income_class_id" />
+                <ScalarProperty Name="person_sibling_rank" ColumnName="person_sibling_rank" />
+                <ScalarProperty Name="person_birth_date" ColumnName="person_birth_date" />
+                <ScalarProperty Name="person_is_pwd" ColumnName="person_is_pwd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vaccine_VPD">
+            <EntityTypeMapping TypeName="DbMRSpecialVacsModel.Vaccine_VPD">
+              <MappingFragment StoreEntitySet="Vaccine_VPD">
+                <ScalarProperty Name="vaccine_id" ColumnName="vaccine_id" />
+                <ScalarProperty Name="vaccine_description" ColumnName="vaccine_description" />
+                <ScalarProperty Name="vaccine_created_by" ColumnName="vaccine_created_by" />
+                <ScalarProperty Name="vaccine_date_created" ColumnName="vaccine_date_created" />
+                <ScalarProperty Name="vaccine_last_updated_by" ColumnName="vaccine_last_updated_by" />
+                <ScalarProperty Name="vaccine_date_last_updated" ColumnName="vaccine_date_last_updated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MR_TARGETS">
+            <EntityTypeMapping TypeName="DbMRSpecialVacsModel.MR_TARGETS">
+              <MappingFragment StoreEntitySet="MR_TARGETS">
+                <ScalarProperty Name="barangay_id" ColumnName="barangay_id" />
+                <ScalarProperty Name="target_quantity" ColumnName="target_quantity" />
+                <ScalarProperty Name="city_municipality_id" ColumnName="city_municipality_id" />
+                <ScalarProperty Name="province_id" ColumnName="province_id" />
+                <ScalarProperty Name="target_id" ColumnName="target_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OPV_TARGETS">
+            <EntityTypeMapping TypeName="DbMRSpecialVacsModel.OPV_TARGETS">
+              <MappingFragment StoreEntitySet="OPV_TARGETS">
+                <ScalarProperty Name="barangay_id" ColumnName="barangay_id" />
+                <ScalarProperty Name="target_quantity" ColumnName="target_quantity" />
+                <ScalarProperty Name="city_municipality_id" ColumnName="city_municipality_id" />
+                <ScalarProperty Name="province_id" ColumnName="province_id" />
+                <ScalarProperty Name="target_id" ColumnName="target_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vaccination_VPD">
+            <EntityTypeMapping TypeName="DbMRSpecialVacsModel.Vaccination_VPD">
+              <MappingFragment StoreEntitySet="Vaccination_VPD">
+                <ScalarProperty Name="vaccination_type_id" ColumnName="vaccination_type_id" />
+                <ScalarProperty Name="vaccination_vaccinator" ColumnName="vaccination_vaccinator" />
+                <ScalarProperty Name="vaccination_date" ColumnName="vaccination_date" />
+                <ScalarProperty Name="vaccination_vaccine_id" ColumnName="vaccination_vaccine_id" />
+                <ScalarProperty Name="vaccination_barangay_id" ColumnName="vaccination_barangay_id" />
+                <ScalarProperty Name="vaccination_city_municipality_id" ColumnName="vaccination_city_municipality_id" />
+                <ScalarProperty Name="vaccination_province_id" ColumnName="vaccination_province_id" />
+                <ScalarProperty Name="vaccination_region_id" ColumnName="vaccination_region_id" />
+                <ScalarProperty Name="vaccination_person_id" ColumnName="vaccination_person_id" />
+                <ScalarProperty Name="vaccination_id" ColumnName="vaccination_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetBarChartIncomeClassData" FunctionName="DbMRSpecialVacsModel.Store.GetBarChartIncomeClassData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetBarChartIncomeClassData_Result">
+                <ScalarProperty Name="descriptionName" ColumnName="descriptionName" />
+                <ScalarProperty Name="OPV" ColumnName="OPV" />
+                <ScalarProperty Name="MRV" ColumnName="MRV" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetBarChartOccupationData" FunctionName="DbMRSpecialVacsModel.Store.GetBarChartOccupationData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetBarChartOccupationData_Result">
+                <ScalarProperty Name="descriptionName" ColumnName="descriptionName" />
+                <ScalarProperty Name="OPV" ColumnName="OPV" />
+                <ScalarProperty Name="MRV" ColumnName="MRV" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetBarChartPersonRankData" FunctionName="DbMRSpecialVacsModel.Store.GetBarChartPersonRankData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetBarChartPersonRankData_Result">
+                <ScalarProperty Name="SiblingRank" ColumnName="SiblingRank" />
+                <ScalarProperty Name="OPV" ColumnName="OPV" />
+                <ScalarProperty Name="MRV" ColumnName="MRV" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetBarChartReligionData" FunctionName="DbMRSpecialVacsModel.Store.GetBarChartReligionData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetBarChartReligionData_Result">
+                <ScalarProperty Name="descriptionName" ColumnName="descriptionName" />
+                <ScalarProperty Name="OPV" ColumnName="OPV" />
+                <ScalarProperty Name="MRV" ColumnName="MRV" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetDashboardMRSIAData" FunctionName="DbMRSpecialVacsModel.Store.GetDashboardMRSIAData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetDashboardMRSIAData_Result">
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="TARGET1" ColumnName="TARGET1" />
+                <ScalarProperty Name="OPV" ColumnName="OPV" />
+                <ScalarProperty Name="PERCENT1" ColumnName="PERCENT1" />
+                <ScalarProperty Name="TARGET2" ColumnName="TARGET2" />
+                <ScalarProperty Name="MRV" ColumnName="MRV" />
+                <ScalarProperty Name="PERCENT2" ColumnName="PERCENT2" />
+                <ScalarProperty Name="VitaminA" ColumnName="VitaminA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetDashboardMRSIADataBarangay" FunctionName="DbMRSpecialVacsModel.Store.GetDashboardMRSIADataBarangay">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetDashboardMRSIADataBarangay_Result">
+                <ScalarProperty Name="BarangayName" ColumnName="BarangayName" />
+                <ScalarProperty Name="TARGET1" ColumnName="TARGET1" />
+                <ScalarProperty Name="OPV" ColumnName="OPV" />
+                <ScalarProperty Name="PERCENT1" ColumnName="PERCENT1" />
+                <ScalarProperty Name="TARGET2" ColumnName="TARGET2" />
+                <ScalarProperty Name="MRV" ColumnName="MRV" />
+                <ScalarProperty Name="PERCENT2" ColumnName="PERCENT2" />
+                <ScalarProperty Name="VitaminA" ColumnName="VitaminA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetDashboardMRSIADataCityMun" FunctionName="DbMRSpecialVacsModel.Store.GetDashboardMRSIADataCityMun">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetDashboardMRSIADataCityMun_Result">
+                <ScalarProperty Name="CityMunName" ColumnName="CityMunName" />
+                <ScalarProperty Name="TARGET1" ColumnName="TARGET1" />
+                <ScalarProperty Name="OPV" ColumnName="OPV" />
+                <ScalarProperty Name="PERCENT1" ColumnName="PERCENT1" />
+                <ScalarProperty Name="TARGET2" ColumnName="TARGET2" />
+                <ScalarProperty Name="MRV" ColumnName="MRV" />
+                <ScalarProperty Name="PERCENT2" ColumnName="PERCENT2" />
+                <ScalarProperty Name="VitaminA" ColumnName="VitaminA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetDashboardRoutineBarangayData" FunctionName="DbMRSpecialVacsModel.Store.GetDashboardRoutineBarangayData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetDashboardRoutineBarangayData_Result">
+                <ScalarProperty Name="BarangayName" ColumnName="BarangayName" />
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetDashboardRoutineCityMunData" FunctionName="DbMRSpecialVacsModel.Store.GetDashboardRoutineCityMunData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetDashboardRoutineCityMunData_Result">
+                <ScalarProperty Name="CityMun" ColumnName="CityMun" />
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetDashboardRoutineProvinceData" FunctionName="DbMRSpecialVacsModel.Store.GetDashboardRoutineProvinceData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetDashboardRoutineProvinceData_Result">
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetScheduleData" FunctionName="DbMRSpecialVacsModel.Store.GetScheduleData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetScheduleData_Result">
+                <ScalarProperty Name="No_" ColumnName="No." />
+                <ScalarProperty Name="First_Name" ColumnName="First Name" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last Name" />
+                <ScalarProperty Name="Vaccine_Dose" ColumnName="Vaccine Dose" />
+                <ScalarProperty Name="Schedule" ColumnName="Schedule" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRoutineCount" FunctionName="DbMRSpecialVacsModel.Store.GetRoutineCount">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetRoutineCount_Result">
+                <ScalarProperty Name="Vaccine" ColumnName="Vaccine" />
+                <ScalarProperty Name="AT_BIRTH" ColumnName="AT BIRTH" />
+                <ScalarProperty Name="C1ST_VISIT" ColumnName="1ST VISIT" />
+                <ScalarProperty Name="C2ND_VISIT" ColumnName="2ND VISIT" />
+                <ScalarProperty Name="C3RD_VISIT" ColumnName="3RD VISIT" />
+                <ScalarProperty Name="C4TH_VISIT" ColumnName="4TH VISIT" />
+                <ScalarProperty Name="C5TH_VISIT" ColumnName="5TH VISIT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRoutineVaccinesProvinceData" FunctionName="DbMRSpecialVacsModel.Store.GetRoutineVaccinesProvinceData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetRoutineVaccinesProvinceData_Result">
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="BCG" ColumnName="BCG" />
+                <ScalarProperty Name="Hepatitis_B" ColumnName="Hepatitis B" />
+                <ScalarProperty Name="PVI" ColumnName="PVI" />
+                <ScalarProperty Name="PVII" ColumnName="PVII" />
+                <ScalarProperty Name="PVIII" ColumnName="PVIII" />
+                <ScalarProperty Name="OPVI" ColumnName="OPVI" />
+                <ScalarProperty Name="OPVII" ColumnName="OPVII" />
+                <ScalarProperty Name="OPVIII" ColumnName="OPVIII" />
+                <ScalarProperty Name="IPVI" ColumnName="IPVI" />
+                <ScalarProperty Name="IPVII" ColumnName="IPVII" />
+                <ScalarProperty Name="PCVI" ColumnName="PCVI" />
+                <ScalarProperty Name="PCVII" ColumnName="PCVII" />
+                <ScalarProperty Name="PCVIII" ColumnName="PCVIII" />
+                <ScalarProperty Name="MMRI" ColumnName="MMRI" />
+                <ScalarProperty Name="MMRII" ColumnName="MMRII" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRoutineVaccinesBarangayData" FunctionName="DbMRSpecialVacsModel.Store.GetRoutineVaccinesBarangayData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetRoutineVaccinesBarangayData_Result">
+                <ScalarProperty Name="BarangayName" ColumnName="BarangayName" />
+                <ScalarProperty Name="BCG" ColumnName="BCG" />
+                <ScalarProperty Name="Hepatitis_B" ColumnName="Hepatitis B" />
+                <ScalarProperty Name="PVI" ColumnName="PVI" />
+                <ScalarProperty Name="PVII" ColumnName="PVII" />
+                <ScalarProperty Name="PVIII" ColumnName="PVIII" />
+                <ScalarProperty Name="OPVI" ColumnName="OPVI" />
+                <ScalarProperty Name="OPVII" ColumnName="OPVII" />
+                <ScalarProperty Name="OPVIII" ColumnName="OPVIII" />
+                <ScalarProperty Name="IPVI" ColumnName="IPVI" />
+                <ScalarProperty Name="IPVII" ColumnName="IPVII" />
+                <ScalarProperty Name="PCVI" ColumnName="PCVI" />
+                <ScalarProperty Name="PCVII" ColumnName="PCVII" />
+                <ScalarProperty Name="PCVIII" ColumnName="PCVIII" />
+                <ScalarProperty Name="MMRI" ColumnName="MMRI" />
+                <ScalarProperty Name="MMRII" ColumnName="MMRII" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRoutineVaccinesCityMunData" FunctionName="DbMRSpecialVacsModel.Store.GetRoutineVaccinesCityMunData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetRoutineVaccinesCityMunData_Result">
+                <ScalarProperty Name="CityMunName" ColumnName="CityMunName" />
+                <ScalarProperty Name="BCG" ColumnName="BCG" />
+                <ScalarProperty Name="Hepatitis_B" ColumnName="Hepatitis B" />
+                <ScalarProperty Name="PVI" ColumnName="PVI" />
+                <ScalarProperty Name="PVII" ColumnName="PVII" />
+                <ScalarProperty Name="PVIII" ColumnName="PVIII" />
+                <ScalarProperty Name="OPVI" ColumnName="OPVI" />
+                <ScalarProperty Name="OPVII" ColumnName="OPVII" />
+                <ScalarProperty Name="OPVIII" ColumnName="OPVIII" />
+                <ScalarProperty Name="IPVI" ColumnName="IPVI" />
+                <ScalarProperty Name="IPVII" ColumnName="IPVII" />
+                <ScalarProperty Name="PCVI" ColumnName="PCVI" />
+                <ScalarProperty Name="PCVII" ColumnName="PCVII" />
+                <ScalarProperty Name="PCVIII" ColumnName="PCVIII" />
+                <ScalarProperty Name="MMRI" ColumnName="MMRI" />
+                <ScalarProperty Name="MMRII" ColumnName="MMRII" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetLineChartVPDVaccinationBarangayData" FunctionName="DbMRSpecialVacsModel.Store.GetLineChartVPDVaccinationBarangayData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetLineChartVPDVaccinationBarangayData_Result">
+                <ScalarProperty Name="VM" ColumnName="VM" />
+                <ScalarProperty Name="NoV" ColumnName="NoV" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetLineChartVPDVaccinationCityMunData" FunctionName="DbMRSpecialVacsModel.Store.GetLineChartVPDVaccinationCityMunData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetLineChartVPDVaccinationCityMunData_Result">
+                <ScalarProperty Name="VM" ColumnName="VM" />
+                <ScalarProperty Name="NoV" ColumnName="NoV" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetLineChartVPDVaccinationProvinceData" FunctionName="DbMRSpecialVacsModel.Store.GetLineChartVPDVaccinationProvinceData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DbMRSpecialVacsModel.GetLineChartVPDVaccinationProvinceData_Result">
+                <ScalarProperty Name="VM" ColumnName="VM" />
+                <ScalarProperty Name="NoV" ColumnName="NoV" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
